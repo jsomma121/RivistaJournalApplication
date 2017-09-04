@@ -188,7 +188,7 @@ var main = exports.main = function () {
               // - 'noteId': path parameter
               Key: {
                 userid: event.requestContext.identity.cognitoIdentityId,
-                noteid: event.pathParameters.id
+                journalid: event.pathParameters.id
               }
             };
             _context.prev = 1;
