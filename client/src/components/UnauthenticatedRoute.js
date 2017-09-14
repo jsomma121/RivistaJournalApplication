@@ -17,14 +17,14 @@ function queryString(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-export default ({ component: component, props: childProps, ...rest }) => {
+export default ({ component: C, props: cProps, ...rest }) => {
     const redirect = queryString("redirect");
     return (
         <Route
             {...rest}
             render={props =>
-                !childProps.isAuthenticated
-                    ? <component {...props}{...childProps} />
+                !cProps.isAuthenticated
+                    ? <C {...props}{...cProps} />
                     : <Redirect
                         to={redirect === "" || redirect === null ? "/" : redirect}
                     />}
