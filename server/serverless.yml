@@ -36,7 +36,7 @@ functions:
   #     domain api call
   # - authorizer: authenticate using the AWS IAM role
   create:
-    handler: create.main
+    handler: createJournal.main
     events:
       - http:
           path: journal
@@ -45,7 +45,7 @@ functions:
           authorizer: aws_iam
 
   get:
-    handler: get.main
+    handler: getJournal.main
     events:
       - http:
           path: journal/{id}
@@ -57,7 +57,7 @@ functions:
       # Defines an HTTP API endpoint that calls the main function in list.js
       # - path: url path is /notes
       # - method: GET request
-      handler: list.main
+      handler: listJournal.main
       events:
         - http:
             path: journal
@@ -69,7 +69,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /notes/{id}
     # - method: PUT request
-    handler: update.main
+    handler: updateJournal.main
     events:
       - http:
           path: journal/{id}
@@ -81,7 +81,7 @@ functions:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /notes/{id}
     # - method: DELETE request
-    handler: delete.main
+    handler: deleteJournal.main
     events:
       - http:
           path: journal/{id}

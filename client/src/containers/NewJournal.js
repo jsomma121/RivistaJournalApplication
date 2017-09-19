@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-
+import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 
 export default class NewJournal extends Component {
@@ -19,6 +19,7 @@ export default class NewJournal extends Component {
         return this.state.content.length > 0;
     }
 
+    //
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value

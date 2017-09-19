@@ -34,7 +34,9 @@ export default class Login extends Component {
       const user = new CognitoUser({ Username: email, Pool: userPool });
       const authenticationData = { Username: email, Password: password };
       const authenticationDetails = new AuthenticationDetails(authenticationData);
-  
+      
+
+      // Fetch the details and await response
       return new Promise((resolve, reject) =>
         user.authenticateUser(authenticationDetails, {
           onSuccess: result => resolve(),
@@ -48,6 +50,7 @@ export default class Login extends Component {
     this.setState({ isLoading: true });
   
     try {
+      // API Call
       await this.login(this.state.email, this.state.password);
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
