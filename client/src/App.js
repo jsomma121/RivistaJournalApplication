@@ -65,6 +65,9 @@ class App extends Component {
                     </RouteNavItem>,
                     <RouteNavItem key={2} href="/login">
                       Login
+                    </RouteNavItem>,
+                    <RouteNavItem key={3} href="/journalList">
+                      JournalList
                     </RouteNavItem>
                   ]}
             </Nav>
