@@ -1,0 +1,58 @@
+#headText {
+    text-align: center;
+}
+
+#jListCards {
+    background-color: rgb(41, 182, 246);
+    box-shadow: 2px 4px 4px #888888;
+    height: 70px;
+    font-size: 30px;
+    width: 85%;
+    margin: auto;
+    padding-top: 15px;
+    padding-left: 3%;
+}
+
+#existJournals {
+    height: 400px;
+    overflow: scroll;
+}
+
+#jListCards:hover {
+    background-color: rgb(3, 155, 229);
+    cursor: pointer;
+}
+
+#createNewJornal {
+    background-color: rgb(189, 189, 189);
+    box-shadow: 2px 4px 4px #888888;
+    height: 70px;
+    font-size: 30px;
+    width: 85%;
+    margin: auto;
+    text-align: center;
+    padding-top: 12px;
+}
+
+#createNewJornal:hover {
+    background-color: rgb(158, 158, 158);
+    cursor: pointer;
+}
+
+#submitNewJournal {
+    padding-left: 5%;
+    font-size: 24px;
+}
+
+p1 {
+    color: white;
+}
+
+p2 {
+    font-size: 20px;
+    color: rgb(97, 97, 97);
+}
+
+body {
+    background-color: white;
+}
