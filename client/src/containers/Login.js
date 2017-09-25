@@ -1,7 +1,5 @@
 import config from "../config";
 import React, { Component } from "react";
-import { withRouter } from 'react-router';
-import { Router } from 'react-router';
 import { Redirect } from 'react-router'
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
@@ -43,7 +41,7 @@ export default class Login extends Component {
       // Fetch the details and await response
       return new Promise((resolve, reject) =>
         user.authenticateUser(authenticationDetails, {
-          onSuccess: result => {resolve(), this.handleRedirect()},
+          onSuccess: result => {resolve()},
           onFailure: err => reject(err)
         })
       );
