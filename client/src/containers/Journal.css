@@ -19,7 +19,7 @@
     margin-bottom: 2em;
 }
 
-.card {
+.journal-card {
     height: 100px;
     margin-bottom: 1.5em;
     padding: 2em;
@@ -28,7 +28,7 @@
     box-shadow: 6px 8px 6px -6px #999;
 }
 
-.card-title {
+.journal-title {
     margin-left: 1em;
     font-size: 2em;
     font-weight: 600;

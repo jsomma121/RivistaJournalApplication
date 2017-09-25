@@ -1,7 +1,8 @@
 import config from "../config";
 import React, { Component } from "react";
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router';
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 import "./Login.css";
@@ -72,7 +73,8 @@ export default class Login extends Component {
     }
 
     return (
-      <div className="Login">
+      <div className="card login-card">
+        <h3 className="card-title  login-form-title">Login</h3>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
@@ -96,10 +98,12 @@ export default class Login extends Component {
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
+            className="btn-primary"
             isLoading={this.state.isLoading}
             text="Login"
             loadingText="Logging in…"
-          />       
+          />
+          <p>Don't have an account? <Link to="/signup">Signup here</Link> </p>
         </form>
       </div>
     );

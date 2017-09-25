@@ -48,8 +48,8 @@ export default class JournalList extends Component {
         for (var i = 0; i < data.length; i++) {
             cards.push(
                 <Link key={i} to={data[i]} className="card-link">
-                    <div className="card">
-                        <h4 className="card-title">{data[i]}</h4>
+                    <div className="card journal-card">
+                        <h4 className="card-title journal-title">{data[i]}</h4>
                     </div>
                 </Link>
             )
