@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import SkyLight from 'react-skylight';
 import LoaderButton from "../components/LoaderButton";
+import { withRouter } from 'react-router';
 import "./JournalList.css";
 
 export default class JournalList extends Component {
@@ -26,6 +27,10 @@ export default class JournalList extends Component {
         });
     }
 
+    handleJournalOnlcick = () => {
+        this.props.history.push('/entry');
+    }
+
     handleSubmit = async event => {
         event.preventDefault();
         this.setState({ isLoading: true });
@@ -41,7 +46,7 @@ export default class JournalList extends Component {
         for (var i = 0; i < jLs.length; i++) {
             jLsDisplay.push(
                 <div key={i}>
-                    <div id="jListCards" className="jListCards">
+                    <div id="jListCards" className="jListCards" onClick={this.handleJournalOnlcick}>
                         <p1>{jLs[i]}</p1>
                     </div><br />
                 </div>
