@@ -9,15 +9,35 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       isAuthenticated: false,
       isAuthenticating: false
     };
   }
-  
+
   userHasAuthenticated = authenticated => {
     this.setState({ isAuthenticated: authenticated });
+  }
+
+  getMenu(route) {
+    var menu = [];
+    console.log(route);
+    switch (route) {
+      case '/login':
+      case '/register':
+      case '/history':
+        break;
+      case '/':
+        menu.push(
+          <div key="1"className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | +</button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
+          </div>
+        )
+        break;
+    }
+    return menu;
   }
 
   async componentDidMount() {
@@ -26,10 +46,10 @@ class App extends Component {
         this.userHasAuthenticated(true);
       }
     }
-    catch(e) {
+    catch (e) {
       alert(e);
     }
-  
+
     this.setState({ isAuthenticating: false });
   }
 
@@ -44,40 +64,19 @@ class App extends Component {
       isAuthenticated: this.state.isAuthenticated,
       userHasAuthenticated: this.userHasAuthenticated
     };
-  
+
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <Navbar fluid collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">Scratch</Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav pullRight>
-              {this.state.isAuthenticated
-                ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                : [
-                    <RouteNavItem key={1} href="/signup">
-                      Signup
-                    </RouteNavItem>,
-                    <RouteNavItem key={2} href="/login">
-                      Login
-                    </RouteNavItem>,
-                    <RouteNavItem key={3} href="/journalList">
-                      JournalList
-                    </RouteNavItem>
-                  ]}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <nav className="navbar fixed-top">
+          <Link to="/" className="navbar-brand">Rivista</Link>
+          {this.getMenu(this.props.location.pathname)}
+        </nav>
         <Routes childProps={childProps} />
       </div>
     );
   }
-  
+
 }
 
 export default withRouter(App);

@@ -4,4 +4,24 @@
 
 .App .navbar-brand {
   font-weight: bold;
+  font-size: 2em;
+}
+
+.navbar {
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 8px 6px -6px #999;
+  -moz-box-shadow: 0 8px 6px -6px #999;
+  box-shadow: 0 8px 6px -6px #999;
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.btn {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.right {
+  margin-right:0px;
+  margin-left: 10px;
 }
