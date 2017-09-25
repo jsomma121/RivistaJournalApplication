@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import SkyLight from 'react-skylight';
 import LoaderButton from "../components/LoaderButton";
@@ -8,13 +7,12 @@ import "./JournalList.css";
 export default class JournalList extends Component {
     constructor(props) {
         super(props);
-        //just a testing journal list.
-        this.journalLists = ["Test journal title #1",
+        //just a testing journal list. should get datafrom database
+        this.journalLists = [
+            "Test journal title #1",
             "Test journal title #2",
             "Test journal title #3",
-            "Test journal title #4",
-            "Test journal title #5",
-            "Test journal title #6"];
+            "Test journal title #4",];
         this.state = {
             newJournalName: "",
             isLoading: false
@@ -53,9 +51,9 @@ export default class JournalList extends Component {
         var myBigGreenDialog = {
             backgroundColor: '#00897B',
             color: '#ffffff',
-            width: '60%',
+            width: '50%',
             height: '300px',
-            marginLeft: '-35%',
+            marginLeft: '-25%',
         };
 
         return (

@@ -1,5 +1,8 @@
 import config from "../config";
 import React, { Component } from "react";
+import { withRouter } from 'react-router';
+import { Router } from 'react-router';
+import { Redirect } from 'react-router'
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
@@ -12,7 +15,8 @@ export default class Login extends Component {
     this.state = {
       email: "",
       isLoading: false,
-      password: ""
+      password: "",
+      redirect: false
     };
   }
 
@@ -39,10 +43,14 @@ export default class Login extends Component {
       // Fetch the details and await response
       return new Promise((resolve, reject) =>
         user.authenticateUser(authenticationDetails, {
-          onSuccess: result => resolve(),
+          onSuccess: result => {resolve(), this.handleRedirect()},
           onFailure: err => reject(err)
         })
       );
+  }
+
+  handleRedirect() {
+    this.setState({ redirect: true });
   }
 
   handleSubmit = async event => {
@@ -60,6 +68,11 @@ export default class Login extends Component {
   
 
   render() {
+    
+    if ( this.redirect ) {
+      return <Redirect to='../journalList'/>;
+    }
+
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>

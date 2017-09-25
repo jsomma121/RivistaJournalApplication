@@ -15,6 +15,7 @@
 
 #existJournals {
     height: 400px;
+    overflow: scroll;
 }
 
 #jListCards:hover {
