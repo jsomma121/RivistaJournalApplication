@@ -9,6 +9,7 @@ import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import NewJournal from "./containers/NewJournal";
 import Signup from "./containers/Signup"; 
 import Journal from "./containers/Journal";
+import Entry from "./containers/Entry";
 
 export default ({ childProps }) =>
 <Switch>
@@ -16,6 +17,7 @@ export default ({ childProps }) =>
   <AppliedRoute path="/journal/new" exact component={NewJournal} props={childProps} />
   <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
   <AppliedRoute path="/" exact component={Journal} props={childProps} />
+  <AppliedRoute path="/entry" exact component={Entry} props={childProps}/>
   { /* Finally, catch all unmatched routes */ }
   <Route component={NotFound} />
 </Switch>;

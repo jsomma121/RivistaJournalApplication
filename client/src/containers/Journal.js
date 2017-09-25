@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import SkyLight from 'react-skylight';
+import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import "./Journal.css";
 
@@ -23,6 +21,10 @@ export default class JournalList extends Component {
 
     validateForm() {
         return this.state.JournalName.length > 0;
+    }
+
+    handleJournalOnClick = () => {
+        this.props.history.push('/entry');
     }
 
     handleChange = event => {
