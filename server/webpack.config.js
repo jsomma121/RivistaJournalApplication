@@ -15,17 +15,13 @@ module.exports = {
   externals: [nodeExternals()],
   // Run babel on all .js files and skip those in node_modules
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
         include: __dirname,
         exclude: /node_modules/,
       },
-      {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]'
-      }
     ]
   },
   // We are going to create multiple APIs in this guide, and we are 
