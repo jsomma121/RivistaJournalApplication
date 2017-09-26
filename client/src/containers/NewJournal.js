@@ -42,11 +42,13 @@ export default class NewJournal extends Component {
         this.setState({ isLoading: true });
       
         try {
-          await this.createNote({
+          const data = await this.createNote({
             content: this.state.content
           });
+          console.log(data);
           this.props.history.push("/");
         } catch (e) {
+          alert('hello')  
           alert(e);
           this.setState({ isLoading: false });
         }

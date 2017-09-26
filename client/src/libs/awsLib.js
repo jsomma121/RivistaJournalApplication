@@ -57,7 +57,7 @@ function getAwsCredentials(userToken) {
     .REGION}.amazonaws.com/${config.cognito.USER_POOL_ID}`;
 
   AWS.config.update({ region: config.cognito.REGION });
-
+  
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: config.cognito.IDENTITY_POOL_ID,
     Logins: {
@@ -69,12 +69,14 @@ function getAwsCredentials(userToken) {
 }
 
 export async function invokeApig({
-  path,
-  method = "GET",
-  headers = {},
-  queryParams = {},
-  body
-}) {
+      path,
+      method = "GET",
+      headers = {},
+      queryParams = {},
+      body
+  }) 
+  
+  {
   if (!await authUser()) {
     throw new Error("User is not logged in");
   }
@@ -87,6 +89,7 @@ export async function invokeApig({
       region: config.apiGateway.REGION,
       endpoint: config.apiGateway.URL
     })
+
     .signRequest({
       method,
       path,
@@ -95,8 +98,8 @@ export async function invokeApig({
       body
     });
 
-  body = body ? JSON.stringify(body) : body;
-  headers = signedRequest.headers;
+    body = body ? JSON.stringify(body) : body;
+    headers = signedRequest.headers;
 
   const results = await fetch(signedRequest.url, {
     method,
