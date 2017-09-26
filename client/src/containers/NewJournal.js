@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-
+import { invokeApig } from "../libs/awsLib"; 
 import config from "../config";
 import "./NewJournal.css";
 
@@ -31,16 +31,35 @@ export default class NewJournal extends Component {
         this.file = event.target.files[0];
     }
 
-    handleSubmit = async event => { // necesssary? also check render() 
+    handleSubmit = async event => {
         event.preventDefault();
-
+      
         if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
-            alert("Please pick a file smaller than 5MB");
-            return; 
+          alert("Please pick a file smaller than 5MB");
+          return;
         }
-
+      
         this.setState({ isLoading: true });
-    }
+      
+        try {
+          await this.createNote({
+            content: this.state.content
+          });
+          this.props.history.push("/");
+        } catch (e) {
+          alert(e);
+          this.setState({ isLoading: false });
+        }
+      }
+      
+      createNote(note) {
+        return invokeApig({
+          path: "/journal",
+          method: "POST",
+          body: note
+        });
+      }
+            
     render() {
         return (
             <div className="NewJournal">
