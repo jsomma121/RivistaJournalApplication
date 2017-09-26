@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
+import { withRouter } from 'react-router';
 import "./Journal.css";
 
 export default class JournalList extends Component {
     constructor(props) {
         super(props);
         //just a testing journal list.
-        this.journalLists = ["Test journal title #1",
-            "Test journal title #2",
-            "Test journal title #3",
-            "Test journal title #4",
-            "Test journal title #5",
-            "Test journal title #6"];
+        this.journalLists = ["Test journal title 1",
+            "Test journal title 2",
+            "Test journal title 3",
+            "Test journal title 4",
+            "Test journal title 5",
+            "Test journal title 6"];
         this.state = {
             JournalName: "",
             isLoading: false
@@ -23,9 +24,9 @@ export default class JournalList extends Component {
         return this.state.JournalName.length > 0;
     }
 
-    handleJournalOnClick = () => {
-        this.props.history.push('/entry');
-    }
+    // handleJournalOnClick() {
+    //     this.props.router.push({ state: {testData: 'asd'}});
+    // }
 
     handleChange = event => {
         this.setState({
@@ -47,7 +48,7 @@ export default class JournalList extends Component {
         var cards = [];
         for (var i = 0; i < data.length; i++) {
             cards.push(
-                <Link key={i} to={data[i]} className="card-link">
+                <Link key={i} to="/entry" className="card-link">
                     <div className="card journal-card">
                         <h4 className="card-title journal-title">{data[i]}</h4>
                     </div>

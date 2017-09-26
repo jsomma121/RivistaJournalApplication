@@ -23,19 +23,38 @@ class App extends Component {
   getMenu(route) {
     var menu = [];
     console.log(route);
-    switch (route) {
+    var switchPath;
+    if (route.includes("/login")) {
+      switchPath = "/login";
+    } else if (route.includes("/register")) {
+      switchPath = "/register";
+    } else if (route.includes("/history")) {
+      switchPath = "/history";
+    } else if (route.includes("/journal")) {
+      switchPath = "/journal";
+    } else if (route.includes("/entry")) {
+      switchPath = "/entry";
+    }
+    switch (switchPath) {
       case '/login':
       case '/register':
       case '/history':
         break;
-      case '/':
+      case '/journal':
         menu.push(
-          <div key="1"className="navbar-toggler navbar-toggler-right">
+          <div key="1" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | +</button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
           </div>
         )
         break;
+      case '/entry':
+        menu.push(
+          <div key="2" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">Create an Entry</button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
+          </div>
+        )
     }
     return menu;
   }

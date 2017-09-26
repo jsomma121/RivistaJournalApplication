@@ -43,6 +43,15 @@
     color: #555555;
 }
 
+/* .card-journal-card {
+    text-decoration-style: none;
+    color: #000000;
+}
+
+.card-journal-card:hover {
+    color: #555555;
+} */
+
 .modal-header {
     background-color: #e5e5e5;
 }
