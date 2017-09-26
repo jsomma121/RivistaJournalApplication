@@ -7,12 +7,13 @@ export default class JournalList extends Component {
     constructor(props) {
         super(props);
         //just a testing journal list.
-        this.journalLists = ["Test journal title #1",
-            "Test journal title #2",
-            "Test journal title #3",
-            "Test journal title #4",
-            "Test journal title #5",
-            "Test journal title #6"];
+        this.journalLists = [
+            "Test journal title 1",
+            "Test journal title 2",
+            "Test journal title 3",
+            "Test journal title 4",
+            "Test journal title 5",
+            "Test journal title 6"];
         this.state = {
             JournalName: "",
             isLoading: false
@@ -46,8 +47,9 @@ export default class JournalList extends Component {
         var data = this.journalLists;
         var cards = [];
         for (var i = 0; i < data.length; i++) {
+            var pathName = "/entry/" + "${" + data[i] + "}";
             cards.push(
-                <Link key={i} to={data[i]} className="card-link">
+                <Link key={i} to={pathName} className="card-link">
                     <div className="card journal-card">
                         <h4 className="card-title journal-title">{data[i]}</h4>
                     </div>

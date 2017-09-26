@@ -1,6 +1,7 @@
 .header {
     text-align: center;
     font-weight: 700;
+    margin-left: 8%;
 }
 
 #jListCards {
@@ -17,6 +18,10 @@
 .cards {
     margin-top: 2em;
     margin-bottom: 2em;
+}
+
+.journal-card:hover {
+    background-color: rgb(230, 230, 230);
 }
 
 .journal-card {

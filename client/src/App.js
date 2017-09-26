@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
-import RouteNavItem from "./components/RouteNavItem";
+// import { Nav, Navbar, NavItem } from "react-bootstrap";
+// import RouteNavItem from "./components/RouteNavItem";
 import Routes from "./Routes";
 import { authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
@@ -14,6 +14,8 @@ class App extends Component {
       isAuthenticated: false,
       isAuthenticating: false
     };
+
+    this.searchBar;
   }
 
   userHasAuthenticated = authenticated => {
@@ -23,7 +25,12 @@ class App extends Component {
   getMenu(route) {
     var menu = [];
     console.log(route);
-    switch (route) {
+    var pathName = route;
+    if (pathName.includes("/entry")) {
+      pathName = "/entry";
+    }
+    console.log(pathName.includes("/entry"));
+    switch (pathName) {
       case '/login':
       case '/register':
       case '/history':
@@ -36,6 +43,15 @@ class App extends Component {
           </div>
         )
         break;
+        case '/entry':
+        menu.push(
+          <div key="2"className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">Create an Entry</button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
+          </div>
+        )
+        break;
+        default:
     }
     return menu;
   }
