@@ -48,8 +48,8 @@ export default class Login extends Component {
       );
   }
 
-  handleRedirect() {
-    this.setState({ redirect: true });
+  handleRedirect = () => {
+    this.props.history.push("/journal");
   }
 
   handleSubmit = async event => {
@@ -68,9 +68,9 @@ export default class Login extends Component {
 
   render() {
     
-    if ( this.redirect ) {
-      return <Redirect to='../journalList'/>;
-    }
+    // if ( this.redirect ) {
+    //   return <Redirect to='/journal'/>;
+    // }
 
     return (
       <div className="card login-card">

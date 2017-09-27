@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
+import { withRouter } from 'react-router';
 import "./Journal.css";
 
 export default class JournalList extends Component {
@@ -24,9 +25,9 @@ export default class JournalList extends Component {
         return this.state.JournalName.length > 0;
     }
 
-    handleJournalOnClick = () => {
-        this.props.history.push('/entry');
-    }
+    // handleJournalOnClick() {
+    //     this.props.router.push({ state: {testData: 'asd'}});
+    // }
 
     handleChange = event => {
         this.setState({

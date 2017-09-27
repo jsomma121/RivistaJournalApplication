@@ -33,9 +33,9 @@ class App extends Component {
       case '/register':
       case '/history':
         break;
-      case '/':
+      case '/journal':
         menu.push(
-          <div key="1"className="navbar-toggler navbar-toggler-right">
+          <div key="1" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | +</button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
           </div>
