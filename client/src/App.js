@@ -3,6 +3,8 @@ import { Link, withRouter } from "react-router-dom";
 // import { Nav, Navbar, NavItem } from "react-bootstrap";
 // import RouteNavItem from "./components/RouteNavItem";
 import Routes from "./Routes";
+import SignOutIcon from 'react-icons/lib/fa/sign-out';
+import PlusIcon from 'react-icons/lib/fa/plus';
 import { authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
 
@@ -33,11 +35,11 @@ class App extends Component {
       case '/register':
       case '/history':
         break;
-      case '/journal':
+      case '/':
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | +</button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | <PlusIcon/></button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
           </div>
         )
         break;
@@ -45,7 +47,7 @@ class App extends Component {
         menu.push(
           <div key="2"className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">Create an Entry</button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout</button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
           </div>
         )
         break;
