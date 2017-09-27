@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
-import LeftArrowIcon from 'react-icons/lib/fa/arrow-left'
+import LeftArrowIcon from 'react-icons/lib/fa/arrow-left';
+import RightArrowIcon from 'react-icons/lib/fa/angle-right';
+import SkyLight from 'react-skylight';
 import "./Entry.css";
 
 export default class Entry extends Component {
@@ -15,14 +17,31 @@ export default class Entry extends Component {
       "Test entry title 3",
       "Test entry title 4",
       "Test entry title 5",
-      "Test entry title 6"];
+      "Test entry title 6",
+      "Test entry title 7"];
 
     this.pathName = this.props.location.pathname;
     this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
 
     this.state = {
       EntryName: "",
-      isLoading: false
+      isLoading: false,
+      deleteSelected: ""
+    }
+  }
+
+  handleSelete(select) {
+    this.setState({
+      deleteSelected: select
+    });
+  }
+
+  handleDelete(data) {
+    for (var i = 0; i < this.entryLists.length; i++) {
+      if (this.entryLists[i] == data) {
+        this.entryLists.splice(i, 1);
+        break;
+      }
     }
   }
 
@@ -50,13 +69,13 @@ export default class Entry extends Component {
     var data = this.entryLists;
     var cards = [];
     for (var i = 0; i < data.length; i++) {
-      var pathName = "/entry/entryname" + "${" + data[i] + "}";
+      var pathName = "/editEntry/${" + data[i] + "}";
       cards.push(
         <div key={i} className="entryCards">
           <div className="leftOptions">
             <div className="optionsTable">
               <div className="deleteOption">
-                <p>Delete</p>
+                <p onClick={() => this.untitled.show()}>Delete</p>
               </div>
               <div className="hiddenOption">
                 <p>Hidden</p>
@@ -68,13 +87,16 @@ export default class Entry extends Component {
           </div>
 
           <div className="entryDetails">
-            <div className="entryTitle">
-              <h3>{data[i]}</h3>
-            </div>
-            <div className="entrySubtitle">
-              <p>Last Updated: 8.40pm 27-09-2017</p>
-            </div>
+            <Link to={pathName} key={i + data.length} className="entryLink">
+              <div className="entryTitle">
+                <h3>{data[i]}</h3>
+              </div>
+              <div className="entrySubtitle">
+                <p>Last Updated: 8.40pm 27-09-2017</p>
+              </div>
+            </Link>
           </div>
+
         </div>
       )
     }
@@ -129,6 +151,13 @@ export default class Entry extends Component {
           </div>
         </div>
         {/* Create new entry nav bar */}
+
+
+        <div className="popDelete">
+          <SkyLight hideOnOverlayClicked ref={ref => this.untitled = ref}>
+            <p>{this.state.deleteSelected}</p>
+          </SkyLight>
+        </div>
 
       </div>
     );

@@ -24,12 +24,10 @@ class App extends Component {
 
   getMenu(route) {
     var menu = [];
-    console.log(route);
     var pathName = route;
     if (pathName.includes("/entry")) {
       pathName = "/entry";
     }
-    console.log(pathName.includes("/entry"));
     switch (pathName) {
       case '/login':
       case '/register':

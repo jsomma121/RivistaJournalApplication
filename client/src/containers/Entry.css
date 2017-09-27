@@ -80,7 +80,19 @@
 
 .entryDetails:hover {
     background-color: rgb(230, 230, 230);
+    text-decoration-style: none;
     cursor: pointer;
+}
+
+.entryLink {
+    text-decoration-style: none;
+    height: 100px;
+    color: black;
+}
+
+.entryLink:hover {
+    text-decoration-style: none;
+    color: #555555;
 }
 
 .optionsTable {
@@ -120,40 +132,3 @@
     color: #0099FF;
     cursor: pointer;
 }
-
-
-/* 
-.cards {
-    margin-top: 2em;
-    margin-bottom: 2em;
-}
-
-.entry-card {
-    height: 100px;
-    margin-bottom: 1.5em;
-    padding: 1em;
-    padding-left: 5em;
-    -webkit-box-shadow: 6px 8px 6px -6px #999;
-    -moz-box-shadow: 6px 8px 6px -6px #999;
-    box-shadow: 6px 8px 6px -6px #999;
-}
-
-.entry-title {
-    margin-left: 1em;
-    font-size: 2em;
-    font-weight: 600;
-}
-
-.entry-subtitle {
-    margin-left: 2em;
-    vertical-align: middle;
-}
-
-.card-link {
-    text-decoration-style: none;
-    color: #000000;
-}
-
-.card-link:hover {
-    color: #555555;
-} */
