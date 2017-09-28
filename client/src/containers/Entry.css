@@ -25,19 +25,6 @@
     vertical-align: middle;
 }
 
-.returnIcon {
-    display: table-cell;
-    font-size: 36px;
-    width: 20%;
-    vertical-align: middle;
-}
-
-.returnText {
-    text-decoration: underline;
-    display: table-cell;
-    vertical-align: middle;
-}
-
 .linkText {
     color: black;
 }
@@ -131,4 +118,40 @@
 .historyOption:hover {
     color: #0099FF;
     cursor: pointer;
+}
+
+#search {
+    position: fixed;
+    width: 100%;
+    top: 1.5em;
+    left: 30%;
+    z-index: 1030;
+}
+
+#search input {
+    width: 35%;
+    padding-left: 30px;
+}
+
+#search span {
+    position: absolute;
+    left: 0px;
+    padding-left: 7px;
+    padding-top: 6px;
+}
+
+.return {
+    position: fixed;
+    left: 2%;
+    top: 100px;
+}
+
+.return p {
+    padding-top: 5px;
+    padding-left: 30px;
+}
+
+.return span {
+    position: absolute;
+    top: 0;
 }

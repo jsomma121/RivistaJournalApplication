@@ -5,6 +5,7 @@ import LoaderButton from "../components/LoaderButton";
 import LeftArrowIcon from 'react-icons/lib/fa/arrow-left';
 import RightArrowIcon from 'react-icons/lib/fa/angle-right';
 import SkyLight from 'react-skylight';
+import Octoicon from 'react-octicon';
 import "./Entry.css";
 
 export default class Entry extends Component {
@@ -26,7 +27,14 @@ export default class Entry extends Component {
     this.state = {
       EntryName: "",
       isLoading: false,
-      deleteSelected: ""
+      deleteSelected: "",
+      searchText: "",
+      startDate: "",
+      endDate: "",
+      showHidden: false,
+      showDeleted: false,
+      entries: [],
+      filteredEntries: []
     }
   }
 
@@ -62,6 +70,17 @@ export default class Entry extends Component {
     this.setState({ EntryName: "" });
   }
 
+  handleSearchChange = event => {
+    this.setState({
+      searchText: event.target.value
+    })
+    this.filterEntries();
+  }
+
+  filterEntries() {
+
+  }
+
   render() {
 
     var pageTitle = this.journalTitle + " Entries";
@@ -78,7 +97,7 @@ export default class Entry extends Component {
                 <p onClick={() => this.untitled.show()}>Delete</p>
               </div>
               <div className="hiddenOption">
-                <p>Hidden</p>
+                <p>Hide</p>
               </div>
               <div className="historyOption">
                 <p>History</p>
@@ -103,15 +122,17 @@ export default class Entry extends Component {
 
     return (
       <div>
+        <div id="search">
+          <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
+          <Octoicon name="search" />
+        </div>
+        <Link to="/" className="linkText">
+          <div className="return">
+            <p>Back to Journals</p>
+            <Octoicon mega name="mail-reply"/>
+          </div>
+        </Link>
         <div className="header">
-          <Link to="/" className="linkText">
-            <div className="returnIcon">
-              <p><LeftArrowIcon /></p>
-            </div>
-            <div className="returnText">
-              <p>Back to Journals</p>
-            </div>
-          </Link>
           <div className="headerText">
             <p>{pageTitle}</p>
           </div>
