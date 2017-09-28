@@ -12,24 +12,48 @@ export default class Home extends Component {
       journal: []
     };
   }
-    async componentDidMount() {
-      if (!this.props.isAuthenticated) {
-          return;
-      }
-    
+
+  async componentDidMount() {
+    if (!this.props.isAuthenticated) {
+        return console.log('Is not logged in');
+    }
+
+    if(this.state.journal.length === 0){
       try {
           const results = await this.journals();
-          console.log(results, 'hello');
+          console.log(results);
           this.setState({ journal: results });
       } catch (e) {
           alert(e);
       }
-    
+  
       this.setState({ isLoading: false });
+    }
+    
+  }
+
+    async componentWillUpdate() {
+      if (!this.props.isAuthenticated) {
+          return console.log('Is not logged in');
+      }
+
+      if(this.state.journal.length === 0){
+        try {
+            const results = await this.journals();
+            console.log(results);
+            this.setState({ journal: results });
+        } catch (e) {
+            alert(e);
+        }
+    
+        this.setState({ isLoading: false });
+      }
+      
     }
 
     journals() {
-      return invokeApig({ path: "/journal" });
+      const data = invokeApig({ path: "/journal" });
+      return data;
     }
   
 
@@ -41,7 +65,7 @@ export default class Home extends Component {
               key={j.journalid}
               href={`/journal/${j.journalid}`}
               onClick={this.handleJournalClick}
-              header={j.content.trim().split("\n")[0]}
+              // header={j.content.trim().split("\n")[0]}
             >
               {"Created: " + new Date(j.createdAt).toLocaleString()}
             </ListGroupItem>
@@ -72,7 +96,6 @@ export default class Home extends Component {
   }
 
   renderJournal() {
-    console.log(this.state.journal);
     return (
       <div className="Journal">
         <PageHeader>Your Journals</PageHeader>

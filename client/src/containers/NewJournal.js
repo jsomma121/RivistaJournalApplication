@@ -8,9 +8,7 @@ import "./NewJournal.css";
 export default class NewJournal extends Component {
     constructor(props) {
         super(props);
-
         this.file = null;
-
         this.state = {
             isLoading: null,
             content: ""
