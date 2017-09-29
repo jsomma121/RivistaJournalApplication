@@ -1,23 +1,59 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
-import RouteNavItem from "./components/RouteNavItem";
+// import { Nav, Navbar, NavItem } from "react-bootstrap";
+// import RouteNavItem from "./components/RouteNavItem";
 import Routes from "./Routes";
+import SignOutIcon from 'react-icons/lib/fa/sign-out';
+import PlusIcon from 'react-icons/lib/fa/plus';
 import { authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
-  
+
     this.state = {
       isAuthenticated: false,
       isAuthenticating: false
     };
+
+    this.searchBar;
   }
-  
+
   userHasAuthenticated = authenticated => {
     this.setState({ isAuthenticated: authenticated });
+  }
+
+  getMenu(route) {
+    var menu = [];
+    var pathName = route;
+    if (pathName.includes("/entry")) {
+      pathName = "/entry";
+    }
+    switch (pathName) {
+      case '/login':
+      case '/register':
+      case '/history':
+        break;
+      case '/':
+        menu.push(
+          <div key="1" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | <PlusIcon/></button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+          </div>
+        )
+        break;
+        case '/entry':
+        menu.push(
+          <div key="2"className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">Create an Entry</button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+          </div>
+        )
+        break;
+        default:
+    }
+    return menu;
   }
 
   async componentDidMount() {
@@ -26,10 +62,10 @@ class App extends Component {
         this.userHasAuthenticated(true);
       }
     }
-    catch(e) {
+    catch (e) {
       alert(e);
     }
-  
+
     this.setState({ isAuthenticating: false });
   }
 
@@ -44,37 +80,19 @@ class App extends Component {
       isAuthenticated: this.state.isAuthenticated,
       userHasAuthenticated: this.userHasAuthenticated
     };
-  
+
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <Navbar fluid collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">Scratch</Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav pullRight>
-              {this.state.isAuthenticated
-                ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
-                : [
-                    <RouteNavItem key={1} href="/signup">
-                      Signup
-                    </RouteNavItem>,
-                    <RouteNavItem key={2} href="/login">
-                      Login
-                    </RouteNavItem>
-                  ]}
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <nav className="navbar fixed-top">
+          <Link to="/" className="navbar-brand">Rivista</Link>
+          {this.getMenu(this.props.location.pathname)}
+        </nav>
         <Routes childProps={childProps} />
       </div>
     );
   }
-  
+
 }
 
 export default withRouter(App);

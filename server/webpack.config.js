@@ -15,12 +15,16 @@ module.exports = {
   externals: [nodeExternals()],
   // Run babel on all .js files and skip those in node_modules
   module: {
-    rules: [{
-      test: /\.js$/,
-      loader: 'babel-loader',
-      include: __dirname,
-      exclude: /node_modules/,
-    }]
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: __dirname,
+        exclude: /node_modules/,
+      },
+      {test: /\.css$/, loader: 'style!css'},
+      {test: /\.(otf|eot|svg|ttf|woff|woff2).*$/, loader: 'url?limit=8192'}
+    ]
   },
   // We are going to create multiple APIs in this guide, and we are 
   // going to create a js file to for each, we need this output block
@@ -28,7 +32,7 @@ module.exports = {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '.webpack'),
     filename: '[name].js'
-  },
+  }
 };
 
 function globEntries(globPath) {

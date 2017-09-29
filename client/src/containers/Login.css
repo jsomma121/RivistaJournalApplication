@@ -1,11 +1,24 @@
-@media all and (min-width: 480px) {
-    .Login {
-      padding: 60px 0;
-    }
-  
-    .Login form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
-  }
-  
+.login-card {
+  padding: 60px 0;
+  max-width: 500px;
+  -webkit-box-shadow: 6px 8px 6px -6px #999;
+  -moz-box-shadow: 6px 8px 6px -6px #999;
+  box-shadow: 6px 8px 6px -6px #999;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card form {
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+.login-form-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: 3em;
+}
+
+.login-card button {
+  margin-bottom: 10px;
+}

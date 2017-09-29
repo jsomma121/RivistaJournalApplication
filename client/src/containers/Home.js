@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap"
 import { invokeApig } from '../libs/awsLib';
+import { Link } from "react-router-dom";
+import { withRouter } from 'react-router';
 import "./Home.css";
 
 export default class Home extends Component {
@@ -109,7 +111,19 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
+<<<<<<< HEAD
         {this.props.isAuthenticated ? this.renderJournal() : this.renderLander()}
+=======
+        <div className="lander">
+          <h1>Rivista</h1>
+          <p>The professional journal application</p>
+          <Link to="/login">
+            <div className="goButton">
+              <p1>Click me!</p1>
+            </div>
+          </Link>
+        </div>
+>>>>>>> ba7407a278e143cce29b1b3c39f57b84bafaf012
       </div>
     );
   }
