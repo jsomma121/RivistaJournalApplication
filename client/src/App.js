@@ -38,7 +38,7 @@ class App extends Component {
       case '/':
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | <PlusIcon/></button>
+            <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewJournalClick} data-target="#newJournalModal">New Journal <PlusIcon/></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
           </div>
         )
@@ -56,6 +56,7 @@ class App extends Component {
     return menu;
   }
 
+
   async componentDidMount() {
     try {
       if (await authUser()) {
@@ -67,6 +68,11 @@ class App extends Component {
     }
 
     this.setState({ isAuthenticating: false });
+  }
+
+  handleNewJournalClick = event => {
+    event.preventDefault();
+    this.props.history.push('/journal/new');
   }
 
   handleLogout = event => {

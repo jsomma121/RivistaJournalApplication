@@ -1,16 +1,62 @@
-.Home .journal h4 {
-    font-family: "Open Sans", sans-serif;
+.header {
+    text-align: center;
+    font-weight: 700;
+    margin-left: 8%;
+}
+
+#jListCards {
+    background-color: rgb(41, 182, 246);
+    box-shadow: 2px 4px 4px #888888;
+    height: 70px;
+    font-size: 30px;
+    width: 85%;
+    margin: auto;
+    padding-top: 15px;
+    padding-left: 3%;
+}
+
+.cards {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.journal-card:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.journal-card {
+    height: 100px;
+    margin-bottom: 1.5em;
+    padding: 2em;
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 6px 8px 6px -6px #999;
+}
+
+.journal-title {
+    margin-left: 1em;
+    font-size: 2em;
     font-weight: 600;
-    overflow: hidden;
-    line-height: 1.5;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
-.Home .journal p {
-    color: #666;
+.card-link {
+    text-decoration-style: none;
+    color: #000000;
 }
 
-.Home .lander p {
-    color: #999;
+.card-link:hover {
+    color: #555555;
+}
+
+/* .card-journal-card {
+    text-decoration-style: none;
+    color: #000000;
+}
+
+.card-journal-card:hover {
+    color: #555555;
+} */
+
+.modal-header {
+    background-color: #e5e5e5;
 }

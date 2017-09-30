@@ -54,32 +54,20 @@ export default class Home extends Component {
     }
 
     journals() {
-      const data = invokeApig({ path: "/journal" });
-      return data;
+      return invokeApig({ path: "/journal" });
     }
   
 
   renderJournalList(journal) {
-    return [{}].concat(journal).map(
+
+    return journal.map(
       (j, i) =>
-        i !== 0
-          ? <ListGroupItem
-              key={j.journalid}
-              href={`/journal/${j.journalid}`}
-              onClick={this.handleJournalClick}
-              // header={j.content.trim().split("\n")[0]}
-            >
-              {"Created: " + new Date(j.createdAt).toLocaleString()}
-            </ListGroupItem>
-          : <ListGroupItem
-              key="new"
-              href="/journal/new"
-              onClick={this.handleJournalClick}
-            >
-              <h4>
-                <b>{"\uFF0B"}</b> Create a new note
-              </h4>
-            </ListGroupItem>
+        <Link key={i} to={'/entry/' + j.journalid} className="card-link">
+          <div className='card journal-card'>
+            <h4 className="card-title journal-title">{j.journalTitle}</h4>
+            <p>{new Date(j.createdAt).toLocaleString()}</p>
+          </div>
+        </Link>
     );
   }
   
@@ -111,19 +99,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="Home">
-<<<<<<< HEAD
         {this.props.isAuthenticated ? this.renderJournal() : this.renderLander()}
-=======
-        <div className="lander">
-          <h1>Rivista</h1>
-          <p>The professional journal application</p>
-          <Link to="/login">
-            <div className="goButton">
-              <p1>Click me!</p1>
-            </div>
-          </Link>
-        </div>
->>>>>>> ba7407a278e143cce29b1b3c39f57b84bafaf012
       </div>
     );
   }

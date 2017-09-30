@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
+import { Link } from "react-router-dom";
 import { invokeApig } from "../libs/awsLib"; 
+import Octoicon from 'react-octicon';
 import config from "../config";
 import "./NewJournal.css";
 
@@ -11,12 +13,12 @@ export default class NewJournal extends Component {
         this.file = null;
         this.state = {
             isLoading: null,
-            content: ""
+            journalTitle: ""
         };
     }
 
     validateForm() {
-        return this.state.content.length > 0;
+        return this.state.journalTitle.length > 0;
     }
 
     handleChange = event => {
@@ -40,23 +42,20 @@ export default class NewJournal extends Component {
         this.setState({ isLoading: true });
       
         try {
-          const data = await this.createNote({
-            content: this.state.content
+          const data = await this.createJournal({
+            journalTitle: this.state.journalTitle
           });
-          console.log(data);
           this.props.history.push("/");
         } catch (e) {
-          alert('hello')  
-          alert(e);
           this.setState({ isLoading: false });
         }
       }
       
-      createNote(note) {
+      createJournal(journal) {
         return invokeApig({
           path: "/journal",
           method: "POST",
-          body: note
+          body: journal
         });
       }
             
@@ -64,16 +63,19 @@ export default class NewJournal extends Component {
         return (
             <div className="NewJournal">
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="content">
+                    <Link to="/" className="linkText">
+                        <div className="return">
+                        <p>Back to Journals</p>
+                        <Octoicon mega name="mail-reply"/>
+                        </div>
+                    </Link>
+                    <h1>New Journal</h1>
+                    <FormGroup controlId="journalTitle">
                       <FormControl
                         onChange={this.handleChange}
-                        value={this.state.content}
+                        value={this.state.journalTitle}
                         componentClass="textarea"
                       />
-                    </FormGroup>
-                    <FormGroup controlId="file">               
-                        <ControlLabel>Attachment</ControlLabel>
-                        <FormControl onChange={this.handleFileChange} type="file" />
                     </FormGroup>
                     <LoaderButton
                         block
