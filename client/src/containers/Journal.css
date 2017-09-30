@@ -1,27 +1,11 @@
 .header {
     text-align: center;
     font-weight: 700;
-    margin-left: 8%;
-}
-
-#jListCards {
-    background-color: rgb(41, 182, 246);
-    box-shadow: 2px 4px 4px #888888;
-    height: 70px;
-    font-size: 30px;
-    width: 85%;
-    margin: auto;
-    padding-top: 15px;
-    padding-left: 3%;
 }
 
 .cards {
     margin-top: 2em;
     margin-bottom: 2em;
-}
-
-.journal-card:hover {
-    background-color: rgb(230, 230, 230);
 }
 
 .journal-card {
@@ -44,18 +28,9 @@
     color: #000000;
 }
 
-.card-link:hover {
-    color: #555555;
+.card-link .journal-card:hover {
+    box-shadow: 0px 0px 0px 0px;
 }
-
-/* .card-journal-card {
-    text-decoration-style: none;
-    color: #000000;
-}
-
-.card-journal-card:hover {
-    color: #555555;
-} */
 
 .modal-header {
     background-color: #e5e5e5;

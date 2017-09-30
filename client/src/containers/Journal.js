@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
-import { withRouter } from 'react-router';
 import "./Journal.css";
 
 export default class JournalList extends Component {

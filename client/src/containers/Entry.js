@@ -1,31 +1,19 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
-import LeftArrowIcon from 'react-icons/lib/fa/arrow-left';
-import RightArrowIcon from 'react-icons/lib/fa/angle-right';
-import SkyLight from 'react-skylight';
 import Octoicon from 'react-octicon';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import "./Entry.css";
 
 export default class Entry extends Component {
   constructor(props) {
     super(props);
-    //just a test entry list
-    this.entryLists = [
-      "Test entry title 1",
-      "Test entry title 2",
-      "Test entry title 3",
-      "Test entry title 4",
-      "Test entry title 5",
-      "Test entry title 6",
-      "Test entry title 7"];
 
     this.pathName = this.props.location.pathname;
     this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
 
     this.state = {
-      EntryName: "",
       isLoading: false,
       deleteSelected: "",
       searchText: "",
@@ -33,153 +21,235 @@ export default class Entry extends Component {
       endDate: "",
       showHidden: false,
       showDeleted: false,
-      entries: [],
-      filteredEntries: []
+      showFilter: false,
+      data: []
     }
+    this.handleChangeStart = this.handleChangeStart.bind(this);
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
-  handleSelete(select) {
+  componentWillMount() {
+    this.getDummyData();
+    //this.filterEntries();
+  }
+
+  handleDelete(entry) {
     this.setState({
-      deleteSelected: select
+      deleteSelected: entry
     });
-  }
-
-  handleDelete(data) {
-    for (var i = 0; i < this.entryLists.length; i++) {
-      if (this.entryLists[i] == data) {
-        this.entryLists.splice(i, 1);
-        break;
-      }
-    }
-  }
-
-  validateForm() {
-    return this.state.EntryName.length > 0;
-  }
-
-  handleChange = event => {
-    this.setState({
-      EntryName: event.target.value
-    });
-  }
-
-  handleSubmit = async event => {
-    event.preventDefault();
-    this.setState({ isLoading: true });
-    this.entryLists.push(this.state.EntryName);
-    this.setState({ EntryName: "" });
   }
 
   handleSearchChange = event => {
     this.setState({
       searchText: event.target.value
     })
-    this.filterEntries();
+  }
+
+  handleChangeStart(date) {
+    this.setState({
+      startDate: date
+    })
+  }
+
+  handleChangeEnd(date) {
+    this.setState({
+      endDate: date
+    })
+  }
+
+  handleHiddenChange() {
+    this.setState({
+      showHidden: !this.state.showHidden
+    })
+  }
+
+  handleDeletedChange() {
+    this.setState({
+      showDeleted: !this.state.showDeleted
+    })
+  }
+
+  toggleFilter() {
+    this.setState({
+      showFilter: !this.state.showFilter
+    })
+    console.log("it works?")
+  }
+
+  getDummyData() {
+    var entryLists = [];
+    for (var i = 1; i < 8; i++) {
+      entryLists.push({
+        title: "Entry #" + i,
+        hidden: false,
+        deleted: false,
+        createdDate: "26-07-2017",
+        lastUpdated: "27-07-2017"
+      })
+    }
+
+    entryLists.push({
+      title: "Hidden Entry",
+      hidden: true,
+      deleted: false,
+      createdDate: "30-07-2017",
+      lastUpdated: "31-07-2017"
+    })
+
+    this.setState(
+      { data: entryLists }
+    )
+  }
+
+  deleteButton(name) {
+    return (
+      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(name) }}>Delete</button>
+    )
   }
 
   filterEntries() {
-
+    var entries = this.state.data;
+    console.log(entries);
+    var filteredEntries = [];
+    for (var i = 0; i < entries.length; i++) {
+      console.log(entries[i].hidden);
+      if (!entries[i].hidden && !entries[i].deleted) {
+        filteredEntries.push(entries[i]);
+      }
+    }
+    return filteredEntries;
   }
 
-  render() {
+  searchEntries() {
+    var entries = this.state.data;
+    var filteredEntries = [];
+    console.log(this.state.showHidden);
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].title.includes(this.state.searchText) && entries[i].hidden === this.state.showHidden && entries[i].deleted === this.state.showDeleted) {
+        filteredEntries.push(entries[i]);
+      }
+    }
+    return filteredEntries;
+  }
 
-    var pageTitle = this.journalTitle + " Entries";
+  renderFilter() {
+    return (
+      <div className="filter">
+        <h3>Date</h3>
+        <DatePicker
+          selected={this.state.startDate}
+          selectsStart
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          onChange={this.handleChangeStart}
+        />
+        to
+        <DatePicker
+          selected={this.state.endDate}
+          selectsEnd
+          startDate={this.state.startDate}
+          endDate={this.state.endDate}
+          onChange={this.handleChangeEnd}
+        />
+        <label className="form-check-label">
+          <input type="checkbox" className="form-check-input" onChange={this.handleHiddenChange.bind(this, "showHidden")}/>
+          Show hidden
+        </label>
+        <label className="form-check-label">
+          <input type="checkbox" className="form-check-input" onChange={this.handleDeletedChange.bind(this, "showDeleted")}/>
+          Show deleted
+        </label>
+      </div>
+    )
+  }
 
-    var data = this.entryLists;
-    var cards = [];
-    for (var i = 0; i < data.length; i++) {
-      var pathName = "/editEntry/${" + data[i] + "}";
-      cards.push(
-        <div key={i} className="entryCards">
-          <div className="leftOptions">
-            <div className="optionsTable">
-              <div className="deleteOption">
-                <p onClick={() => this.untitled.show()}>Delete</p>
-              </div>
-              <div className="hiddenOption">
-                <p>Hide</p>
-              </div>
-              <div className="historyOption">
-                <p>History</p>
-              </div>
-            </div>
+  renderEntries() {
+    var entries;
+    console.log("isHidden: " + this.state.showHidden + " isDeleted: " + this.state.showDeleted);
+    if (this.state.searchText.length > 0 || this.state.showHidden || this.state.showDeleted) {
+      console.log("Got from search");
+      entries = this.searchEntries();
+    } else {
+      console.log("No search")
+      entries = this.filterEntries();
+    }
+    console.log("hi")
+    return [{}].concat(entries).map(
+      (e, i) =>
+        <div key={i} className="card journal-card entry-card">
+          <div className="options">
+            {this.deleteButton(e.title)}
+            <button type="button" className="btn btn-link">Hide</button>
+            <button type="button" className="btn btn-link">History</button>
           </div>
-
-          <div className="entryDetails">
-            <Link to={pathName} key={i + data.length} className="entryLink">
-              <div className="entryTitle">
-                <h3>{data[i]}</h3>
+          <div className="entry-details">
+            <Link to="/test" className="card-link">
+              <div className="entry-title">
+                <h3>{e.title}</h3>
               </div>
-              <div className="entrySubtitle">
-                <p>Last Updated: 8.40pm 27-09-2017</p>
+              <div className="entry-date">
+                <p>{e.lastUpdated}</p>
               </div>
             </Link>
           </div>
-
         </div>
-      )
-    }
+    );
+  }
 
+  render() {
+    var pageTitle = this.journalTitle + " Entries";
+    let filter = null;
+    if (this.state.showFilter) {
+      filter = this.renderFilter();
+    }
     return (
       <div>
-        <div id="search">
+        {filter}        
+        <div id="search" className="input-group">
           <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
-          <Octoicon name="search" />
+          <Octoicon className="search-icon" name="search" />
+          <span className="input-group-btn">
+            <button className="btn btn-secondary" type="button" onClick={e => this.toggleFilter(e)}><Octoicon name="settings" /></button>
+          </span>
         </div>
         <Link to="/" className="linkText">
           <div className="return">
             <p>Back to Journals</p>
-            <Octoicon mega name="mail-reply"/>
+            <Octoicon mega name="arrow-left" />
           </div>
         </Link>
         <div className="header">
-          <div className="headerText">
-            <p>{pageTitle}</p>
-          </div>
+          <h1> {pageTitle}</h1>
         </div>
 
         <div className="cards">
-          {cards}
+          {this.renderEntries()}
         </div>
 
-        {/* Create new entry nav bar */}
-        <div className="modal fade" id="newEntryModal" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
+        <div className="modal fade" id="deleteModal" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="newEntryModalLabel">Create an Entry</h5>
+                <h5 className="modal-title" id="deleteModalLabel">Delete {this.state.deleteSelected}?</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div className="modal-body">
+                <p>Are you sure you want to delete {this.state.deleteSelected}</p>
                 <form onSubmit={this.handleSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="newEntryName">Name</label>
-                    <input type="text" className="form-control" id="newEntryName" placeholder="Enter entry name" value={this.state.value} onChange={this.handleChange} />
-                  </div>
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
                   <LoaderButton
                     type="submit"
                     isLoading={this.state.isLoading}
-                    disabled={!this.validateForm()}
-                    className="btn-primary"
-                    text="Create Entry"
+                    className="btn-danger"
+                    text="Delete"
                     loadingText="Creating..." />
                 </form>
               </div>
             </div>
           </div>
         </div>
-        {/* Create new entry nav bar */}
-
-
-        <div className="popDelete">
-          <SkyLight hideOnOverlayClicked ref={ref => this.untitled = ref}>
-            <p>{this.state.deleteSelected}</p>
-          </SkyLight>
-        </div>
-
       </div>
     );
   }
