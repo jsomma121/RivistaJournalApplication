@@ -66,8 +66,17 @@ export default class Entry extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
-    this.entryLists.push(this.state.EntryName);
-    this.setState({ EntryName: "" });
+    
+    try {
+      const data = await this.createJournalEntry({
+        journalTitle: this.state.journalTitle
+      });
+      //TO-DO - deal with the close modal problem
+      this.props.onRequestHide();
+      return 
+    } catch (e) {
+      this.setState({ isLoading: false });
+    }
   }
 
   handleSearchChange = event => {
@@ -141,38 +150,6 @@ export default class Entry extends Component {
         <div className="cards">
           {cards}
         </div>
-
-        {/* Create new entry nav bar */}
-        <div className="modal fade" id="newEntryModal" role="dialog" aria-labelledby="newEntryModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="newEntryModalLabel">Create an Entry</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.handleSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="newEntryName">Name</label>
-                    <input type="text" className="form-control" id="newEntryName" placeholder="Enter entry name" value={this.state.value} onChange={this.handleChange} />
-                  </div>
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <LoaderButton
-                    type="submit"
-                    isLoading={this.state.isLoading}
-                    disabled={!this.validateForm()}
-                    className="btn-primary"
-                    text="Create Entry"
-                    loadingText="Creating..." />
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Create new entry nav bar */}
-
 
         <div className="popDelete">
           <SkyLight hideOnOverlayClicked ref={ref => this.untitled = ref}>

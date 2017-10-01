@@ -18,7 +18,7 @@ export async function main(event, context, callback) {
       journalTitle: data.journalTitle,
       enteries: [],
       createdAt: new Date().getTime()  
-    },
+    }
   };
 
   try {

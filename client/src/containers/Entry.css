@@ -121,11 +121,12 @@
 }
 
 #search {
-    position: fixed;
+    position: absolute;
     width: 100%;
     top: 1.5em;
     left: 30%;
     z-index: 1030;
+    margin: 0 auto;
 }
 
 #search input {

@@ -88,13 +88,13 @@ export default class Home extends Component {
                               <label htmlFor="newJournalName">Name</label>
                               <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange}/>
                           </div>
-                          <button type="button" className="btn btn-secondary"  onClick={this.props.onRequestHide} data-dismiss="modal">Cancel</button>
                           <LoaderButton
                               type="submit"
                               isLoading={this.state.isLoading}
                               className="btn-primary"
                               text="Create Journal"
                               loadingText="Creating..."/>
+                              <button type="button" className="btn btn-secondary"  onClick={this.props.onRequestHide} data-dismiss="modal">Cancel</button>
                       </form>
                   </div>
               </div>
@@ -119,6 +119,7 @@ export default class Home extends Component {
       const data = await this.createJournal({
         journalTitle: this.state.journalTitle
       });
+      //TO-DO - deal with the close modal problem
       this.props.onRequestHide();
       return 
     } catch (e) {

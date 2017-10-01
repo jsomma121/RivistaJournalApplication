@@ -11,9 +11,10 @@ export async function main(event, context, callback) {
     },
     UpdateExpression: "SET title = :title, hidden = :hidden, deleted = :deleted",
     ExpressionAttributeValues: {
+      ":entryState": data.entryState ? data.entryState : null,
+      ":content": data.content ? data.content : null,
       ":title": data.title ? data.title : null,
-      ":hidden": data.hidden ? data.hidden : null,
-      ":deleted": data.deleted ? data.deleted : null,
+      ":updateDate": data.updateDate ? data.updateDate : null,
     },
     ReturnValues: "ALL_NEW"
   };
