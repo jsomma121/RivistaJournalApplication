@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap"
+import LoaderButton from "../components/LoaderButton";
 import { invokeApig } from '../libs/awsLib';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
+import config from "../config";
 import "./Home.css";
 
 export default class Home extends Component {
@@ -11,7 +13,9 @@ export default class Home extends Component {
 
     this.state = {
       isLoading: true,
-      journal: []
+      journalTitle: '',
+      journal: [],
+      showModal: false,
     };
   }
 
@@ -62,13 +66,72 @@ export default class Home extends Component {
 
     return journal.map(
       (j, i) =>
+      <div>
         <Link key={i} to={'/entry/' + j.journalid} className="card-link">
           <div className='card journal-card'>
             <h4 className="card-title journal-title">{j.journalTitle}</h4>
             <p>{new Date(j.createdAt).toLocaleString()}</p>
           </div>
         </Link>
-    );
+        <div className="modal fade" id="newJournalModal" role="dialog" aria-labelledby="newJournalModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                  <div className="modal-header">
+                      <h5 className="modal-title" id="newJournalModalLabel">Create a Journal</h5>
+                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div className="modal-body">
+                      <form onSubmit={this.handleSubmit}>
+                          <div className="form-group">
+                              <label htmlFor="newJournalName">Name</label>
+                              <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange}/>
+                          </div>
+                          <button type="button" className="btn btn-secondary"  onClick={this.props.onRequestHide} data-dismiss="modal">Cancel</button>
+                          <LoaderButton
+                              type="submit"
+                              isLoading={this.state.isLoading}
+                              className="btn-primary"
+                              text="Create Journal"
+                              loadingText="Creating..."/>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+    )
+  }
+
+  handleChange = event => {
+    this.setState({
+        journalTitle: event.target.value
+    });
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+  
+    this.setState({ isLoading: true });
+  
+    try {
+      const data = await this.createJournal({
+        journalTitle: this.state.journalTitle
+      });
+      this.props.onRequestHide();
+      return 
+    } catch (e) {
+      this.setState({ isLoading: false });
+    }
+  }
+  
+  createJournal(journal) {
+    return invokeApig({
+      path: "/journal",
+      method: "POST",
+      body: journal
+    });
   }
   
   handleJournalClick = event => {

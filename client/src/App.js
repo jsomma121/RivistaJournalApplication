@@ -38,7 +38,7 @@ class App extends Component {
       case '/':
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewJournalClick} data-target="#newJournalModal">New Journal <PlusIcon/></button>
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon/></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
           </div>
         )
@@ -46,7 +46,7 @@ class App extends Component {
         case '/entry':
         menu.push(
           <div key="2"className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">Create an Entry</button>
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">New Entry <PlusIcon/></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
           </div>
         )

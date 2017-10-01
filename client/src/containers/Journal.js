@@ -42,6 +42,10 @@ export default class JournalList extends Component {
         this.setState({ JournalName: "" });
     }
 
+    validateForm() {
+        return this.state.JournalName.length > 0;
+    }
+
     render() {
 
         //loop the exist journal (should from database)
