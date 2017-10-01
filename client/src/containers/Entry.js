@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import Octoicon from 'react-octicon';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./Entry.css";
 
@@ -17,8 +18,9 @@ export default class Entry extends Component {
       isLoading: false,
       deleteSelected: "",
       searchText: "",
-      startDate: "",
-      endDate: "",
+      startDate: null,
+      endDate: null,
+      showAll: false,
       showHidden: false,
       showDeleted: false,
       showFilter: false,
@@ -30,7 +32,6 @@ export default class Entry extends Component {
 
   componentWillMount() {
     this.getDummyData();
-    //this.filterEntries();
   }
 
   handleDelete(entry) {
@@ -52,6 +53,9 @@ export default class Entry extends Component {
   }
 
   handleChangeEnd(date) {
+    if (date != null && moment(date).format("hh:mmA") === "12:00AM") {
+      date = moment(date).add(23, "h").add(59, "m")
+    }
     this.setState({
       endDate: date
     })
@@ -59,13 +63,23 @@ export default class Entry extends Component {
 
   handleHiddenChange() {
     this.setState({
-      showHidden: !this.state.showHidden
+      showHidden: !this.state.showHidden,
+      showAll: false
     })
   }
 
   handleDeletedChange() {
     this.setState({
-      showDeleted: !this.state.showDeleted
+      showDeleted: !this.state.showDeleted,
+      showAll: false
+    })
+  }
+
+  handleAllChange() {
+    this.setState({
+      showAll: !this.state.showAll,
+      showHidden: false,
+      showDeleted: false
     })
   }
 
@@ -83,17 +97,33 @@ export default class Entry extends Component {
         title: "Entry #" + i,
         hidden: false,
         deleted: false,
-        createdDate: "26-07-2017",
-        lastUpdated: "27-07-2017"
+        createdDate: 1500991200000,
+        lastUpdated: 1501077600000
       })
     }
+
+    entryLists.push({
+      title: "Test",
+      hidden: false,
+      deleted: false,
+      createdDate: 1500991200000,
+      lastUpdated: 1501250400000
+    })
+
+    entryLists.push({
+      title: "Deleted Entry",
+      hidden: false,
+      deleted: true,
+      createdDate: 1501336800000,
+      lastUpdated: 1501423200000
+    })
 
     entryLists.push({
       title: "Hidden Entry",
       hidden: true,
       deleted: false,
-      createdDate: "30-07-2017",
-      lastUpdated: "31-07-2017"
+      createdDate: 1501336800000,
+      lastUpdated: 1501423200000
     })
 
     this.setState(
@@ -101,21 +131,23 @@ export default class Entry extends Component {
     )
   }
 
-  deleteButton(name) {
+  deleteButton(entry) {
     return (
-      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(name) }}>Delete</button>
+      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(entry.title) }} disabled={entry.deleted}>Delete</button>
     )
   }
 
   filterEntries() {
     var entries = this.state.data;
-    console.log(entries);
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      console.log(entries[i].hidden);
-      if (!entries[i].hidden && !entries[i].deleted) {
+      if (!this.state.showAll) {
+        if (!entries[i].hidden && !entries[i].deleted) {
+          filteredEntries.push(entries[i]);
+        }
+      } else {
         filteredEntries.push(entries[i]);
-      }
+      }      
     }
     return filteredEntries;
   }
@@ -123,10 +155,28 @@ export default class Entry extends Component {
   searchEntries() {
     var entries = this.state.data;
     var filteredEntries = [];
-    console.log(this.state.showHidden);
     for (var i = 0; i < entries.length; i++) {
-      if (entries[i].title.includes(this.state.searchText) && entries[i].hidden === this.state.showHidden && entries[i].deleted === this.state.showDeleted) {
-        filteredEntries.push(entries[i]);
+      if (entries[i].title.includes(this.state.searchText) && (entries[i].hidden === this.state.showHidden || entries[i].deleted === this.state.showDeleted)) {
+        console.log("huh?");
+        if (this.state.startDate != null && this.state.endDate != null) {
+          console.log(entries[i].title + ": ");
+          console.log(entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <=this.state.endDate);
+          if (entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <= this.state.endDate) {
+            filteredEntries.push(entries[i]);
+          }
+        }
+        else if (this.state.startDate != null) {
+          console.log("Search: " + this.state.startDate + " Entry: " + entries[i].lastUpdated);
+          if (moment(entries[i].lastUpdated).format("DDMMYYYY") === moment(this.state.startDate).format("DDMMYYYY")) {
+            filteredEntries.push(entries[i]);
+          }
+        } else if (this.state.endDate != null) {
+          if (entries[i].lastUpdated < this.state.endDate) {
+            filteredEntries.push(entries[i]);
+          }
+        } else {
+          filteredEntries.push(entries[i]);
+        }
       }
     }
     return filteredEntries;
@@ -136,59 +186,73 @@ export default class Entry extends Component {
     return (
       <div className="filter">
         <h3>Date</h3>
-        <DatePicker
-          selected={this.state.startDate}
-          selectsStart
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          onChange={this.handleChangeStart}
-        />
-        to
-        <DatePicker
-          selected={this.state.endDate}
-          selectsEnd
-          startDate={this.state.startDate}
-          endDate={this.state.endDate}
-          onChange={this.handleChangeEnd}
-        />
+        <div className="filter-dates">
+          <DatePicker
+            selected={this.state.startDate}
+            selectsStart
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onChange={this.handleChangeStart}
+            isClearable={true}
+            dateFormat="DD MMMM YYYY"
+          />
+          <p>to</p>
+          <DatePicker
+            selected={this.state.endDate}
+            selectsEnd
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
+            onChange={this.handleChangeEnd}
+            isClearable={true}
+            dateFormat="DD MMMM YYYY"
+          />
+        </div>
+
         <label className="form-check-label">
-          <input type="checkbox" className="form-check-input" onChange={this.handleHiddenChange.bind(this, "showHidden")}/>
+          <input type="checkbox" className="form-check-input" onChange={this.handleAllChange.bind(this, "showAll")} checked={this.state.showAll}/>
+          Show all
+        </label>
+        <label className="form-check-label">
+          <input type="checkbox" className="form-check-input" onChange={this.handleHiddenChange.bind(this, "showHidden")} checked={this.state.showHidden} />
           Show hidden
         </label>
         <label className="form-check-label">
-          <input type="checkbox" className="form-check-input" onChange={this.handleDeletedChange.bind(this, "showDeleted")}/>
+          <input type="checkbox" className="form-check-input" onChange={this.handleDeletedChange.bind(this, "showDeleted")} checked={this.state.showDeleted}/>
           Show deleted
         </label>
+        <button type="button" className="close" onClick={e => this.toggleFilter(e)}>
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
     )
   }
 
   renderEntries() {
     var entries;
-    console.log("isHidden: " + this.state.showHidden + " isDeleted: " + this.state.showDeleted);
-    if (this.state.searchText.length > 0 || this.state.showHidden || this.state.showDeleted) {
-      console.log("Got from search");
+    if (this.state.searchText.length > 0 || this.state.showHidden || this.state.showDeleted
+      || this.state.startDate != null
+      || this.state.endDate != null) {
       entries = this.searchEntries();
     } else {
-      console.log("No search")
       entries = this.filterEntries();
     }
-    console.log("hi")
-    return [{}].concat(entries).map(
+    return entries.map(
       (e, i) =>
         <div key={i} className="card journal-card entry-card">
           <div className="options">
-            {this.deleteButton(e.title)}
-            <button type="button" className="btn btn-link">Hide</button>
+            {this.deleteButton(e)}
+            <button type="button" className="btn btn-link">{e.hidden ? "Unhide" : "Hide"}</button>
             <button type="button" className="btn btn-link">History</button>
           </div>
           <div className="entry-details">
             <Link to="/test" className="card-link">
               <div className="entry-title">
                 <h3>{e.title}</h3>
+                {e.hidden ? <h4 className="subtitle hidden">Hidden</h4> : ""}
+                {e.deleted ? <h4 className="subtitle deleted">Deleted</h4>: ""}
               </div>
               <div className="entry-date">
-                <p>{e.lastUpdated}</p>
+                <p>Last updated: {moment(e.lastUpdated).format("hh:mmA DD MMMM YYYY")}</p>
               </div>
             </Link>
           </div>
@@ -204,7 +268,7 @@ export default class Entry extends Component {
     }
     return (
       <div>
-        {filter}        
+        {filter}
         <div id="search" className="input-group">
           <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
           <Octoicon className="search-icon" name="search" />

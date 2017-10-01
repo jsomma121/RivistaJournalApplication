@@ -60,3 +60,52 @@
     height: 100px;
     padding: 1em;
 }
+
+.entry-title {
+    display: flex;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    padding: 7px 0 0 7px;
+}
+
+.hidden {
+    color: #999;
+}
+
+.deleted {
+    color: red;
+}
+
+.filter {
+    position:fixed;
+    top: 72px;
+    left: 30%;
+    z-index:1050;
+    background-color:white;
+    padding:30px;
+    width: 35%;
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 6px 8px 6px -6px #999;
+}
+
+.filter-dates {
+    display: flex;
+}
+
+.filter-dates p {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.filter label {
+    margin-right: 20px;
+}
+
+.filter span {
+    position: absolute;
+    top: 0;
+}
+
