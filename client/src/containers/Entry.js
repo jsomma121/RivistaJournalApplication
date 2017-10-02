@@ -20,7 +20,6 @@ export default class Entry extends Component {
       searchText: "",
       startDate: null,
       endDate: null,
-      showAll: false,
       showHidden: false,
       showDeleted: false,
       showFilter: false,
@@ -75,14 +74,6 @@ export default class Entry extends Component {
     })
   }
 
-  handleAllChange() {
-    this.setState({
-      showAll: !this.state.showAll,
-      showHidden: false,
-      showDeleted: false
-    })
-  }
-
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
@@ -111,8 +102,7 @@ export default class Entry extends Component {
     for (var i = 1; i < 8; i++) {
       entryLists.push({
         title: "Entry #" + i,
-        hidden: false,
-        deleted: false,
+        state: "active",
         createdDate: 1500991200000,
         lastUpdated: 1501077600000
       })
@@ -120,24 +110,21 @@ export default class Entry extends Component {
 
     entryLists.push({
       title: "Test",
-      hidden: false,
-      deleted: false,
+      state: "active",
       createdDate: 1500991200000,
       lastUpdated: 1501250400000
     })
 
     entryLists.push({
       title: "Deleted Entry",
-      hidden: false,
-      deleted: true,
+      state: "deleted",
       createdDate: 1501336800000,
       lastUpdated: 1501423200000
     })
 
     entryLists.push({
       title: "Hidden Entry",
-      hidden: true,
-      deleted: false,
+      state: "hidden",
       createdDate: 1501336800000,
       lastUpdated: 1501423200000
     })
@@ -149,7 +136,7 @@ export default class Entry extends Component {
 
   deleteButton(entry) {
     return (
-      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(entry.title) }} disabled={entry.deleted}>Delete</button>
+      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(entry.title) }} disabled={entry.state === "deleted"}>Delete</button>
     )
   }
 
@@ -157,12 +144,22 @@ export default class Entry extends Component {
     var entries = this.state.data;
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      if (!this.state.showAll) {
-        if (!entries[i].hidden && !entries[i].deleted) {
+      if (!this.state.showHidden && !this.state.showDeleted) {
+        if (entries[i].state === "active") {
           filteredEntries.push(entries[i]);
         }
       } else {
-        filteredEntries.push(entries[i]);
+        if (this.state.showHidden && this.state.showDeleted) {
+          filteredEntries.push(entries[i]);
+        } else if (this.state.showHidden) {
+          if (entries[i].state === "hidden" || entries[i].state === "active") {
+            filteredEntries.push(entries[i]);
+          }
+        } else {
+          if (entries[i].state === "deleted" || entries[i].state === "active") {
+            filteredEntries.push(entries[i]);
+          }
+        }        
       }
     }
     return filteredEntries;
@@ -172,7 +169,7 @@ export default class Entry extends Component {
     var entries = this.state.data;
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      if (entries[i].title.includes(this.state.searchText) && (entries[i].hidden === this.state.showHidden || entries[i].deleted === this.state.showDeleted)) {
+      if (entries[i].title.includes(this.state.searchText)) {
         console.log("huh?");
         if (this.state.startDate != null && this.state.endDate != null) {
           console.log(entries[i].title + ": ");
@@ -225,10 +222,6 @@ export default class Entry extends Component {
         </div>
 
         <label className="form-check-label">
-          <input type="checkbox" className="form-check-input" onChange={this.handleAllChange.bind(this, "showAll")} checked={this.state.showAll} />
-          Show all
-        </label>
-        <label className="form-check-label">
           <input type="checkbox" className="form-check-input" onChange={this.handleHiddenChange.bind(this, "showHidden")} checked={this.state.showHidden} />
           Show hidden
         </label>
@@ -245,9 +238,7 @@ export default class Entry extends Component {
 
   renderEntries() {
     var entries;
-    if (this.state.searchText.length > 0 || this.state.showHidden || this.state.showDeleted
-      || this.state.startDate != null
-      || this.state.endDate != null) {
+    if (this.state.searchText.length > 0 || this.state.startDate != null || this.state.endDate != null) {
       entries = this.searchEntries();
     } else {
       entries = this.filterEntries();
@@ -257,15 +248,15 @@ export default class Entry extends Component {
         <div key={i} className="card journal-card entry-card">
           <div className="options">
             {this.deleteButton(e)}
-            <button type="button" className="btn btn-link">{e.hidden ? "Unhide" : "Hide"}</button>
+            <button type="button" className="btn btn-link" disabled={e.state === "deleted"}>{e.state === "hidden" ? "Unhide" : "Hide"}</button>
             <button type="button" className="btn btn-link">History</button>
           </div>
           <div className="entry-details">
             <Link to="/test" className="card-link">
               <div className="entry-title">
                 <h3>{e.title}</h3>
-                {e.hidden ? <h4 className="subtitle hidden">Hidden</h4> : ""}
-                {e.deleted ? <h4 className="subtitle deleted">Deleted</h4> : ""}
+                {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
+                {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
               </div>
               <div className="entry-date">
                 <p>Last updated: {moment(e.lastUpdated).format("hh:mmA DD MMMM YYYY")}</p>

@@ -80,24 +80,12 @@
 
 .filter {
     position:fixed;
+    width: 35%;
     top: 72px;
     left: 30%;
     z-index:1050;
     background-color:white;
     padding:30px;
-}
-
-#search {
-    position: absolute;
-    width: 100%;
-    top: 1.5em;
-    left: 30%;
-    z-index: 1030;
-    margin: 0 auto;
-}
-
-#search input {
-    width: 35%;
     -webkit-box-shadow: 6px 8px 6px -6px #999;
     -moz-box-shadow: 6px 8px 6px -6px #999;
     box-shadow: 6px 8px 6px -6px #999;
