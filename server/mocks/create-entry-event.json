@@ -1,8 +1,3 @@
 {
-    "body": "{\"title\":\"hello world\"},{\"content\":\"hello\"},{\"entryState\":\"active\"}",
-    "requestContext": {
-      "identity": {
-        "cognitoIdentityId": "USER-SUB-1234"
-      }
-    }
-  }
+    "body": "{\"title\":\"hello world\"},{\"content\":\"hello\"},{\"journalId\":\"ABC-123\"},{\"entryState\":\"active\"}"
+}

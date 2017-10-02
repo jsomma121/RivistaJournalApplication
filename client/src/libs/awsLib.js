@@ -97,15 +97,19 @@ export async function invokeApig({
       queryParams,
       body
     });
-
+    
     body = body ? JSON.stringify(body) : body;
     headers = signedRequest.headers;
-
-  const results = await fetch(signedRequest.url, {
-    method,
-    headers,
-    body
-  });
+    console.log('hello', signedRequest.url);
+    console.log(method);
+    console.log(body);
+    console.log(headers);
+    const results = await fetch(signedRequest.url, {
+      method,
+      headers,
+      body
+    });
+    console.log(results, 'results')
 
   if (results.status !== 200) {
     throw new Error(await results.text());

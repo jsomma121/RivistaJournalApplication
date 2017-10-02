@@ -2,11 +2,6 @@
     "body": "{\"journalTitle\":\"new world\"}",
     "pathParameters": {
       "id": "eacf06a0-8b20-11e7-be8f-333040b1b708"
-    },
-    "requestContext": {
-      "identity": {
-        "cognitoIdentityId": "USER-SUB-1234"
-      }
     }
-  }
+}
   

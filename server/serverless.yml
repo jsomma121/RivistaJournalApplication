@@ -88,111 +88,15 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
-
+  
   createEntry:
+    # Defines an HTTP API endpoint that calls the main function in delete.js
+    # - path: url path is /notes/{id}
+    # - method: DELETE request
     handler: createEntry.main
     events:
       - http:
           path: journal/entry
           method: post
-          cors: true
-          authorizer: aws_iam
-
-  getEntry:
-    handler: getEntry.main
-    events:
-      - http:
-          path: journal/entry/{id}
-          method: get
-          cors: true
-          authorizer: aws_iam
-
-  listEntry:
-      # Defines an HTTP API endpoint that calls the main function in list.js
-      # - path: url path is /notes
-      # - method: GET request
-      handler: listEntry.main
-      events:
-        - http:
-            path: journal/entry
-            method: get
-            cors: true
-            authorizer: aws_iam
-
-  updateEntry:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
-    handler: updateEntry.main
-    events:
-      - http:
-          path: journal/entry/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-
-  deleteEntry:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    handler: deleteEntry.main
-    events:
-      - http:
-          path: journal/entry/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
-
-  createRevision:
-    handler: createRevision.main
-    events:
-      - http:
-          path: journal/entry/revision
-          method: post
-          cors: true
-          authorizer: aws_iam
-
-  getRevision:
-    handler: getRevision.main
-    events:
-      - http:
-          path: journal/entry/revision/{id}
-          method: get
-          cors: true
-          authorizer: aws_iam
-
-  listRevision:
-      # Defines an HTTP API endpoint that calls the main function in list.js
-      # - path: url path is /notes
-      # - method: GET request
-      handler: listRevision.main
-      events:
-        - http:
-            path: journal/entry/revision
-            method: get
-            cors: true
-            authorizer: aws_iam
-
-  updateRevision:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
-    handler: updateRevision.main
-    events:
-      - http:
-          path: journal/entry/revision/{id}
-          method: put
-          cors: true
-          authorizer: aws_iam
-
-  deleteRevision:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    handler: deleteRevision.main
-    events:
-      - http:
-          path: journal/entry/revision/{id}
-          method: delete
           cors: true
           authorizer: aws_iam
