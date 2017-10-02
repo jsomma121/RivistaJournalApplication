@@ -11,6 +11,7 @@ import Signup from "./containers/Signup";
 import Journal from "./containers/Journal";
 import Entry from "./containers/Entry";
 import EditEntry from "./containers/EditEntry";
+import EntryHistory from "./containers/EntryHistory";
 
 export default ({ childProps }) =>
 <Switch>
@@ -20,6 +21,7 @@ export default ({ childProps }) =>
   <AppliedRoute path="/" exact component={Home} props={childProps} />
   <AppliedRoute path="/entry/:journalId" exact component={Entry} props={childProps}/>
   <AppliedRoute path="/editEntry/:entryName" exact component={EditEntry} props={childProps}/>
+  <AppliedRoute path="/entry/history/:entryId" exact component={EntryHistory} props={childProps}/>
   { /* Finally, catch all unmatched routes */ }
   <Route component={NotFound} />
 </Switch>;
