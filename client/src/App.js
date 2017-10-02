@@ -27,33 +27,53 @@ class App extends Component {
   getMenu(route) {
     var menu = [];
     var pathName = route;
-    if (pathName.includes("/entry")) {
+    if (pathName.includes("/entry") && !pathName.includes("history")) {
       pathName = "/entry";
+    }
+    if (pathName.includes("/entry/history")) {
+      pathName = "/entry/history";
     }
     switch (pathName) {
       case '/login':
       case '/register':
-      case '/history':
+      case '/entry/history':
+        menu.push(
+          <div key="1" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
+          </div>
+        )
         break;
       case '/':
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">Start a new Journal | <PlusIcon/></button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon /></button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
-        case '/entry':
+      case '/entry':
         menu.push(
-          <div key="2"className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newEntryModal">Create an Entry</button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+          <div key="2" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon /></button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
-        default:
+      case '/editEntry/:entryName':
+        menu.push(
+          <div key="3" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
+          </div>
+        )
+        break;
+      default:
     }
     return menu;
+  }
+
+  handleNewEntryCick = event => {
+    event.preventDefault();
+    this.props.history.push('/editEntry/:entryName');
   }
 
   async componentDidMount() {

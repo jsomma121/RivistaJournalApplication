@@ -1,0 +1,32 @@
+.NewJournal form {
+    padding-bottom: 15px;
+  }
+  
+.NewJournal form textarea {
+    height: 50px;
+    font-size: 24px;
+  }
+  
+.return {
+    position: fixed;
+    left: 2%;
+    top: 100px;
+}
+
+.return p {
+    padding-top: 5px;
+    padding-left: 30px;
+}
+
+.return span {
+    position: absolute;
+    top: 0;
+}
+
+.linkText {
+  color: black;
+}
+
+.linkText:hover {
+  color: #31B7FF
+}

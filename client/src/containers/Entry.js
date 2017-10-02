@@ -83,6 +83,22 @@ export default class Entry extends Component {
     })
   }
 
+  handleSubmit = async event => {
+    event.preventDefault();
+    this.setState({ isLoading: true });
+
+    try {
+      const data = await this.createJournalEntry({
+        journalTitle: this.state.journalTitle
+      });
+      //TO-DO - deal with the close modal problem
+      this.props.onRequestHide();
+      return
+    } catch (e) {
+      this.setState({ isLoading: false });
+    }
+  }
+
   toggleFilter() {
     this.setState({
       showFilter: !this.state.showFilter
@@ -147,7 +163,7 @@ export default class Entry extends Component {
         }
       } else {
         filteredEntries.push(entries[i]);
-      }      
+      }
     }
     return filteredEntries;
   }
@@ -160,7 +176,7 @@ export default class Entry extends Component {
         console.log("huh?");
         if (this.state.startDate != null && this.state.endDate != null) {
           console.log(entries[i].title + ": ");
-          console.log(entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <=this.state.endDate);
+          console.log(entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <= this.state.endDate);
           if (entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <= this.state.endDate) {
             filteredEntries.push(entries[i]);
           }
@@ -209,7 +225,7 @@ export default class Entry extends Component {
         </div>
 
         <label className="form-check-label">
-          <input type="checkbox" className="form-check-input" onChange={this.handleAllChange.bind(this, "showAll")} checked={this.state.showAll}/>
+          <input type="checkbox" className="form-check-input" onChange={this.handleAllChange.bind(this, "showAll")} checked={this.state.showAll} />
           Show all
         </label>
         <label className="form-check-label">
@@ -217,7 +233,7 @@ export default class Entry extends Component {
           Show hidden
         </label>
         <label className="form-check-label">
-          <input type="checkbox" className="form-check-input" onChange={this.handleDeletedChange.bind(this, "showDeleted")} checked={this.state.showDeleted}/>
+          <input type="checkbox" className="form-check-input" onChange={this.handleDeletedChange.bind(this, "showDeleted")} checked={this.state.showDeleted} />
           Show deleted
         </label>
         <button type="button" className="close" onClick={e => this.toggleFilter(e)}>
@@ -249,7 +265,7 @@ export default class Entry extends Component {
               <div className="entry-title">
                 <h3>{e.title}</h3>
                 {e.hidden ? <h4 className="subtitle hidden">Hidden</h4> : ""}
-                {e.deleted ? <h4 className="subtitle deleted">Deleted</h4>: ""}
+                {e.deleted ? <h4 className="subtitle deleted">Deleted</h4> : ""}
               </div>
               <div className="entry-date">
                 <p>Last updated: {moment(e.lastUpdated).format("hh:mmA DD MMMM YYYY")}</p>
@@ -314,7 +330,7 @@ export default class Entry extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

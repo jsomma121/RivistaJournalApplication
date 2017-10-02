@@ -16,8 +16,9 @@ export async function main(event, context, callback) {
       userid: event.requestContext.identity.cognitoIdentityId,
       journalid: uuid.v1(),
       journalTitle: data.journalTitle,
-      createdAt: new Date().getTime(),  
-    },
+      enteries: [],
+      createdAt: new Date().getTime()  
+    }
   };
 
   try {

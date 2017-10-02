@@ -1,0 +1,48 @@
+.header {
+    text-align: center;
+    font-size: 36px;
+}
+
+.linkText {
+    color: black;
+    font-size: 20px;
+}
+
+.linkText:hover {
+    color: #31B7FF
+}
+
+.entryHistoryCards {
+    background-color: white;
+    height: 100px;
+    width: 80%;
+    margin-bottom: 1.5em;
+    margin-left: 10%;
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 6px 8px 6px -6px #999;
+    display: table;
+}
+
+.entryHistoryCards:hover {
+    background-color: rgb(230, 230, 230);
+    text-decoration-style: none;
+    cursor: pointer;
+}
+
+.entryHistoryDetail {
+    display: table-cell;
+    padding-top: 12px;
+    padding-left: 20px;
+    height: 60px;
+    width: 40%;
+}
+
+.editTime {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.editReason {
+    font-size: 18px;
+}
