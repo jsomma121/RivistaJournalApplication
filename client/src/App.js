@@ -27,7 +27,7 @@ class App extends Component {
   getMenu(route) {
     var menu = [];
     var pathName = route;
-    if (pathName.includes("/entry") && !pathName.includes("history")) {
+    if (pathName.includes("/entry")) {
       pathName = "/entry";
     }
     if (pathName.includes("/entry/history")) {
@@ -35,8 +35,11 @@ class App extends Component {
     }
     switch (pathName) {
       case '/login':
+        menu.splice(0, menu.length);
+        break;
       case '/register':
       case '/entry/history':
+        menu.splice(0, menu.length);
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
@@ -44,24 +47,27 @@ class App extends Component {
         )
         break;
       case '/':
+        menu.splice(0, menu.length);
         menu.push(
-          <div key="1" className="navbar-toggler navbar-toggler-right">
+          <div key="2" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon /></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
       case '/entry':
+        menu.splice(0, menu.length);
         menu.push(
-          <div key="2" className="navbar-toggler navbar-toggler-right">
+          <div key="3" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon /></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
       case '/editEntry/:entryName':
+        menu.splice(0, menu.length);
         menu.push(
-          <div key="3" className="navbar-toggler navbar-toggler-right">
+          <div key="4" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
