@@ -17,6 +17,31 @@
     z-index: 100000;
 }
 
+.journalCardsDiv {
+    padding-top: 25px;
+}
+
+.journalCreateDate {
+    padding-bottom: 10px;
+}
+
+.pageHeader {
+    text-align: center;
+}
+
+.journalDetial {
+    height: 70px;
+    position: absolute;
+    top: 20px;
+}
+
+.cardArrow {
+    position: absolute;
+    font-size: 55px;
+    right: 7%;
+    top: 5px;
+}
+
 .newJournalHeader {
     font-size: 30px;
     width: 100%;
@@ -42,6 +67,8 @@
 }
 
 .journal-card {
+    left: 5%;
+    width: 90%;
     height: 100px;
     margin-bottom: 1.5em;
     padding: 2em;
@@ -54,6 +81,7 @@
     margin-left: 1em;
     font-size: 2em;
     font-weight: 600;
+    display: table-cell;
 }
 
 .card-link {

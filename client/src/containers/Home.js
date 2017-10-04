@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import PlusIcon from 'react-icons/lib/fa/plus';
+import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import Modal from 'react-modal';
 import config from "../config";
 import "./Home.css";
@@ -71,8 +72,15 @@ export default class Home extends Component {
         <div key={i}>
           <Link to={'/entry/' + j.journalid} className="card-link">
             <div className='card journal-card'>
-              <h4 className="card-title journal-title">{j.journalTitle}</h4>
-              <p>{new Date(j.createdAt).toLocaleString()}</p>
+              <div className="journalDetial">
+                <div className="cardMiddle">
+                  <h4 className="card-title journal-title">{j.journalTitle}</h4>
+                </div>
+                <div className="journalCreateDate">
+                  <p>{new Date(j.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+              <h className="cardArrow"><MdArrowForward /></h>
             </div>
           </Link>
         </div>
@@ -138,9 +146,11 @@ export default class Home extends Component {
     return (
       <div className="Journal">
         <button onClick={this.handleClick} type="button" className="btn btn-success right" id="newJournalButton">New Journal <PlusIcon /></button>
-        <PageHeader>Your Journals</PageHeader>
+        <div className="pageHeader">
+          <PageHeader>Your Journals</PageHeader>
+        </div>
 
-        <div>
+        <div className="journalCardsDiv">
           {
             this.state.isShowingModal &&
             <ModalContainer onClose={this.handleClose}>
