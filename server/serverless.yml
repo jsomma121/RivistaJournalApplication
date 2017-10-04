@@ -88,15 +88,3 @@ functions:
           method: delete
           cors: true
           authorizer: aws_iam
-  
-  createEntry:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    handler: createEntry.main
-    events:
-      - http:
-          path: journal/entry
-          method: post
-          cors: true
-          authorizer: aws_iam

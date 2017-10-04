@@ -5,7 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
 import PlusIcon from 'react-icons/lib/fa/plus';
-import { authUser, signOutUser } from "./libs/awsLib";
+import { invokeApig, authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
 
 class App extends Component {
@@ -14,15 +14,17 @@ class App extends Component {
 
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: false
+	  isAuthenticating: false,
+	  isLoading: true,
+	  currentJournal: null,
+	currentEntry: null,
+		currentEntryRevision: null,
+		journal: []
     };
 
     this.searchBar;
   }
 
-  userHasAuthenticated = authenticated => {
-    this.setState({ isAuthenticated: authenticated });
-  }
 
   getMenu(route) {
     var menu = [];
@@ -65,13 +67,14 @@ class App extends Component {
   
   handleNewEntryCick = event => {
     event.preventDefault();
-    this.props.history.push('/editEntry/:entryName');
+    this.props.history.push('/editEntry/new');
   }
 
   async componentDidMount() {
     try {
       if (await authUser()) {
-        this.userHasAuthenticated(true);
+		this.userHasAuthenticated(true);
+		this.getJournals();
       }
     }
     catch (e) {
@@ -87,10 +90,42 @@ class App extends Component {
     this.props.history.push("/login");
   }
 
+  userHasAuthenticated = authenticated => {
+    this.setState({ isAuthenticated: authenticated });
+  }
+
+  async getJournals() {
+	if(this.state.isLoading){
+	  try {
+		  const getData = await invokeApig({ path: "/journal" });
+		  
+		  this.setState({ journal: getData });
+	  } catch (e) {
+		  alert(e);
+	  }
+	  this.setState({ isLoading: false });
+	}
+  }
+
+	updateChildProps = current => {
+	  this.setState({
+		  currentEntry: current.currentEntry,
+		  currentJournal: current.currentJournal,
+		  currentEntryRevision: current.currentEntryRevision
+	  })
+  }
+ 
   render() {
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: this.userHasAuthenticated
+	  userHasAuthenticated: this.userHasAuthenticated,
+	  isLoading: this.state.isLoading,
+	  journal: this.state.journal,
+	  updateChildProps: this.updateChildProps,
+	  currentJournal: this.state.currentJournal,
+	  currentEntry: this.state.currentEntry,
+	  currentEntryRevision: this.state.currentEntryRevision
+
     };
 
     return (

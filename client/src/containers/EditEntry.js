@@ -5,6 +5,7 @@ import Octoicon from 'react-octicon';
 import { invokeApig } from '../libs/awsLib';
 import LoaderButton from "../components/LoaderButton";
 import "./EditEntry.css";
+import uuid from 'uuid';
 
 export default class EditEntry extends React.Component {
   constructor(props) {
@@ -12,7 +13,8 @@ export default class EditEntry extends React.Component {
     this.state = {
         editorState: EditorState.createEmpty(),
         content: ''
-    };
+	};
+
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
 
@@ -58,26 +60,42 @@ export default class EditEntry extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    
+	let currentJournal = this.props.currentJournal;
+	console.log(currentJournal);
+	currentJournal.enteries.push({
+		 entryId: uuid.v1(),
+		 title: 'test',
+		 content: this.props.content,
+		 state: 'active',
+		 createdAt: new Date().getTime(),
+		 updatedAt: new Date().getTime(),
+		 revision: []
+	 })
+
     try {
-      const data = await this.createEntry({
-        content: '',
-        entryState: 'active',
-        title: ''
-      });
-      console.log(data);
+      const update = this.updateJournal(currentJournal);
     } catch (e) {
       this.setState({ isLoading: false });
     }
   }
   
-  createEntry(entry) {
+  updateJournal(entry) {
     return invokeApig({
-      path: "/journal/entry",
-      method: "POST",
-      body: entry
+      path: "/journal/" + this.props.currentJournal.journalid ,
+      method: "PUT",
+      body: entry.enteries
     });
   }
+
+  handleChange() {
+	const {editorState} = this.state;
+	
+	var contentState = editorState.getCurrentContent();
+	
+	this.setState({content: contentState.getBlockMap().first().text});
+  }
+
+  
 
   render() {
     const {editorState} = this.state;
@@ -87,7 +105,8 @@ export default class EditEntry extends React.Component {
     let className = 'RichEditor-editor';
 
     var contentState = editorState.getCurrentContent();
-    console.log(contentState);
+	
+	
     
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
@@ -166,9 +185,9 @@ class StyleButton extends React.Component {
 }
 
 var INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
+  {label: 'B', style: 'BOLD'},
+  {label: 'I', style: 'ITALIC'},
+  {label: 'U', style: 'UNDERLINE'},
 ];
 
 const InlineStyleControls = (props) => {

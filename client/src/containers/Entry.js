@@ -22,11 +22,22 @@ export default class Entry extends Component {
       "Test entry title 7"];
 
     this.pathName = this.props.location.pathname;
-    this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
-
+	this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
+	console.log(this.props.journal);
+	if (this.props.journal.length > 0) {
+		var journal = this.getJournal();
+		console.log(journal);
+		this.props.updateChildProps({
+			currentEntry: null,
+			currentJournal: journal,
+			currentEntryRevision: null
+		});
+		console.log(this.props.journal);
+	}
+	
     this.state = {
       EntryName: "",
-      isLoading: false,
+      isLoading: true,
       deleteSelected: "",
       searchText: "",
       startDate: "",
@@ -34,8 +45,21 @@ export default class Entry extends Component {
       showHidden: false,
       showDeleted: false,
       entries: [],
-      filteredEntries: []
+      filteredEntries: [],
     }
+  }
+
+  getJournal(){
+	var journal = this.props.journal;
+	for (var i = 0; i < journal.length; i++ ) {
+		if(journal[i].journalid === this.props.match.params.journalId) {
+			return journal[i];
+		}
+	
+	}
+
+	return null;
+
   }
 
   handleSelete(select) {
@@ -43,6 +67,19 @@ export default class Entry extends Component {
       deleteSelected: select
     });
   }
+
+  componentWillReceiveProps(nextProps) {
+	if(this.state.isLoading){
+		var journal = this.getJournal();
+		this.props.updateChildProps({
+			currentEntry: null,
+			currentJournal: journal,
+			currentEntryRevision: null
+		});
+		this.setState({isLoading: false});
+	}
+	
+}
 
   handleDelete(data) {
     for (var i = 0; i < this.entryLists.length; i++) {
@@ -136,7 +173,7 @@ export default class Entry extends Component {
           <Octoicon name="search" />
         </div>
         <Link to="/" className="linkText">
-          <div className="return">
+          <div className="return"> 
             <p>Back to Journals</p>
             <Octoicon mega name="mail-reply"/>
           </div>

@@ -2,6 +2,7 @@ import uuid from 'uuid';
 import AWS from 'aws-sdk';
 import * as dynamoDbLib from './libs/dynamodb-lib';
 import {success, failure } from './libs/response-lib';
+import moment from 'moment';
 
 AWS.config.update({region:'ap-southeast-2'});
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -17,7 +18,7 @@ export async function main(event, context, callback) {
       journalid: uuid.v1(),
       journalTitle: data.journalTitle,
       enteries: [],
-      createdAt: new Date().getTime()  
+      createdAt: moment.now(), 
     }
   };
 
