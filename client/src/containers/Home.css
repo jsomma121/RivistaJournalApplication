@@ -9,6 +9,14 @@
     padding-left: 3%;
 }
 
+#newJournalButton {
+    position: fixed;
+    position: absolute;
+    right: 190px;
+    top: 19px;
+    z-index: 100000;
+}
+
 .newJournalHeader {
     font-size: 30px;
     width: 100%;

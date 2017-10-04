@@ -5,6 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
 import PlusIcon from 'react-icons/lib/fa/plus';
+import newJournalClicked from './containers/Home';
 import { authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
 
@@ -50,7 +51,6 @@ class App extends Component {
         menu.splice(0, menu.length);
         menu.push(
           <div key="2" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" >New Journal <PlusIcon /></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )

@@ -5,6 +5,7 @@ import { invokeApig } from '../libs/awsLib';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
+import PlusIcon from 'react-icons/lib/fa/plus';
 import Modal from 'react-modal';
 import config from "../config";
 import "./Home.css";
@@ -136,10 +137,10 @@ export default class Home extends Component {
   renderJournal() {
     return (
       <div className="Journal">
+        <button onClick={this.handleClick} type="button" className="btn btn-success right" id="newJournalButton">New Journal <PlusIcon /></button>
         <PageHeader>Your Journals</PageHeader>
 
-        <div onClick={this.handleClick}>
-          <p>click here to test Modal</p>
+        <div>
           {
             this.state.isShowingModal &&
             <ModalContainer onClose={this.handleClose}>
