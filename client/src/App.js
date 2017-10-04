@@ -50,7 +50,7 @@ class App extends Component {
         menu.splice(0, menu.length);
         menu.push(
           <div key="2" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon /></button>
+            <button type="button" className="btn btn-success right" >New Journal <PlusIcon /></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )

@@ -1,13 +1,13 @@
 #search {
     position: fixed;
-    width: 100%;
+    width: 32%;
     top: 1.5em;
-    left: 30%;
+    left: 35%;
     z-index: 1030;
 }
 
 #search input {
-    width: 35%;
+    width: 100%;
     padding-left: 30px;
 }
 
@@ -80,7 +80,7 @@
 
 .filter {
     position:fixed;
-    width: 35%;
+    width: 42%;
     top: 72px;
     left: 30%;
     z-index:1050;

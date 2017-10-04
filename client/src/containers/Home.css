@@ -9,6 +9,21 @@
     padding-left: 3%;
 }
 
+.newJournalHeader {
+    font-size: 30px;
+    width: 100%;
+    font-weight: 600;
+}
+
+.newJournalInput {
+    font-size: 20px;
+}
+
+.inputArea {
+    width: 100%;
+    height: 50px;
+}
+
 .cards {
     margin-top: 2em;
     margin-bottom: 2em;

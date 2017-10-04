@@ -4,6 +4,8 @@ import LoaderButton from "../components/LoaderButton";
 import { invokeApig } from '../libs/awsLib';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
+import { ModalContainer, ModalDialog } from 'react-modal-dialog';
+import Modal from 'react-modal';
 import config from "../config";
 import "./Home.css";
 
@@ -15,7 +17,7 @@ export default class Home extends Component {
       isLoading: true,
       journalTitle: '',
       journal: [],
-      showModal: false,
+      isShowingModal: false,
     };
   }
 
@@ -61,13 +63,12 @@ export default class Home extends Component {
     return invokeApig({ path: "/journal" });
   }
 
-
   renderJournalList(journal) {
 
     return journal.map(
       (j, i) =>
-        <div>
-          <Link key={i} to={'/entry/' + j.journalid} className="card-link">
+        <div key={i}>
+          <Link to={'/entry/' + j.journalid} className="card-link">
             <div className='card journal-card'>
               <h4 className="card-title journal-title">{j.journalTitle}</h4>
               <p>{new Date(j.createdAt).toLocaleString()}</p>
@@ -93,12 +94,22 @@ export default class Home extends Component {
         journalTitle: this.state.journalTitle
       });
       //TO-DO - deal with the close modal problem
-      this.props.onRequestHide();
+      this.handleClose();
+      window.location.reload();
       return
+
     } catch (e) {
       this.setState({ isLoading: false });
     }
   }
+
+  handleClick = () => this.setState({ isShowingModal: true })
+  handleClose = () =>
+    this.setState({
+      isShowingModal: false,
+      isLoading: false
+    }
+    )
 
   createJournal(journal) {
     return invokeApig({
@@ -126,9 +137,46 @@ export default class Home extends Component {
     return (
       <div className="Journal">
         <PageHeader>Your Journals</PageHeader>
+
+        <div onClick={this.handleClick}>
+          <p>click here to test Modal</p>
+          {
+            this.state.isShowingModal &&
+            <ModalContainer onClose={this.handleClose}>
+              <ModalDialog style={{ height: '250px', width: '500px' }}>
+                <div>
+                  <div className="newJournalHeader">
+                    <h>Create new Journal</h>
+                  </div>
+                  <br />
+                  <div className="newJournalInput">
+                    <form onSubmit={this.handleSubmit}>
+                      <h>Journal Name</h>
+                      <div className="inputArea">
+                        <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange} />
+                      </div>
+                      <div className="newJournalButtons">
+                        <LoaderButton
+                          type="submit"
+                          isLoading={this.state.isLoading}
+                          className="btn-primary"
+                          text="Create Journal"
+                          loadingText="Creating..." />
+                        <button type="button" className="btn btn-secondary" onClick={this.handleClose}>Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </ModalDialog>
+            </ModalContainer>
+          }
+        </div>
         <ListGroup>
           {!this.state.isLoading && this.renderJournalList(this.state.journal)}
         </ListGroup>
+
+        {/* old version of modal
+
         <div className="modal fade" id="newJournalModal" role="dialog" aria-labelledby="newJournalModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -150,12 +198,15 @@ export default class Home extends Component {
                     className="btn-primary"
                     text="Create Journal"
                     loadingText="Creating..." />
-                  <button type="button" className="btn btn-secondary" onClick={this.props.onRequestHide} data-dismiss="modal">Cancel</button>
+                  <button type="button" className="btn btn-secondary" onClick={this.props.close} data-dismiss="modal">Cancel</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
+
+        old version of modal */}
+
       </div>
     );
   }

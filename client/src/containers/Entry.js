@@ -159,7 +159,7 @@ export default class Entry extends Component {
           return entry;
         }
         return null;
-      }        
+      }
     }
   }
 
@@ -203,7 +203,7 @@ export default class Entry extends Component {
             filteredEntries.push(entries[i]);
           }
         }
-      }      
+      }
     }
     return filteredEntries;
   }
@@ -265,7 +265,7 @@ export default class Entry extends Component {
             <button type="button" className="btn btn-link">History</button>
           </div>
           <div className="entry-details">
-            <Link to="/test" className="card-link">
+            <Link to="/editEntry/:{this-should-be-entryID}" className="card-link">
               <div className="entry-title">
                 <h3>{e.title}</h3>
                 {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
