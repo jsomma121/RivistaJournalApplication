@@ -1,6 +1,6 @@
 #search {
     position: fixed;
-    width: 32%;
+    width: 400px;
     top: 1.5em;
     left: 35%;
     z-index: 1030;
@@ -80,7 +80,7 @@
 
 .filter {
     position:fixed;
-    width: 42%;
+    width: 450px;
     top: 72px;
     left: 30%;
     z-index:1050;
