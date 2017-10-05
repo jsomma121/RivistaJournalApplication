@@ -12,8 +12,8 @@
 #newJournalButton {
     position: fixed;
     position: absolute;
-    right: 190px;
-    top: 19px;
+    right: 185px;
+    top: 18px;
     z-index: 100000;
 }
 
