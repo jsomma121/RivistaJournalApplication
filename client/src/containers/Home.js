@@ -27,8 +27,6 @@ export default class Home extends Component {
 	if(this.props.journal != null) {
 		this.setState({journal: this.props.journal})
 	}
-	console.log(this.state.journal);
-	console.log(this.props.journal);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,7 +73,6 @@ export default class Home extends Component {
   }
 
   renderJournalList(journal) {
-	  console.log(journal);
 		return journal.map(
 		  (j, i) =>
 		  <div>
@@ -101,7 +98,6 @@ export default class Home extends Component {
   }
 
   renderJournal() {
-	console.log(this.props.journal);
     return (
       <div className="Journal">
         <PageHeader>Your Journals</PageHeader>

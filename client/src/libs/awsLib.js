@@ -107,13 +107,15 @@ export async function invokeApig({
       body
     });
     
-    body = body ? JSON.stringify(body) : body;
+	body = body ? JSON.stringify(body) : body;
+	console.log(body);
     headers = signedRequest.headers;
     const results = await fetch(signedRequest.url, {
       method,
       headers,
       body
-    });
+	});
+	
 
   if (results.status !== 200) {
     throw new Error(await results.text());

@@ -59,13 +59,19 @@ export default class EditEntry extends React.Component {
   }
 
   handleSubmit = async event => {
-    event.preventDefault();
+	event.preventDefault();
+
+
+	const {editorState} = this.state;
+	
+	var contentState = editorState.getCurrentContent();
+	
 	let currentJournal = this.props.currentJournal;
 	console.log(currentJournal);
 	currentJournal.enteries.push({
 		 entryId: uuid.v1(),
 		 title: 'test',
-		 content: this.props.content,
+		 content: contentState.getBlockMap().first().text,
 		 state: 'active',
 		 createdAt: new Date().getTime(),
 		 updatedAt: new Date().getTime(),
@@ -80,6 +86,7 @@ export default class EditEntry extends React.Component {
   }
   
   updateJournal(entry) {
+	  console.log(entry.enteries);
     return invokeApig({
       path: "/journal/" + this.props.currentJournal.journalid ,
       method: "PUT",
@@ -88,11 +95,7 @@ export default class EditEntry extends React.Component {
   }
 
   handleChange() {
-	const {editorState} = this.state;
-	
-	var contentState = editorState.getCurrentContent();
-	
-	this.setState({content: contentState.getBlockMap().first().text});
+
   }
 
   
@@ -104,7 +107,14 @@ export default class EditEntry extends React.Component {
     // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';
 
-    var contentState = editorState.getCurrentContent();
+	var contentState = editorState.getCurrentContent();
+
+	const data = invokeApig({
+		path: "/journal/ae4a2f70-a998-11e7-97a7-03d77a0e0c25" ,
+		method: "PUT",
+		body: {content: 'hello'}
+	  });
+	  console.log(data);
 	
 	
     

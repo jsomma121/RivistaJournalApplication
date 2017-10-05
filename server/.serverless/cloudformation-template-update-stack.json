@@ -153,7 +153,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1507073659526-2017-10-03T23:34:19.526Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507185641443-2017-10-05T06:40:41.443Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-createJournal",
         "Handler": "createJournal.main",
@@ -172,14 +172,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4": {
+    "CreateJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateJournalLambdaFunction"
         },
-        "CodeSha256": "nm6a/mL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4="
+        "CodeSha256": "s0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6d/fZw="
       }
     },
     "GetJournalLambdaFunction": {
@@ -189,7 +189,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1507073659526-2017-10-03T23:34:19.526Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507185641443-2017-10-05T06:40:41.443Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-getJournal",
         "Handler": "getJournal.main",
@@ -208,14 +208,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4": {
+    "GetJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetJournalLambdaFunction"
         },
-        "CodeSha256": "nm6a/mL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4="
+        "CodeSha256": "s0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6d/fZw="
       }
     },
     "ListJournalLambdaFunction": {
@@ -225,7 +225,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1507073659526-2017-10-03T23:34:19.526Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507185641443-2017-10-05T06:40:41.443Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-listJournal",
         "Handler": "listJournal.main",
@@ -244,14 +244,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ListJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4": {
+    "ListJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListJournalLambdaFunction"
         },
-        "CodeSha256": "nm6a/mL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4="
+        "CodeSha256": "s0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6d/fZw="
       }
     },
     "UpdateJournalLambdaFunction": {
@@ -261,7 +261,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1507073659526-2017-10-03T23:34:19.526Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507185641443-2017-10-05T06:40:41.443Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-updateJournal",
         "Handler": "updateJournal.main",
@@ -280,14 +280,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "UpdateJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4": {
+    "UpdateJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateJournalLambdaFunction"
         },
-        "CodeSha256": "nm6a/mL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4="
+        "CodeSha256": "s0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6d/fZw="
       }
     },
     "DeleteJournalLambdaFunction": {
@@ -297,7 +297,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1507073659526-2017-10-03T23:34:19.526Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507185641443-2017-10-05T06:40:41.443Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-deleteJournal",
         "Handler": "deleteJournal.main",
@@ -316,14 +316,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "DeleteJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4": {
+    "DeleteJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteJournalLambdaFunction"
         },
-        "CodeSha256": "nm6a/mL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4="
+        "CodeSha256": "s0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6d/fZw="
       }
     },
     "ApiGatewayRestApi": {
@@ -641,7 +641,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1507073659577": {
+    "ApiGatewayDeployment1507185641491": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -832,31 +832,31 @@
     "CreateJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4"
+        "Ref": "CreateJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw"
       }
     },
     "GetJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4"
+        "Ref": "GetJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw"
       }
     },
     "ListJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4"
+        "Ref": "ListJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw"
       }
     },
     "UpdateJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4"
+        "Ref": "UpdateJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw"
       }
     },
     "DeleteJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteJournalLambdaVersionnm6amL51LbfsuRWB60ulgRc1ZWdlTKQWo6LdP7zKE4"
+        "Ref": "DeleteJournalLambdaVersions0GfzgLvu8GsbaSNigKuIz0sWxjiRdRZYqPdG6dfZw"
       }
     },
     "ServiceEndpoint": {
