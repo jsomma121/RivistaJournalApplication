@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import Octoicon from 'react-octicon';
+import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -258,12 +259,12 @@ export default class Entry extends Component {
     }
     return entries.map(
       (e, i) =>
-        <div key={i} className="card journal-card entry-card">
-          <div className="options">
-            {this.deleteButton(e)}
-            <button type="button" className="btn btn-link" disabled={e.state === "deleted"}>{e.state === "hidden" ? "Unhide" : "Hide"}</button>
-            <button type="button" className="btn btn-link">History</button>
-          </div>
+        <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
+          <ul className="options" id="optionsNew">
+            <li>{this.deleteButton(e)}</li>
+            <li><button type="button" className="btn btn-link" disabled={e.state === "deleted"}>{e.state === "hidden" ? "Unhide" : "Hide"}</button></li>
+            <li><button type="button" className="btn btn-link">History</button></li>
+          </ul>
           <div className="entry-details">
             <Link to="/editEntry/:{this-should-be-entryID}" className="card-link">
               <div className="entry-title">
