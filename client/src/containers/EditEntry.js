@@ -61,36 +61,45 @@ export default class EditEntry extends React.Component {
   handleSubmit = async event => {
 	event.preventDefault();
 
+	const good = invokeApig({
+		path: "/journal/ae4a2f70-a998-11e7-97a7-03d77a0e0c25" ,
+		method: "PUT",
+		body: { content: 'hello' }
+	  });
+	console.log(good);
 
+	
 	const {editorState} = this.state;
 	
 	var contentState = editorState.getCurrentContent();
 	
 	let currentJournal = this.props.currentJournal;
-	console.log(currentJournal);
-	currentJournal.enteries.push({
-		 entryId: uuid.v1(),
+	let entryId = uuid.v1();
+	
+	const enteries = { [entryId]: {
+		 entryId: entryId,
 		 title: 'test',
 		 content: contentState.getBlockMap().first().text,
 		 state: 'active',
 		 createdAt: new Date().getTime(),
 		 updatedAt: new Date().getTime(),
 		 revision: []
-	 })
+		}
+	}
 
     try {
-      const update = this.updateJournal(currentJournal);
+      const update = this.updateJournal(enteries);
     } catch (e) {
       this.setState({ isLoading: false });
     }
   }
   
   updateJournal(entry) {
-	  console.log(entry.enteries);
+	console.log(entry);
     return invokeApig({
-      path: "/journal/" + this.props.currentJournal.journalid ,
+      path: "/journal/72c90700-a8df-11e7-b551-e3303e1fa777",
       method: "PUT",
-      body: entry.enteries
+      body: entry
     });
   }
 
@@ -109,12 +118,7 @@ export default class EditEntry extends React.Component {
 
 	var contentState = editorState.getCurrentContent();
 
-	const data = invokeApig({
-		path: "/journal/ae4a2f70-a998-11e7-97a7-03d77a0e0c25" ,
-		method: "PUT",
-		body: {content: 'hello'}
-	  });
-	  console.log(data);
+	
 	
 	
     
