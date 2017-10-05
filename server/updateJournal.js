@@ -16,15 +16,13 @@ export async function main(event, context, callback) {
     // 'ExpressionAttributeValues' defines the value in the update expression
     UpdateExpression: 'SET enteries = :enteries',
     ExpressionAttributeValues: {
-	  ':enteries': data.enteries ? data.enteries : null,
+	  ':enteries': data ? data : null,
 	
     },
     ReturnValues: 'ALL_NEW',
-  };
-  console.log(params);
+  }; 
 
   try {
-	console.log(params);
     const result = await dynamoDbLib.call('update', params);
     callback(null, success({status: true}));
   }
