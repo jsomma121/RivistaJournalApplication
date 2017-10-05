@@ -298,7 +298,7 @@ export default class Entry extends Component {
         </div>
         <Link to="/" className="linkText">
           <div className="return">
-            <p>Back to Journals</p>
+            <p className="backFont">Back to Journals</p>
             <Octoicon mega name="arrow-left" />
           </div>
         </Link>

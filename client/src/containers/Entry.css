@@ -78,6 +78,10 @@
     color: red;
 }
 
+.backFont:hover {
+    text-decoration: underline;
+}
+
 .filter {
     position:fixed;
     width: 450px;

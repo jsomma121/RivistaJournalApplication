@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import PlusIcon from 'react-icons/lib/fa/plus';
+import Ink from 'react-ink';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import Modal from 'react-modal';
 import config from "../config";
@@ -71,7 +72,7 @@ export default class Home extends Component {
       (j, i) =>
         <div key={i}>
           <Link to={'/entry/' + j.journalid} className="card-link">
-            <div className='card journal-card'>
+            <div className='card journal-card btn btn-success' id="testFun">
               <div className="journalDetial">
                 <div className="cardMiddle">
                   <h4 className="card-title journal-title">{j.journalTitle}</h4>
@@ -95,7 +96,6 @@ export default class Home extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-
     this.setState({ isLoading: true });
 
     try {
@@ -145,11 +145,11 @@ export default class Home extends Component {
   renderJournal() {
     return (
       <div className="Journal">
-        <button onClick={this.handleClick} type="button" className="btn btn-success right" id="newJournalButton">New Journal <PlusIcon /></button>
+        <button onClick={this.handleClick} type="button" className="btn btn-success right" id="newJournalButton"><Ink />New Journal <PlusIcon /></button>
         <div className="pageHeader">
           <PageHeader>Your Journals</PageHeader>
         </div>
-
+        <Ink />      
         <div className="journalCardsDiv">
           {
             this.state.isShowingModal &&

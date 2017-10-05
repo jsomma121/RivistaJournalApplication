@@ -63,6 +63,21 @@
     margin-bottom: 2em;
 }
 
+#testFun {
+    color: black;
+    background-color: white;
+    text-align: left;
+}
+
+#testFun:hover {
+    background-color: rgb(140, 230, 255);
+    color: #5A5A5A;
+    border-color: rgb(140, 230, 255);
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 3px 4px 3px -3px #999;
+}
+
 .journal-card:hover {
     background-color: rgb(140, 230, 255);
 }

@@ -15,6 +15,7 @@
     "react-datepicker": "^0.55.0",
     "react-dom": "^15.6.2",
     "react-icons": "^2.2.5",
+    "react-ink": "^6.2.0",
     "react-modal": "^2.3.2",
     "react-modal-dialog": "^4.0.7",
     "react-octicon": "^2.0.0",
