@@ -82,9 +82,9 @@ ul {
 }
 
 #testFun:hover {
-    background-color: rgb(140, 230, 255);
+    background-color: rgb(92, 220, 255);
     color: #444444;
-    border-color: rgb(140, 230, 255);
+    border-color: rgb(92, 220, 255);
     -webkit-box-shadow: 6px 8px 6px -6px #999;
     -moz-box-shadow: 6px 8px 6px -6px #999;
     box-shadow: 3px 4px 3px -3px #999;
