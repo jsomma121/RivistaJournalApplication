@@ -12,18 +12,9 @@ export default class Entry extends Component {
   constructor(props) {
     super(props);
     //just a test entry list
-    this.entryLists = [
-      "Test entry title 1",
-      "Test entry title 2",
-      "Test entry title 3",
-      "Test entry title 4",
-      "Test entry title 5",
-      "Test entry title 6",
-      "Test entry title 7"];
 
     this.pathName = this.props.location.pathname;
 	this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
-	console.log(this.props.journal);
 	if (this.props.journal.length > 0) {
 		var journal = this.getJournal();
 		console.log(journal);
@@ -32,7 +23,7 @@ export default class Entry extends Component {
 			currentJournal: journal,
 			currentEntryRevision: null
 		});
-		console.log(this.props.journal);
+		console.log(this.props.currentJournal);
 	}
 	
     this.state = {
@@ -130,8 +121,8 @@ export default class Entry extends Component {
   render() {
 
     var pageTitle = this.journalTitle + " Entries";
-
-    var data = this.entryLists;
+	var data = this.getJournal().enteries;
+	console.log(data);
     var cards = [];
     for (var i = 0; i < data.length; i++) {
       var pathName = "/editEntry/${" + data[i] + "}";
@@ -154,10 +145,10 @@ export default class Entry extends Component {
           <div className="entryDetails">
             <Link to={pathName} key={i + data.length} className="entryLink">
               <div className="entryTitle">
-                <h3>{data[i]}</h3>
+                <h3>{data[i].content}</h3>
               </div>
               <div className="entrySubtitle">
-                <p>Last Updated: 8.40pm 27-09-2017</p>
+                <p>Last Updated: {data[i].updatedAt}</p>
               </div>
             </Link>
           </div>

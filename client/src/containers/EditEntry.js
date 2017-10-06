@@ -60,7 +60,8 @@ export default class EditEntry extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    const { editorState } = this.state;
+	const { editorState } = this.state;
+	console.log(this.props);
 
     var contentState = editorState.getCurrentContent();
     this.props.currentJournal.enteries.push({
