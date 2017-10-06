@@ -14,12 +14,12 @@ class App extends Component {
 
     this.state = {
       isAuthenticated: false,
-	  isAuthenticating: false,
-	  isLoading: true,
-	  currentJournal: null,
-	currentEntry: null,
-		currentEntryRevision: null,
-		journal: []
+      isAuthenticating: false,
+      isLoading: true,
+      currentJournal: null,
+      currentEntry: null,
+      currentEntryRevision: null,
+      journal: []
     };
 
     this.searchBar;
@@ -40,31 +40,31 @@ class App extends Component {
       case '/':
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon/></button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon /></button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
-        case '/entry':
+      case '/entry':
         menu.push(
-          <div key="2"className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon/></button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+          <div key="2" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon /></button>
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
-        case '/editEntry/:entryName':
+      case '/editEntry/:entryName':
         menu.push(
-          <div key="3"className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon/></button>
+          <div key="3" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
-        default:
+      default:
     }
     return menu;
   }
-  
+
   handleNewEntryCick = event => {
     event.preventDefault();
     this.props.history.push('/editEntry/new');
@@ -73,8 +73,8 @@ class App extends Component {
   async componentDidMount() {
     try {
       if (await authUser()) {
-		this.userHasAuthenticated(true);
-		this.getJournals();
+        this.userHasAuthenticated(true);
+        this.getJournals();
       }
     }
     catch (e) {
@@ -82,6 +82,21 @@ class App extends Component {
     }
 
     this.setState({ isAuthenticating: false });
+  }
+
+  async componentDidUpdate() {
+    console.log(this.state.isLoading);
+    try {
+      if (this.state.isLoading) {
+        this.getJournals();
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  handleUpdate() {
+    this.setState({isLoading: true});
   }
 
   handleLogout = event => {
@@ -95,36 +110,36 @@ class App extends Component {
   }
 
   async getJournals() {
-	if(this.state.isLoading){
-	  try {
-		  const getData = await invokeApig({ path: "/journal" });
-		  
-		  this.setState({ journal: getData });
-	  } catch (e) {
-		  alert(e);
-	  }
-	  this.setState({ isLoading: false });
-	}
+    try {
+      const getData = await invokeApig({ path: "/journal" });
+
+      this.setState({ journal: getData });
+    } catch (e) {
+      alert(e);
+    }
+    this.setState({ isLoading: false });
   }
 
-	updateChildProps = current => {
-	  this.setState({
-		  currentEntry: current.currentEntry,
-		  currentJournal: current.currentJournal,
-		  currentEntryRevision: current.currentEntryRevision
-	  })
+  updateChildProps = current => {
+    this.setState({
+      currentEntry: current.currentEntry,
+      currentJournal: current.currentJournal,
+      currentEntryRevision: current.currentEntryRevision
+    })
   }
- 
+
   render() {
+    console.log(this.state.journal);
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
-	  userHasAuthenticated: this.userHasAuthenticated,
-	  isLoading: this.state.isLoading,
-	  journal: this.state.journal,
-	  updateChildProps: this.updateChildProps,
-	  currentJournal: this.state.currentJournal,
-	  currentEntry: this.state.currentEntry,
-	  currentEntryRevision: this.state.currentEntryRevision
+      userHasAuthenticated: this.userHasAuthenticated,
+      isLoading: this.state.isLoading,
+      handleUpdate: this.handleUpdate,
+      journal: this.state.journal,
+      updateChildProps: this.updateChildProps,
+      currentJournal: this.state.currentJournal,
+      currentEntry: this.state.currentEntry,
+      currentEntryRevision: this.state.currentEntryRevision
 
     };
 
