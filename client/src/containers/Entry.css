@@ -81,6 +81,36 @@ ul {
     text-align: left;
 }
 
+.hiddenToggle {
+    position: absolute;
+    right: 30%;
+    top: 20%;
+}
+
+.hiddenToggleText {
+    position: absolute;
+    right: 25%;
+    font-weight: 600;
+    font-size: 18px;
+    top:19.85%;
+    vertical-align: middle;
+}
+
+.deletedToggle {
+    position: absolute;
+    right: 20%;
+    top: 20%;
+}
+
+.deletedToggleText {
+    position: absolute;
+    right: 14.5%;
+    font-weight: 600;
+    font-size: 18px;
+    top:19.85%;
+    vertical-align: middle;
+}
+
 #testFun:hover {
     background-color: rgb(92, 220, 255);
     color: #444444;

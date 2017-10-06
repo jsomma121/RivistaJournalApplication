@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { slide as Menu } from 'react-burger-menu';
 import LoaderButton from "../components/LoaderButton";
+import Toggle from 'react-toggle'
 import Octoicon from 'react-octicon';
 import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./Entry.css";
+import "react-toggle/style.css"
 
 export default class Entry extends Component {
   constructor(props) {
@@ -24,7 +27,8 @@ export default class Entry extends Component {
       showHidden: false,
       showDeleted: false,
       showFilter: false,
-      data: []
+      data: [],
+      eggsAreReady: false
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
@@ -281,15 +285,48 @@ export default class Entry extends Component {
     );
   }
 
+  showSettings(event) {
+    event.preventDefault();
+  }
+
   render() {
     var pageTitle = this.journalTitle + " Entries";
     let filter = null;
     if (this.state.showFilter) {
       filter = this.renderFilter();
     }
+
+    const menuOptions = {
+      isOpen: this.state.isMenuOpen,
+      close: this.close,
+      toggle: <button type="button" onClick={this.toggle}>Click me!</button>,
+      align: 'right'
+    };
     return (
       <div>
         {filter}
+        <div>
+          <div>
+            <div className="hiddenToggle">
+              <Toggle
+                defaultChecked={this.state.eggsAreReady}
+                aria-labelledby='biscuit-label'
+                onChange={this.handleHiddenChange.bind(this, "showHidden")}
+              />
+            </div>
+            <p className="hiddenToggleText">Hidden</p>
+          </div>
+          <div>
+            <div className="deletedToggle">
+              <Toggle
+                defaultChecked={this.state.eggsAreReady}
+                aria-labelledby='biscuit-label'
+                onChange={this.handleDeletedChange.bind(this, "showDeleted")}
+              />
+            </div>
+            <p className="deletedToggleText">Deleted</p>
+          </div>
+        </div>
         <div id="search" className="input-group">
           <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
           <Octoicon className="search-icon" name="search" />
