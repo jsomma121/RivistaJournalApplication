@@ -17,7 +17,7 @@ export async function main(event, context, callback) {
       userid: event.requestContext.identity.cognitoIdentityId,
       journalid: uuid.v1(),
       journalTitle: data.journalTitle,
-      enteries: {},
+      enteries: [],
       createdAt: moment.now(), 
     }
   };
