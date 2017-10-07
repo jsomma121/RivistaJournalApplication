@@ -4,6 +4,7 @@ import { slide as Menu } from 'react-burger-menu';
 import LoaderButton from "../components/LoaderButton";
 import Toggle from 'react-toggle'
 import Octoicon from 'react-octicon';
+import { invokeApig } from '../libs/awsLib';
 import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -17,9 +18,8 @@ export default class Entry extends Component {
 
     this.pathName = this.props.location.pathname;
     this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
-
     this.state = {
-      isLoading: false,
+      isLoading: true,
       deleteSelected: "",
       searchText: "",
       startDate: null,
@@ -27,21 +27,57 @@ export default class Entry extends Component {
       showHidden: false,
       showDeleted: false,
       showFilter: false,
-      data: [],
-      eggsAreReady: false
+      eggsAreReady: false,
+      currentJournal: null
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    
+  }
+
+  getJournal() {
+    var journal = this.props.journal;
+    for (var i = 0; i < journal.length; i++) {
+      if (journal[i].journalid === this.props.match.params.journalId) {
+        return journal[i];
+      }
+
+    }
+    return null;
+  }
+
+  updateJournal(journal) {
+    console.log(journal.enteries);
+    try {
+      const update = invokeApig({
+        path: "/journal/" + journal.journalid,
+        method: "PUT",
+        body: {enteries: journal.enteries}
+      });
+      console.log
+    } catch (e) {
+      this.setState({ isLoading: false });
+      }
+    
+
   }
 
   componentWillMount() {
-    this.getDummyData();
+    if (this.state.isLoading) {
+      var journal = this.getJournal();
+      this.setState({currentJournal: journal});
+      this.props.updateChildProps({
+        currentEntry: null,
+        currentJournal: journal,
+        currentEntryRevision: null
+      });
+      this.setState({ isLoading: false });
+      
+    }
   }
 
-  handleDelete(entry) {
-    this.setState({
-      deleteSelected: entry
-    });
+  validateForm() {
+    return this.state.EntryName.length > 0;
   }
 
   handleSearchChange = event => {
@@ -65,20 +101,9 @@ export default class Entry extends Component {
     })
   }
 
-  handleHiddenChange() {
-    this.setState({
-      showHidden: !this.state.showHidden,
-      showAll: false
-    })
-  }
 
-  handleDeletedChange() {
-    this.setState({
-      showDeleted: !this.state.showDeleted,
-      showAll: false
-    })
-  }
 
+  
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
@@ -102,77 +127,110 @@ export default class Entry extends Component {
     console.log("it works?")
   }
 
-  getDummyData() {
-    var entryLists = [];
-    for (var i = 1; i < 8; i++) {
-      entryLists.push({
-        title: "Entry #" + i,
-        state: "active",
-        createdDate: 1500991200000,
-        lastUpdated: 1501077600000
-      })
+  // Active Method
+  handleActive(data) {
+    var entries = this.state.currentJournal.enteries;
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].title == data) {
+        entries[i].state = 'active';
+        // TO-DO: Add a listner to the toggle button when this updates
+        this.forceUpdate();
+        break;
+      }
     }
-
-    entryLists.push({
-      title: "Test",
-      state: "active",
-      createdDate: 1500991200000,
-      lastUpdated: 1501250400000
-    })
-
-    entryLists.push({
-      title: "Deleted Entry",
-      state: "deleted",
-      createdDate: 1501336800000,
-      lastUpdated: 1501423200000
-    })
-
-    entryLists.push({
-      title: "Hidden Entry",
-      state: "hidden",
-      createdDate: 1501336800000,
-      lastUpdated: 1501423200000
-    })
-
-    this.setState(
-      { data: entryLists }
-    )
+    return null;
   }
 
+  // Handle methods
+  handleHide(data) {
+    var entries = this.state.currentJournal.enteries;
+    
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].title == data) {
+        entries[i].state = 'hidden';
+        this.forceUpdate();
+        break;
+      }
+    }
+    return null;
+  }
+
+  hideAndUnhideButton(entry) {
+    if(entry.state == 'hidden') {
+      return (
+        <button type="button" className="btn btn-link" onClick={() => { this.handleActive(entry.title) }}>Unhide</button>
+      )
+    } else {
+      return (
+        <button type="button" className="btn btn-link" onClick={() => { this.handleHide(entry.title) }}>Hide</button>
+      )
+    }
+  }
+  
+  handleHiddenChange() {
+    this.setState({
+      showHidden: !this.state.showHidden,
+      showAll: false
+    })
+  }
+
+  // Delete methods
   deleteButton(entry) {
     return (
-      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(entry.title) }} disabled={entry.state === "deleted"}>Delete</button>
+      <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(entry.entryId) }} disabled={entry.state === "deleted"}>Delete</button>
     )
   }
 
-  filterHiddenAndDeleted(entry) {
-    if (!this.state.showHidden && !this.state.showDeleted) {
-      if (entry.state === "active") {
-        return entry;
+  handleDeletedChange() {
+    this.setState({
+      showDeleted: !this.state.showDeleted,
+      showAll: false
+    })
+  }
+
+  handleDelete(data) {
+    var entries = this.state.currentJournal.enteries;
+    const hello = entries.map((val) => {
+      console.log(val.entryId);
+      console.log(data);
+      if (val.entryId == data) {
+        val.state == 'delete';
       }
-      return null;
-    } else {
-      if (this.state.showHidden && this.state.showDeleted) {
-        return entry;
-      } else if (this.state.showHidden) {
-        if (entry.state === "hidden" || entry.state === "active") {
-          return entry;
-        }
-        return null;
-      } else {
-        if (entry.state === "deleted" || entry.state === "active") {
-          return entry;
-        }
-        return null;
+    })
+    console.log(hello);
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].entryId == data) {
+        entries[i].state = 'deleted';
+        const update = this.updateJournal(this.state.currentJournal);
+        break;
       }
     }
+    return null;
+  }
+
+  filterHidden(entry) {
+    if(entry.state == 'active') {
+      return entry;
+    }
+      // if (!this.state.showHidden ) {
+      //   if (this.state.showHidden) {
+          
+      //   } else if (this.state.showHidden) {
+      //     if (entry.state === "hidden" || entry.state === "active") {
+      //       return entry;
+      //     }
+      //     return null;
+      //   } else {
+      //     return entry;
+      //   }
+      // }
   }
 
   filterEntries() {
-    var entries = this.state.data;
+    var entries = this.state.currentJournal.enteries;
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      var entry = this.filterHiddenAndDeleted(entries[i]);
+      var entry = this.filterHidden(entries[i]);
       if (entry != null) {
         filteredEntries.push(entry);
       }
@@ -181,22 +239,18 @@ export default class Entry extends Component {
   }
 
   searchEntries() {
-    var entries = this.state.data;
+    var entries = this.state.currentJournal.enteries;
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      var entry = this.filterHiddenAndDeleted(entries[i]);
+      var entry = this.filterHidden(entries[i]);
       if (entry != null) {
         if (entries[i].title.includes(this.state.searchText)) {
-          console.log("huh?");
           if (this.state.startDate != null && this.state.endDate != null) {
-            console.log(entries[i].title + ": ");
-            console.log(entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <= this.state.endDate);
             if (entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <= this.state.endDate) {
               filteredEntries.push(entries[i]);
             }
           }
           else if (this.state.startDate != null) {
-            console.log("Search: " + this.state.startDate + " Entry: " + entries[i].lastUpdated);
             if (moment(entries[i].lastUpdated).format("DDMMYYYY") === moment(this.state.startDate).format("DDMMYYYY")) {
               filteredEntries.push(entries[i]);
             }
@@ -243,10 +297,6 @@ export default class Entry extends Component {
           <input type="checkbox" className="form-check-input" onChange={this.handleHiddenChange.bind(this, "showHidden")} checked={this.state.showHidden} />
           Show hidden
         </label>
-        <label className="form-check-label">
-          <input type="checkbox" className="form-check-input" onChange={this.handleDeletedChange.bind(this, "showDeleted")} checked={this.state.showDeleted} />
-          Show deleted
-        </label>
         <button type="button" className="close" onClick={e => this.toggleFilter(e)}>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -266,18 +316,18 @@ export default class Entry extends Component {
         <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
           <ul className="options" id="optionsNew">
             <li>{this.deleteButton(e)}</li>
-            <li><button type="button" className="btn btn-link" disabled={e.state === "deleted"}>{e.state === "hidden" ? "Unhide" : "Hide"}</button></li>
+            <li>{this.hideAndUnhideButton(e)}</li>
             <li><button type="button" className="btn btn-link">History</button></li>
           </ul>
           <div className="entry-details">
-            <Link to="/editEntry/:{this-should-be-entryID}" className="card-link">
+            <Link to={'/editEntry/' + e.entryId} className="card-link">
               <div className="entry-title">
                 <h3>{e.title}</h3>
                 {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
                 {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
               </div>
               <div className="entry-date">
-                <p>Last updated: {moment(e.lastUpdated).format("hh:mmA DD MMMM YYYY")}</p>
+                <p>Last updated: {e.updatedAt}</p>
               </div>
             </Link>
           </div>
@@ -334,16 +384,6 @@ export default class Entry extends Component {
                   defaultChecked={this.state.eggsAreReady}
                   aria-labelledby='biscuit-label'
                   onChange={this.handleHiddenChange.bind(this, "showHidden")}
-                />
-              </div>
-            </div>
-            <div className="deletedT">
-              <pre className="deletedToggleText">Deleted</pre>
-              <div className="deletedToggle">
-                <Toggle
-                  defaultChecked={this.state.eggsAreReady}
-                  aria-labelledby='biscuit-label'
-                  onChange={this.handleDeletedChange.bind(this, "showDeleted")}
                 />
               </div>
             </div>

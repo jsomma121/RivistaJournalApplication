@@ -108,7 +108,6 @@ export async function invokeApig({
     });
     
 	body = body ? JSON.stringify(body) : body;
-	console.log(body);
     headers = signedRequest.headers;
     const results = await fetch(signedRequest.url, {
       method,

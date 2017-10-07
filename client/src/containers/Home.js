@@ -77,11 +77,6 @@ export default class Home extends Component {
     });
   }
 
-  handleJournalClick = event => {
-    event.preventDefault();
-    this.props.history.push(event.currentTarget.getAttribute("href"));
-  }
-
   renderJournalList(journal) {
     return journal.map(
       (j, i) =>
@@ -159,7 +154,6 @@ export default class Home extends Component {
   }
 
   render() {
-    console.log(this.props.isAuthenticated);
     return (
       <div className="Home">
         {this.props.isAuthenticated ? this.renderJournal() : this.renderLander()}

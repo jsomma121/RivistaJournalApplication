@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-dom';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 import Octoicon from 'react-octicon';
+import moment from 'moment';
 import { invokeApig } from '../libs/awsLib';
 import LoaderButton from "../components/LoaderButton";
 import "./EditEntry.css";
@@ -60,18 +61,19 @@ export default class EditEntry extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    const { editorState } = this.state;
+	const { editorState } = this.state;
+	console.log(this.props);
 
     var contentState = editorState.getCurrentContent();
-    this.props.currentJournal.enteries.push({
+    this.props.currentJournal.enteries.unshift({
       entryId: uuid.v1(),
       title: "New Entry",
       content: contentState.getBlockMap().first().text,
       state: 'active',
-      createdAt: new Date().getTime(),
-      updatedAt: new Date().getTime(),
+      createdAt: moment().utc().format(),
+      updatedAt: moment().utc().format(),
       revision: []
-    });
+    });    
 
     try {
       const update = this.updateJournal(this.props.currentJournal);
@@ -81,27 +83,19 @@ export default class EditEntry extends React.Component {
   }
 
   updateJournal(journal) {
-    console.log(journal);
-    console.log("/journal/" + journal.journalid);
     invokeApig({
       path: "/journal/" + journal.journalid,
       method: "PUT",
-      body: { enteries: journal.enteries }
+      body: {enteries: journal.enteries}
     })
   }
 
   render() {
     const { editorState } = this.state;
 
-    // If the user changes block type before entering any text, we can
-    // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';
 
     var contentState = editorState.getCurrentContent();
-
-
-
-
 
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
@@ -111,9 +105,8 @@ export default class EditEntry extends React.Component {
 
     return (
       <div>
-        <div className="header">
-          <h1>Entry Title</h1>
-        </div>
+        <h1>Entry</h1>
+        <br />
         <h2>Content</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="RichEditor-root">
@@ -125,19 +118,21 @@ export default class EditEntry extends React.Component {
               <Editor
                 customStyleMap={styleMap}
                 editorState={editorState}
-                onToggle={this.toggleInlineStyle}
+                handleKeyCommand={this.handleKeyCommand}
+                onChange={this.onChange}
+                onTab={this.onTab}
+                ref="editor"
+                spellCheck={true}
               />
             </div>
           </div>
-          <div className="edit-buttons">
-            <LoaderButton
-              type="submit"
-              isLoading={this.state.isLoading}
-              className="btn-primary"
-              text="Create Journal"
-              loadingText="Creating..." />
-            <button type="button" className="btn btn-secondary"  >Cancel</button>
-          </div>
+          <LoaderButton
+            type="submit"
+            isLoading={this.state.isLoading}
+            className="btn-primary"
+            text="Create Journal"
+            loadingText="Creating..." />
+          <button type="button" className="btn btn-secondary"  >Cancel</button>
         </form>
       </div>
 

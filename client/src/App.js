@@ -100,7 +100,6 @@ class App extends Component {
   }
 
   async componentDidUpdate() {
-    console.log(this.state.isLoading);
     try {
       if (this.state.isLoading) {
         this.getJournals();
@@ -144,7 +143,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.journal);
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
       userHasAuthenticated: this.userHasAuthenticated,
