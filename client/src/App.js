@@ -5,7 +5,12 @@ import { Link, withRouter } from "react-router-dom";
 import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
 import PlusIcon from 'react-icons/lib/fa/plus';
+<<<<<<< HEAD
+import newJournalClicked from './containers/Home';
+import { authUser, signOutUser } from "./libs/awsLib";
+=======
 import { invokeApig, authUser, signOutUser } from "./libs/awsLib";
+>>>>>>> master
 import "./App.css";
 
 class App extends Component {
@@ -32,30 +37,58 @@ class App extends Component {
     if (pathName.includes("/entry")) {
       pathName = "/entry";
     }
+    if (pathName.includes("/entry/history")) {
+      pathName = "/entry/history";
+    }
     switch (pathName) {
       case '/login':
-      case '/register':
-      case '/history':
+        menu.splice(0, menu.length);
         break;
-      case '/':
+      case '/register':
+      case '/entry/history':
+        menu.splice(0, menu.length);
         menu.push(
           <div key="1" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
+          </div>
+        )
+        break;
+      case '/':
+        menu.splice(0, menu.length);
+        menu.push(
+<<<<<<< HEAD
+          <div key="2" className="navbar-toggler navbar-toggler-right">
+=======
+          <div key="1" className="navbar-toggler navbar-toggler-right">
             <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon /></button>
+>>>>>>> master
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
       case '/entry':
+<<<<<<< HEAD
+        menu.splice(0, menu.length);
+        menu.push(
+          <div key="3" className="navbar-toggler navbar-toggler-right">
+=======
         menu.push(
           <div key="2" className="navbar-toggler navbar-toggler-right">
+>>>>>>> master
             <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon /></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
       case '/editEntry/:entryName':
+<<<<<<< HEAD
+        menu.splice(0, menu.length);
+        menu.push(
+          <div key="4" className="navbar-toggler navbar-toggler-right">
+=======
         menu.push(
           <div key="3" className="navbar-toggler navbar-toggler-right">
+>>>>>>> master
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )

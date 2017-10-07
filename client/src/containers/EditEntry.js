@@ -110,6 +110,17 @@ export default class EditEntry extends React.Component {
       }
     }
 
+<<<<<<< HEAD
+    return (  
+        <div>
+            <h1 className="pageHeader">Entry Title: this is entry title</h1>
+            <br/>
+            <div>
+            <h2>Content</h2>
+            <form onSubmit={this.handleSubmit}>
+              <div className="RichEditor-root">
+              <InlineStyleControls
+=======
     return (
       <div>
         <h1>Entry</h1>
@@ -118,6 +129,7 @@ export default class EditEntry extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div className="RichEditor-root">
             <InlineStyleControls
+>>>>>>> master
               editorState={editorState}
               onToggle={this.toggleInlineStyle}
             />
@@ -131,6 +143,34 @@ export default class EditEntry extends React.Component {
                 ref="editor"
                 spellCheck={true}
               />
+<<<<<<< HEAD
+              <div className={className} onClick={this.focus}>
+                    <Editor
+                        customStyleMap={styleMap}
+                        editorState={editorState}
+                        handleKeyCommand={this.handleKeyCommand}
+                        onChange={this.onChange}
+                        onTab={this.onTab}
+                        ref="editor"
+                        spellCheck={true}
+                    />
+              </div>
+              </div>
+              <div className="buttons">
+                <br/>
+              <LoaderButton
+                      type="submit"
+                      isLoading={this.state.isLoading}
+                      className="btn-primary"
+                      text="Create Journal"
+                      loadingText="Creating..."/>
+              <button type="button" className="btn btn-secondary"  >Cancel</button>
+              </div>
+          </form>
+          </div>
+        </div>
+      
+=======
             </div>
           </div>
           <LoaderButton
@@ -143,6 +183,7 @@ export default class EditEntry extends React.Component {
         </form>
       </div>
 
+>>>>>>> master
     );
   }
 }

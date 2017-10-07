@@ -1,144 +1,21 @@
-.Entry .lander {
-    padding: 80px 0;
-    text-align: center;
-}
-  
-.Entry .lander h1 {
-    font-family: "Open Sans", sans-serif;
-    font-weight: 600;
-}
-  
-.Entry .lander p {
-    color: #999;
-}
-
-.header {
-    display: table;
-    width: 120%;
-    padding-right: 40%;
-}
-
-.headerText {
-    font-size: 30px;
-    display: table-cell;
-    width: 90%;
-    vertical-align: middle;
-}
-
-.linkText {
-    color: black;
-}
-
-.linkText:hover {
-    color: #31B7FF
-}
-
-.entryCards {
-    background-color: white;
-    height: 100px;
-    width: 80%;
-    margin-bottom: 1.5em;
-    margin-left: 7%;
-    -webkit-box-shadow: 6px 8px 6px -6px #999;
-    -moz-box-shadow: 6px 8px 6px -6px #999;
-    box-shadow: 6px 8px 6px -6px #999;
-    display: table;
-}
-
-.leftOptions {
-    height: 100px;
-    width: 8%;
-    background-color: white;
-    display: table-cell;
-}
-
-.entryDetails {
-    padding-left: 30px;
-    height: 100px;
-    width: 67%;
-    background-color: white;
-    display: table-cell;
-    vertical-align: bottom;
-}
-
-.entryTitle {
-    height: 50px;
-}
-
-.entryDetails:hover {
-    background-color: rgb(230, 230, 230);
-    text-decoration-style: none;
-    cursor: pointer;
-}
-
-.entryLink {
-    text-decoration-style: none;
-    height: 100px;
-    color: black;
-}
-
-.entryLink:hover {
-    text-decoration-style: none;
-    color: #555555;
-}
-
-.optionsTable {
-    margin-left: 40px;
-    margin-top: 10px;
-}
-
-.deleteOption {
-    height: 25px;
-    color: #01BAFD;
-    text-decoration: underline;
-}
-
-.hiddenOption {
-    height: 25px;
-    color: #01BAFD;
-    text-decoration: underline;
-}
-
-.historyOption {
-    height: 25px;
-    color: #01BAFD;
-    text-decoration: underline;
-}
-
-.deleteOption:hover {
-    color: #0099FF;
-    cursor: pointer;
-}
-
-.hiddenOption:hover {
-    color: #0099FF;
-    cursor: pointer;
-}
-
-.historyOption:hover {
-    color: #0099FF;
-    cursor: pointer;
-}
-
 #search {
-    position: absolute;
-    width: 100%;
+    position: fixed;
+    width: 400px;
     top: 1.5em;
-    left: 30%;
+    left: 35%;
     z-index: 1030;
-    margin: 0 auto;
 }
 
 #search input {
-    width: 35%;
+    width: 100%;
     padding-left: 30px;
 }
 
-#search span {
+.search-icon {
     position: absolute;
     left: 0px;
     padding-left: 7px;
-    padding-top: 6px;
+    padding-top: 10px;
 }
 
 .return {
@@ -156,3 +33,138 @@
     position: absolute;
     top: 0;
 }
+
+.entry-card {
+    flex-direction: row;
+    padding: 0;
+}
+
+.entry-card:hover {
+    box-shadow: 0px 0px 0px 0px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.options {
+    position: absolute;
+    top: 5px;
+    float: left;
+    width:8%;
+    padding: 0.5em;
+}
+
+.options button {
+    margin-left: 10px;
+    padding: 0;
+}
+
+.entry-details {
+    margin-left:8%;
+    width: 100%;
+    height: 100px;
+    padding: 1em;
+}
+
+.entry-title {
+    display: flex;
+}
+
+#optionsNew {
+    align-self: left ;
+}
+
+#testFun {
+    color: black;
+    background-color: white;
+    text-align: left;
+}
+
+.hiddenToggle {
+    position: absolute;
+    right: 30%;
+    top: 20%;
+}
+
+.hiddenToggleText {
+    position: absolute;
+    right: 25%;
+    font-weight: 600;
+    font-size: 18px;
+    top:19.85%;
+    vertical-align: middle;
+}
+
+.deletedToggle {
+    position: absolute;
+    right: 20%;
+    top: 20%;
+}
+
+.deletedToggleText {
+    position: absolute;
+    right: 14.5%;
+    font-weight: 600;
+    font-size: 18px;
+    top:19.85%;
+    vertical-align: middle;
+}
+
+#testFun:hover {
+    background-color: rgb(92, 220, 255);
+    color: #444444;
+    border-color: rgb(92, 220, 255);
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 3px 4px 3px -3px #999;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    padding: 7px 0 0 7px;
+}
+
+.hidden {
+    color: #999;
+}
+
+.deleted {
+    color: red;
+}
+
+.backFont:hover {
+    text-decoration: underline;
+}
+
+.filter {
+    position:fixed;
+    width: 450px;
+    top: 72px;
+    left: 30%;
+    z-index:1050;
+    background-color:white;
+    padding:30px;
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 6px 8px 6px -6px #999;
+}
+
+.filter-dates {
+    display: flex;
+}
+
+.filter-dates p {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.filter label {
+    margin-right: 20px;
+}
+
+.filter span {
+    position: absolute;
+    top: 0;
+}
+
