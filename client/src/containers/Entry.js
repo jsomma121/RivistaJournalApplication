@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import LoaderButton from "../components/LoaderButton";
 import { slide as Menu } from 'react-burger-menu';
-import Octoicon from 'react-octicon';
+import LoaderButton from "../components/LoaderButton";
 import Toggle from 'react-toggle'
-import "./Entry.css";
+import Octoicon from 'react-octicon';
 import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -35,19 +34,72 @@ export default class Entry extends Component {
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
-  getJournal() {
-    var journal = this.props.journal;
-    for (var i = 0; i < journal.length; i++) {
-      if (journal[i].journalid === this.props.match.params.journalId) {
-        return journal[i];
-      }
-
-    }
-    return null;
-  }
-
   componentWillMount() {
     this.getDummyData();
+  }
+
+  handleDelete(entry) {
+    this.setState({
+      deleteSelected: entry
+    });
+  }
+
+  handleSearchChange = event => {
+    this.setState({
+      searchText: event.target.value
+    })
+  }
+
+  handleChangeStart(date) {
+    this.setState({
+      startDate: date
+    })
+  }
+
+  handleChangeEnd(date) {
+    if (date != null && moment(date).format("hh:mmA") === "12:00AM") {
+      date = moment(date).add(23, "h").add(59, "m")
+    }
+    this.setState({
+      endDate: date
+    })
+  }
+
+  handleHiddenChange() {
+    this.setState({
+      showHidden: !this.state.showHidden,
+      showAll: false
+    })
+  }
+
+  handleDeletedChange() {
+    this.setState({
+      showDeleted: !this.state.showDeleted,
+      showAll: false
+    })
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+    this.setState({ isLoading: true });
+
+    try {
+      const data = await this.createJournalEntry({
+        journalTitle: this.state.journalTitle
+      });
+      //TO-DO - deal with the close modal problem
+      this.props.onRequestHide();
+      return
+    } catch (e) {
+      this.setState({ isLoading: false });
+    }
+  }
+
+  toggleFilter() {
+    this.setState({
+      showFilter: !this.state.showFilter
+    })
+    console.log("it works?")
   }
 
   getDummyData() {
@@ -87,88 +139,6 @@ export default class Entry extends Component {
     )
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.isLoading) {
-      var journal = this.getJournal();
-      this.props.updateChildProps({
-        currentEntry: null,
-        currentJournal: journal,
-        currentEntryRevision: null
-      });
-      this.setState({ isLoading: false });
-    }
-
-  }
-
-  handleDelete(data) {
-    for (var i = 0; i < this.entryLists.length; i++) {
-      if (this.entryLists[i] == data) {
-        this.entryLists.splice(i, 1);
-        break;
-      }
-    }
-  }
-
-  validateForm() {
-    return this.state.EntryName.length > 0;
-  }
-
-  handleSubmit = async event => {
-    event.preventDefault();
-    this.setState({ isLoading: true });
-
-    try {
-      const data = await this.createJournalEntry({
-        journalTitle: this.state.journalTitle
-      });
-      //TO-DO - deal with the close modal problem
-      this.props.onRequestHide();
-      return
-    } catch (e) {
-      this.setState({ isLoading: false });
-    }
-  }
-
-  handleSearchChange = event => {
-    this.setState({
-      searchText: event.target.value
-    })
-  }
-
-  handleChangeStart(date) {
-    this.setState({
-      startDate: date
-    })
-  }
-
-  handleChangeEnd(date) {
-    if (date != null && moment(date).format("hh:mmA") === "12:00AM") {
-      date = moment(date).add(23, "h").add(59, "m")
-    }
-    this.setState({
-      endDate: date
-    })
-  }
-
-  handleHiddenChange() {
-    this.setState({
-      showHidden: !this.state.showHidden,
-      showAll: false
-    })
-  }
-
-  handleDeletedChange() {
-    this.setState({
-      showDeleted: !this.state.showDeleted,
-      showAll: false
-    })
-  }
-
-  toggleFilter() {
-    this.setState({
-      showFilter: !this.state.showFilter
-    })
-  }
   deleteButton(entry) {
     return (
       <button type="button" className="btn btn-link" data-toggle="modal" data-target="#deleteModal" onClick={() => { this.handleDelete(entry.title) }} disabled={entry.state === "deleted"}>Delete</button>
@@ -335,28 +305,7 @@ export default class Entry extends Component {
     return (
       <div>
         {filter}
-        <div>
-          <div>
-            <div className="hiddenToggle">
-              <Toggle
-                defaultChecked={this.state.eggsAreReady}
-                aria-labelledby='biscuit-label'
-                onChange={this.handleHiddenChange.bind(this, "showHidden")}
-              />
-            </div>
-            <p className="hiddenToggleText">Hidden</p>
-          </div>
-          <div>
-            <div className="deletedToggle">
-              <Toggle
-                defaultChecked={this.state.eggsAreReady}
-                aria-labelledby='biscuit-label'
-                onChange={this.handleDeletedChange.bind(this, "showDeleted")}
-              />
-            </div>
-            <p className="deletedToggleText">Deleted</p>
-          </div>
-        </div>
+
         <div id="search" className="input-group">
           <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
           <Octoicon className="search-icon" name="search" />
@@ -364,15 +313,43 @@ export default class Entry extends Component {
             <button className="btn btn-secondary" type="button" onClick={e => this.toggleFilter(e)}><Octoicon name="settings" /></button>
           </span>
         </div>
+
         <Link to="/" className="linkText">
           <div className="return">
             <p className="backFont">Back to Journals</p>
             <Octoicon mega name="arrow-left" />
           </div>
         </Link>
-        <div className="header">
-          <h1> {pageTitle}</h1>
+
+        <div>
+          <div className="header">
+            <h1> {pageTitle}</h1>
+          </div>
+
+          <div className="toggleButtons">
+            <div className="hiddenT">
+              <pre className="hiddenToggleText">Hidden </pre>
+              <div className="hiddenToggle">
+                <Toggle
+                  defaultChecked={this.state.eggsAreReady}
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleHiddenChange.bind(this, "showHidden")}
+                />
+              </div>
+            </div>
+            <div className="deletedT">
+              <pre className="deletedToggleText">Deleted</pre>
+              <div className="deletedToggle">
+                <Toggle
+                  defaultChecked={this.state.eggsAreReady}
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleDeletedChange.bind(this, "showDeleted")}
+                />
+              </div>
+            </div>
+          </div>
         </div>
+
 
         <div className="cards">
           {this.renderEntries()}

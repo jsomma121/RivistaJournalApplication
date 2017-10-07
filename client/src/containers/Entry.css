@@ -81,34 +81,40 @@ ul {
     text-align: left;
 }
 
+.toggleButtons {
+    position: relative;
+    float: right;
+    width: 18%;
+}
+
+.hiddenT {
+    display: table;
+}
+
 .hiddenToggle {
-    position: absolute;
-    right: 30%;
-    top: 20%;
+    display: table-cell;
 }
 
 .hiddenToggleText {
-    position: absolute;
-    right: 25%;
-    font-weight: 600;
+    display: table-cell;
+    vertical-align: top;
     font-size: 18px;
-    top:19.85%;
-    vertical-align: middle;
+    padding-left: 4px;
+}
+
+.deletedT {
+    display: table;
 }
 
 .deletedToggle {
-    position: absolute;
-    right: 20%;
-    top: 20%;
+    display: table-cell;
 }
 
 .deletedToggleText {
-    position: absolute;
-    right: 14.5%;
-    font-weight: 600;
+    display: table-cell;
+    vertical-align: top;
     font-size: 18px;
-    top:19.85%;
-    vertical-align: middle;
+    padding-left: 4px;
 }
 
 #testFun:hover {
@@ -167,3 +173,4 @@ ul {
     position: absolute;
     top: 0;
 }
+
