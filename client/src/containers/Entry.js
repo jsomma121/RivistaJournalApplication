@@ -10,37 +10,10 @@ import "./Entry.css";
 export default class Entry extends Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
 
     this.pathName = this.props.location.pathname;
     this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
 
-=======
-    //just a test entry list
-    this.entryLists = [
-      "Test entry title 1",
-      "Test entry title 2",
-      "Test entry title 3",
-      "Test entry title 4",
-      "Test entry title 5",
-      "Test entry title 6",
-      "Test entry title 7"];
-
-    this.pathName = this.props.location.pathname;
-	this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
-	console.log(this.props.journal);
-	if (this.props.journal.length > 0) {
-		var journal = this.getJournal();
-		console.log(journal);
-		this.props.updateChildProps({
-			currentEntry: null,
-			currentJournal: journal,
-			currentEntryRevision: null
-		});
-		console.log(this.props.journal);
-	}
-	
->>>>>>> parent of 0040ffc... Fix problem with enteries by changing to an array in the object + removed dummy data and added the new data
     this.state = {
       isLoading: false,
       deleteSelected: "",
