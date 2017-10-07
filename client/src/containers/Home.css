@@ -3,6 +3,10 @@
     font-weight: 700;
 }
 
+.journal-exist {
+    top:100px;
+}
+
 #new-journal-button {
     position: fixed;
     position: absolute;
@@ -43,9 +47,13 @@
     font-size: 20px;
 }
 
+.new-journal-input p {
+    font-size: 12px;
+}
+
 .input-area {
     width: 100%;
-    height: 50px;
+    height: 40px;
 }
 
 .cards {
@@ -102,3 +110,4 @@
 .modal-header {
     background-color: #e5e5e5;
 }
+

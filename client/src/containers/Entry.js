@@ -47,7 +47,6 @@ export default class Entry extends Component {
   }
 
   updateJournal(journal) {
-    console.log(journal.enteries);
     try {
       const update = invokeApig({
         path: "/journal/" + journal.journalid,
@@ -120,6 +119,10 @@ export default class Entry extends Component {
     }
   }
 
+  createJournalEntry(data) {
+    
+  }
+
   toggleFilter() {
     this.setState({
       showFilter: !this.state.showFilter
@@ -190,14 +193,14 @@ export default class Entry extends Component {
 
   handleDelete(data) {
     var entries = this.state.currentJournal.enteries;
-    const hello = entries.map((val) => {
-      console.log(val.entryId);
-      console.log(data);
-      if (val.entryId == data) {
-        val.state == 'delete';
-      }
-    })
-    console.log(hello);
+    // const hello = entries.map((val) => {
+    //   console.log(val.entryId);
+    //   console.log(data);
+    //   if (val.entryId == data) {
+    //     val.state == 'delete';
+    //   }
+    // })
+    // console.log(hello);
     for (var i = 0; i < entries.length; i++) {
       if (entries[i].entryId == data) {
         entries[i].state = 'deleted';

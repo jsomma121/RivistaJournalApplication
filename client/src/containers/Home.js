@@ -15,12 +15,13 @@ import "./Home.css";
 export default class Home extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       isLoading: true,
       journalTitle: '',
       journalId: '99292f88-f840-4f8c-bdb4-4ae7d8c0309a',
       journal: [],
+      journalExists: null,
       isShowingModal: false,
     };
   }
@@ -46,26 +47,48 @@ export default class Home extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    var journal = this.state.journal;
+    var journalExists = null;
 
-    this.setState({ isLoading: true });
-
-    try {
-      const data = await this.createJournal({
-        journalTitle: this.state.journalTitle
-      });
-      this.handleClose();
-      window.location.reload();
-      this.props.handleUpdate();
-      return
-    } catch (e) {
-      this.setState({ isLoading: false });
+    for(var i = 0; i < journal.length; i++){
+      if(journal[i].journalTitle === this.state.journalTitle){
+        journalExists = true;
+        break;
+      } else {
+        journalExists = false;       
+      }
     }
+
+    if(!journalExists) {
+      
+      try {
+        const data = await this.createJournal({
+          journalTitle: this.state.journalTitle
+        }); 
+        this.setState({
+          journalExists: false,
+          isShowingModal: false,
+        });
+        
+      } catch (e) {
+        this.setState({ isLoading: false });
+      }
+    } else {
+      this.setState({
+        journalExists: true,
+        isShowingModal: true,
+      });
+    }
+    
+    
+    
   }
 
   handleClick = () => this.setState({ isShowingModal: true })
   handleClose = () =>
     this.setState({
       isShowingModal: false,
+      journalExists: false,
     }
     )
 
@@ -101,8 +124,8 @@ export default class Home extends Component {
   renderLander() {
     return (
       <div className="lander">
-        <h1>Scratch</h1>
-        <p>A simple note taking app</p>
+        <h1>Welcome to Rivista</h1>
+        <p>You currently have no journals. Click the button on the top right to create a Journal</p>
       </div>
     );
   }
@@ -131,9 +154,14 @@ export default class Home extends Component {
                         <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange} />
                       </div>
                       <div className="new-journal-buttons">
+                        {
+                          this.state.journalExists
+                            ? <p>A journal already exists with that name</p>
+                            : null
+                        }
                         <LoaderButton
                           type="submit"
-                          isLoading={this.state.isLoading}
+                          isLoading={!this.state.isLoading}
                           className="btn-primary"
                           text="Create Journal"
                           loadingText="Creating..." />

@@ -126,7 +126,7 @@ class App extends Component {
   async getJournals() {
     try {
       const getData = await invokeApig({ path: "/journal" });
-
+      
       this.setState({ journal: getData });
     } catch (e) {
       alert(e);

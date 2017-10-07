@@ -63,7 +63,7 @@ export default class EditEntry extends React.Component {
     event.preventDefault();
 	const { editorState } = this.state;
 	console.log(this.props);
-
+    console.log(this.props.currentJournal.enteries);
     var contentState = editorState.getCurrentContent();
     this.props.currentJournal.enteries.unshift({
       entryId: uuid.v1(),
