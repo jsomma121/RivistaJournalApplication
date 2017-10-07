@@ -1,18 +1,51 @@
 .header {
     text-align: center;
     font-weight: 700;
-    margin-left: 8%;
 }
 
-#jListCards {
-    background-color: rgb(41, 182, 246);
-    box-shadow: 2px 4px 4px #888888;
+#new-journal-button {
+    position: fixed;
+    position: absolute;
+    right: 185px;
+    top: 18px;
+    z-index: 100000;
+}
+
+.journal-cards-div {
+    padding-top: 25px;
+}
+
+.journal-date {
+    padding-bottom: 10px;
+    font-size: 22px;
+}
+
+.journal-details {
     height: 70px;
+    position: absolute;
+    top: 20px;
+}
+
+.card-arrow {
+    position: absolute;
+    font-size: 55px;
+    right: 7%;
+    top: 5px;
+}
+
+.new-journal-header {
     font-size: 30px;
-    width: 85%;
-    margin: auto;
-    padding-top: 15px;
-    padding-left: 3%;
+    width: 100%;
+    font-weight: 600;
+}
+
+.new-journal-input {
+    font-size: 20px;
+}
+
+.input-area {
+    width: 100%;
+    height: 50px;
 }
 
 .cards {
@@ -21,10 +54,12 @@
 }
 
 .journal-card:hover {
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(140, 230, 255);
 }
 
 .journal-card {
+    left: 5%;
+    width: 90%;
     height: 100px;
     margin-bottom: 1.5em;
     padding: 2em;
@@ -33,10 +68,26 @@
     box-shadow: 6px 8px 6px -6px #999;
 }
 
+#testFun {
+    color: black;
+    background-color: white;
+    text-align: left;
+}
+
+#testFun:hover {
+    background-color: rgb(92, 220, 255);
+    color: #444444;
+    border-color: rgb(92, 220, 255);
+    -webkit-box-shadow: 6px 8px 6px -6px #999;
+    -moz-box-shadow: 6px 8px 6px -6px #999;
+    box-shadow: 3px 4px 3px -3px #999;
+}
+
 .journal-title {
     margin-left: 1em;
     font-size: 2em;
     font-weight: 600;
+    display: table-cell;    
 }
 
 .card-link {
@@ -47,15 +98,6 @@
 .card-link:hover {
     color: #555555;
 }
-
-/* .card-journal-card {
-    text-decoration-style: none;
-    color: #000000;
-}
-
-.card-journal-card:hover {
-    color: #555555;
-} */
 
 .modal-header {
     background-color: #e5e5e5;

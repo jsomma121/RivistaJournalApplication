@@ -73,38 +73,41 @@ export default class Login extends Component {
     // }
 
     return (
-      <div className="card login-card">
-        <h3 className="card-title  login-form-title">Login</h3>
-        <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
-            <FormControl
-              autoFocus
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange}
+      <div>
+        <br /><br />
+        <div className="card login-card">
+          <h3 className="card-title  login-form-title">Login</h3>
+          <form onSubmit={this.handleSubmit}>
+            <FormGroup controlId="email" bsSize="large">
+              <ControlLabel>Email</ControlLabel>
+              <FormControl
+                autoFocus
+                type="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup controlId="password" bsSize="large">
+              <ControlLabel>Password</ControlLabel>
+              <FormControl
+                value={this.state.password}
+                onChange={this.handleChange}
+                type="password"
+              />
+            </FormGroup>
+            <LoaderButton
+              block
+              bsSize="large"
+              disabled={!this.validateForm()}
+              type="submit"
+              className="btn-primary"
+              isLoading={this.state.isLoading}
+              text="Login"
+              loadingText="Logging in…"
             />
-          </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
-              type="password"
-            />
-          </FormGroup>
-          <LoaderButton
-            block
-            bsSize="large"
-            disabled={!this.validateForm()}
-            type="submit"
-            className="btn-primary"
-            isLoading={this.state.isLoading}
-            text="Login"
-            loadingText="Logging in…"
-          />
-          <p>Don't have an account? <Link to="/signup">Signup here</Link> </p>
-        </form>
+            <p>Don't have an account? <Link to="/signup">Signup here</Link> </p>
+          </form>
+        </div>
       </div>
     );
   }

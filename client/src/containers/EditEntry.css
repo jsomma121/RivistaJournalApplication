@@ -61,3 +61,8 @@
   .RichEditor-activeButton {
     color: #5890ff;
   }
+
+  .edit-buttons {
+    position: fixed;
+    right: 6%;
+  }

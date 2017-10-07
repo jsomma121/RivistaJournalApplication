@@ -111,8 +111,9 @@ export default class EditEntry extends React.Component {
 
     return (
       <div>
-        <h1 className="pageHeader">Entry Title: this is entry title</h1>
-        <br />
+        <div className="header">
+          <h1>Entry Title</h1>
+        </div>
         <h2>Content</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="RichEditor-root">
@@ -128,13 +129,15 @@ export default class EditEntry extends React.Component {
               />
             </div>
           </div>
-          <LoaderButton
-            type="submit"
-            isLoading={this.state.isLoading}
-            className="btn-primary"
-            text="Create Journal"
-            loadingText="Creating..." />
-          <button type="button" className="btn btn-secondary"  >Cancel</button>
+          <div className="edit-buttons">
+            <LoaderButton
+              type="submit"
+              isLoading={this.state.isLoading}
+              className="btn-primary"
+              text="Create Journal"
+              loadingText="Creating..." />
+            <button type="button" className="btn btn-secondary"  >Cancel</button>
+          </div>
         </form>
       </div>
 

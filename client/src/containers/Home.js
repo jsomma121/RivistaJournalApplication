@@ -4,6 +4,11 @@ import LoaderButton from "../components/LoaderButton";
 import { invokeApig } from '../libs/awsLib';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
+import { ModalContainer, ModalDialog } from 'react-modal-dialog';
+import PlusIcon from 'react-icons/lib/fa/plus';
+import Ink from 'react-ink';
+import MdArrowForward from 'react-icons/lib/md/arrow-forward';
+import Modal from 'react-modal';
 import config from "../config";
 import "./Home.css";
 
@@ -16,7 +21,7 @@ export default class Home extends Component {
       journalTitle: '',
       journalId: '99292f88-f840-4f8c-bdb4-4ae7d8c0309a',
       journal: [],
-      showModal: false,
+      isShowingModal: false,
     };
   }
 
@@ -48,13 +53,21 @@ export default class Home extends Component {
       const data = await this.createJournal({
         journalTitle: this.state.journalTitle
       });
-      console.log(this.props);
+      this.handleClose();
+      window.location.reload();
       this.props.handleUpdate();
       return
     } catch (e) {
       this.setState({ isLoading: false });
     }
   }
+
+  handleClick = () => this.setState({ isShowingModal: true })
+  handleClose = () =>
+    this.setState({
+      isShowingModal: false,
+    }
+    )
 
   createJournal(journal) {
     return invokeApig({
@@ -64,8 +77,6 @@ export default class Home extends Component {
     });
   }
 
-
-
   handleJournalClick = event => {
     event.preventDefault();
     this.props.history.push(event.currentTarget.getAttribute("href"));
@@ -74,16 +85,21 @@ export default class Home extends Component {
   renderJournalList(journal) {
     return journal.map(
       (j, i) =>
-        <div>
-          <Link key={i} to={'/entry/' + j.journalid} className="card-link">
-            <div className='card journal-card'>
-              <h4 className="card-title journal-title">{j.journalTitle}</h4>
-              <p>{new Date(j.createdAt).toLocaleString()}</p>
+        <div key={i}>
+          <Link to={'/entry/' + j.journalid} className="card-link">
+            <div className='card journal-card btn btn-success' id="testFun">
+              <div className="journal-detail">
+                <div className="cardMiddle">
+                  <h4 className="card-title journal-title">{j.journalTitle}</h4>
+                </div>
+                <div className="journal-create-date">
+                  <p>{new Date(j.createdAt).toLocaleString()}</p>
+                </div>
+              </div>
+              <h className="card-arrow"><MdArrowForward /></h>
             </div>
           </Link>
-
         </div>
-
     )
   }
 
@@ -99,42 +115,51 @@ export default class Home extends Component {
   renderJournal() {
     return (
       <div className="Journal">
-        <PageHeader>Your Journals</PageHeader>
-        <ListGroup>
-          {this.renderJournalList(this.props.journal)}
-        </ListGroup>
-        <div className="modal fade" id="newJournalModal" role="dialog" aria-labelledby="newJournalModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="newJournalModalLabel">Create a Journal</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.handleSubmit}>
-                  <div className="form-group">
-                    <label htmlFor="newJournalName">Name</label>
-                    <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange} />
-                  </div>
-                  <LoaderButton
-                    type="submit"
-                    isLoading={!this.state.isLoading}
-                    className="btn-primary"
-                    text="Create Journal"
-                    loadingText="Creating..." />
-                  <button type="button" className="btn btn-secondary" onClick={this.props.onRequestHide} data-dismiss="modal">Cancel</button>
-                </form>
-              </div>
-            </div>
-          </div>
+        <button onClick={this.handleClick} type="button" className="btn btn-success right" id="new-journal-button"><Ink />New Journal <PlusIcon /><Ink /></button>
+        <div className="header">
+          <h1>Your Journals</h1>
         </div>
+        <div className="journal-cards-div">
+          {
+            this.state.isShowingModal &&
+            <ModalContainer onClose={this.handleClose}>
+              <ModalDialog style={{ height: '250px', width: '500px' }}>
+                <div>
+                  <div className="new-journal-header">
+                    <h>Create new Journal</h>
+                  </div>
+                  <br />
+                  <div className="new-journal-input">
+                    <form onSubmit={this.handleSubmit}>
+                      <h>Journal Name</h>
+                      <div className="input-area">
+                        <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange} />
+                      </div>
+                      <div className="new-journal-buttons">
+                        <LoaderButton
+                          type="submit"
+                          isLoading={this.state.isLoading}
+                          className="btn-primary"
+                          text="Create Journal"
+                          loadingText="Creating..." />
+                        <button type="button" className="btn btn-secondary" onClick={this.handleClose}>Close</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </ModalDialog>
+            </ModalContainer>
+          }
+        </div>
+        <ListGroup>
+          {this.state.isLoading && this.renderJournalList(this.state.journal)}
+        </ListGroup>
       </div>
     );
   }
 
   render() {
+    console.log(this.props.isAuthenticated);
     return (
       <div className="Home">
         {this.props.isAuthenticated ? this.renderJournal() : this.renderLander()}
