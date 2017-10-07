@@ -1,91 +1,44 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { slide as Menu } from 'react-burger-menu';
 import LoaderButton from "../components/LoaderButton";
-import Toggle from 'react-toggle'
 import Octoicon from 'react-octicon';
-import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./Entry.css";
-import "react-toggle/style.css"
 
 export default class Entry extends Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-    //just a test entry list
-=======
->>>>>>> frontend
 
     this.pathName = this.props.location.pathname;
-	this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
-	if (this.props.journal.length > 0) {
-		var journal = this.getJournal();
-		console.log(journal);
-		this.props.updateChildProps({
-			currentEntry: null,
-			currentJournal: journal,
-			currentEntryRevision: null
-		});
-		console.log(this.props.currentJournal);
-	}
-	
+    this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
+
     this.state = {
-<<<<<<< HEAD
       isLoading: false,
-=======
-      EntryName: "",
-      isLoading: true,
->>>>>>> master
       deleteSelected: "",
       searchText: "",
       startDate: null,
       endDate: null,
       showHidden: false,
       showDeleted: false,
-<<<<<<< HEAD
       showFilter: false,
-      data: [],
-      eggsAreReady: false
-=======
-      entries: [],
-      filteredEntries: [],
->>>>>>> master
+      data: []
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
-<<<<<<< HEAD
   componentWillMount() {
     this.getDummyData();
   }
 
   handleDelete(entry) {
-=======
-  getJournal(){
-	var journal = this.props.journal;
-	for (var i = 0; i < journal.length; i++ ) {
-		if(journal[i].journalid === this.props.match.params.journalId) {
-			return journal[i];
-		}
-	
-	}
-
-	return null;
-
-  }
-
-  handleSelete(select) {
->>>>>>> master
     this.setState({
       deleteSelected: entry
     });
   }
 
-<<<<<<< HEAD
   handleSearchChange = event => {
     this.setState({
       searchText: event.target.value
@@ -101,27 +54,6 @@ export default class Entry extends Component {
   handleChangeEnd(date) {
     if (date != null && moment(date).format("hh:mmA") === "12:00AM") {
       date = moment(date).add(23, "h").add(59, "m")
-=======
-  componentWillReceiveProps(nextProps) {
-	if(this.state.isLoading){
-		var journal = this.getJournal();
-		this.props.updateChildProps({
-			currentEntry: null,
-			currentJournal: journal,
-			currentEntryRevision: null
-		});
-		this.setState({isLoading: false});
-	}
-	
-}
-
-  handleDelete(data) {
-    for (var i = 0; i < this.entryLists.length; i++) {
-      if (this.entryLists[i] == data) {
-        this.entryLists.splice(i, 1);
-        break;
-      }
->>>>>>> master
     }
     this.setState({
       endDate: date
@@ -208,37 +140,6 @@ export default class Entry extends Component {
     )
   }
 
-<<<<<<< HEAD
-    var pageTitle = this.journalTitle + " Entries";
-	var data = this.getJournal().enteries;
-	console.log(data);
-    var cards = [];
-    for (var i = 0; i < data.length; i++) {
-      var pathName = "/editEntry/${" + data[i] + "}";
-      cards.push(
-        <div key={i} className="entryCards">
-          <div className="leftOptions">
-            <div className="optionsTable">
-              <div className="deleteOption">
-                <p onClick={() => this.untitled.show()}>Delete</p>
-              </div>
-              <div className="hiddenOption">
-                <p>Hide</p>
-              </div>
-              <div className="historyOption">
-                <p>History</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="entryDetails">
-            <Link to={pathName} key={i + data.length} className="entryLink">
-              <div className="entryTitle">
-                <h3>{data[i].content}</h3>
-              </div>
-              <div className="entrySubtitle">
-                <p>Last Updated: {data[i].updatedAt}</p>
-=======
   filterHiddenAndDeleted(entry) {
     if (!this.state.showHidden && !this.state.showDeleted) {
       if (entry.state === "active") {
@@ -357,14 +258,14 @@ export default class Entry extends Component {
     }
     return entries.map(
       (e, i) =>
-        <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
-          <ul className="options" id="optionsNew">
-            <li>{this.deleteButton(e)}</li>
-            <li><button type="button" className="btn btn-link" disabled={e.state === "deleted"}>{e.state === "hidden" ? "Unhide" : "Hide"}</button></li>
-            <li><button type="button" className="btn btn-link">History</button></li>
-          </ul>
+        <div key={i} className="card journal-card entry-card">
+          <div className="options">
+            {this.deleteButton(e)}
+            <button type="button" className="btn btn-link" disabled={e.state === "deleted"}>{e.state === "hidden" ? "Unhide" : "Hide"}</button>
+            <button type="button" className="btn btn-link">History</button>
+          </div>
           <div className="entry-details">
-            <Link to="/editEntry/:{this-should-be-entryID}" className="card-link">
+            <Link to="/test" className="card-link">
               <div className="entry-title">
                 <h3>{e.title}</h3>
                 {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
@@ -372,16 +273,11 @@ export default class Entry extends Component {
               </div>
               <div className="entry-date">
                 <p>Last updated: {moment(e.lastUpdated).format("hh:mmA DD MMMM YYYY")}</p>
->>>>>>> frontend
               </div>
             </Link>
           </div>
         </div>
     );
-  }
-
-  showSettings(event) {
-    event.preventDefault();
   }
 
   render() {
@@ -390,38 +286,9 @@ export default class Entry extends Component {
     if (this.state.showFilter) {
       filter = this.renderFilter();
     }
-
-    const menuOptions = {
-      isOpen: this.state.isMenuOpen,
-      close: this.close,
-      toggle: <button type="button" onClick={this.toggle}>Click me!</button>,
-      align: 'right'
-    };
     return (
       <div>
         {filter}
-        <div>
-          <div>
-            <div className="hiddenToggle">
-              <Toggle
-                defaultChecked={this.state.eggsAreReady}
-                aria-labelledby='biscuit-label'
-                onChange={this.handleHiddenChange.bind(this, "showHidden")}
-              />
-            </div>
-            <p className="hiddenToggleText">Hidden</p>
-          </div>
-          <div>
-            <div className="deletedToggle">
-              <Toggle
-                defaultChecked={this.state.eggsAreReady}
-                aria-labelledby='biscuit-label'
-                onChange={this.handleDeletedChange.bind(this, "showDeleted")}
-              />
-            </div>
-            <p className="deletedToggleText">Deleted</p>
-          </div>
-        </div>
         <div id="search" className="input-group">
           <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
           <Octoicon className="search-icon" name="search" />
@@ -430,15 +297,9 @@ export default class Entry extends Component {
           </span>
         </div>
         <Link to="/" className="linkText">
-<<<<<<< HEAD
           <div className="return">
-            <p className="backFont">Back to Journals</p>
-            <Octoicon mega name="arrow-left" />
-=======
-          <div className="return"> 
             <p>Back to Journals</p>
-            <Octoicon mega name="mail-reply"/>
->>>>>>> master
+            <Octoicon mega name="arrow-left" />
           </div>
         </Link>
         <div className="header">

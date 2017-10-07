@@ -60,8 +60,7 @@ export default class EditEntry extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-	const { editorState } = this.state;
-	console.log(this.props);
+    const { editorState } = this.state;
 
     var contentState = editorState.getCurrentContent();
     this.props.currentJournal.enteries.push({
@@ -72,7 +71,7 @@ export default class EditEntry extends React.Component {
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
       revision: []
-    });    
+    });
 
     try {
       const update = this.updateJournal(this.props.currentJournal);
@@ -87,7 +86,7 @@ export default class EditEntry extends React.Component {
     invokeApig({
       path: "/journal/" + journal.journalid,
       method: "PUT",
-      body: {enteries: journal.enteries}
+      body: { enteries: journal.enteries }
     })
   }
 
@@ -110,80 +109,41 @@ export default class EditEntry extends React.Component {
       }
     }
 
-<<<<<<< HEAD
-    return (  
-        <div>
-            <h1 className="pageHeader">Entry Title: this is entry title</h1>
-            <br/>
-            <div>
-            <h2>Content</h2>
-            <form onSubmit={this.handleSubmit}>
-              <div className="RichEditor-root">
-              <InlineStyleControls
-=======
     return (
       <div>
-        <h1>Entry</h1>
+        <h1 className="pageHeader">Entry Title: this is entry title</h1>
         <br />
-        <h2>Content</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div className="RichEditor-root">
-            <InlineStyleControls
->>>>>>> master
-              editorState={editorState}
-              onToggle={this.toggleInlineStyle}
-            />
-            <div className={className} onClick={this.focus}>
-              <Editor
-                customStyleMap={styleMap}
+        <div>
+          <h2>Content</h2>
+          <form onSubmit={this.handleSubmit}>
+            <div className="RichEditor-root">
+              <InlineStyleControls
                 editorState={editorState}
-                handleKeyCommand={this.handleKeyCommand}
-                onChange={this.onChange}
-                onTab={this.onTab}
-                ref="editor"
-                spellCheck={true}
+                onToggle={this.toggleInlineStyle}
               />
-<<<<<<< HEAD
               <div className={className} onClick={this.focus}>
-                    <Editor
-                        customStyleMap={styleMap}
-                        editorState={editorState}
-                        handleKeyCommand={this.handleKeyCommand}
-                        onChange={this.onChange}
-                        onTab={this.onTab}
-                        ref="editor"
-                        spellCheck={true}
-                    />
+                <Editor
+                  customStyleMap={styleMap}
+                  editorState={editorState}
+                  handleKeyCommand={this.handleKeyCommand}
+                  onChange={this.onChange}
+                  onTab={this.onTab}
+                  ref="editor"
+                  spellCheck={true}
+                />
               </div>
-              </div>
-              <div className="buttons">
-                <br/>
-              <LoaderButton
-                      type="submit"
-                      isLoading={this.state.isLoading}
-                      className="btn-primary"
-                      text="Create Journal"
-                      loadingText="Creating..."/>
-              <button type="button" className="btn btn-secondary"  >Cancel</button>
-              </div>
-          </form>
-          </div>
-        </div>
-      
-=======
             </div>
-          </div>
-          <LoaderButton
-            type="submit"
-            isLoading={this.state.isLoading}
-            className="btn-primary"
-            text="Create Journal"
-            loadingText="Creating..." />
-          <button type="button" className="btn btn-secondary"  >Cancel</button>
-        </form>
+            <LoaderButton
+              type="submit"
+              isLoading={this.state.isLoading}
+              className="btn-primary"
+              text="Create Journal"
+              loadingText="Creating..." />
+            <button type="button" className="btn btn-secondary"  >Cancel</button>
+          </form>
+        </div>
       </div>
 
->>>>>>> master
     );
   }
 }

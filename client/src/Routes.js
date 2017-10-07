@@ -19,13 +19,8 @@ export default ({ childProps }) =>
   <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
   <AppliedRoute path="/" exact component={Home} props={childProps} />
   <AppliedRoute path="/entry/:journalId" exact component={Entry} props={childProps}/>
-<<<<<<< HEAD
-  <AppliedRoute path="/editEntry/:entryName" exact component={EditEntry} props={childProps}/>
-  <AppliedRoute path="/entry/history/:entryId" exact component={EntryHistory} props={childProps}/>
-=======
   <AppliedRoute path="/editEntry/new" exact component={EditEntry} props={childProps}/>
   <AppliedRoute path="/editEntry/:entryId" exact component={EditEntry} props={childProps}/>
->>>>>>> master
   { /* Finally, catch all unmatched routes */ }
   <Route component={NotFound} />
 </Switch>;
