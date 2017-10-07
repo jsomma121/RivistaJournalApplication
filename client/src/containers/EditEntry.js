@@ -60,8 +60,7 @@ export default class EditEntry extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-	const { editorState } = this.state;
-	console.log(this.props);
+    const { editorState } = this.state;
 
     var contentState = editorState.getCurrentContent();
     this.props.currentJournal.enteries.push({
@@ -72,7 +71,7 @@ export default class EditEntry extends React.Component {
       createdAt: new Date().getTime(),
       updatedAt: new Date().getTime(),
       revision: []
-    });    
+    });
 
     try {
       const update = this.updateJournal(this.props.currentJournal);
@@ -87,7 +86,7 @@ export default class EditEntry extends React.Component {
     invokeApig({
       path: "/journal/" + journal.journalid,
       method: "PUT",
-      body: {enteries: journal.enteries}
+      body: { enteries: journal.enteries }
     })
   }
 
@@ -112,7 +111,7 @@ export default class EditEntry extends React.Component {
 
     return (
       <div>
-        <h1>Entry</h1>
+        <h1 className="pageHeader">Entry Title: this is entry title</h1>
         <br />
         <h2>Content</h2>
         <form onSubmit={this.handleSubmit}>
@@ -125,11 +124,7 @@ export default class EditEntry extends React.Component {
               <Editor
                 customStyleMap={styleMap}
                 editorState={editorState}
-                handleKeyCommand={this.handleKeyCommand}
-                onChange={this.onChange}
-                onTab={this.onTab}
-                ref="editor"
-                spellCheck={true}
+                onToggle={this.toggleInlineStyle}
               />
             </div>
           </div>

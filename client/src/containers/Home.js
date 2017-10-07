@@ -96,21 +96,6 @@ export default class Home extends Component {
     );
   }
 
-  testApi() {
-    invokeApig({
-      path: "/journal/72c90700-a8df-11e7-b551-e3303e1fa777",
-      method: "PUT",
-      body: {enteries: [
-        {
-          title: "Test"
-        },
-        {
-          title: "test2"
-        }
-      ]}
-    });  
-  }
-
   renderJournal() {
     return (
       <div className="Journal">
