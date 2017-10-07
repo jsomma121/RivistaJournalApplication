@@ -35,36 +35,6 @@
         "LogGroupName": "/aws/lambda/journal-app-api-prod-deleteJournal"
       }
     },
-    "CreateEntryLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/journal-app-api-prod-createEntry"
-      }
-    },
-    "GetEntryLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/journal-app-api-prod-getEntry"
-      }
-    },
-    "ListEntryLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/journal-app-api-prod-listEntry"
-      }
-    },
-    "UpdateEntryLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/journal-app-api-prod-updateEntry"
-      }
-    },
-    "DeleteEntryLogGroup": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "LogGroupName": "/aws/lambda/journal-app-api-prod-deleteEntry"
-      }
-    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -119,21 +89,6 @@
                     },
                     {
                       "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-deleteJournal:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-createEntry:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-getEntry:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-listEntry:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-updateEntry:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-deleteEntry:*"
                     }
                   ]
                 },
@@ -157,21 +112,6 @@
                     },
                     {
                       "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-deleteJournal:*:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-createEntry:*:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-getEntry:*:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-listEntry:*:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-updateEntry:*:*"
-                    },
-                    {
-                      "Fn::Sub": "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/journal-app-api-prod-deleteEntry:*:*"
                     }
                   ]
                 },
@@ -213,7 +153,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507271633611-2017-10-06T06:33:53.611Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-createJournal",
         "Handler": "createJournal.main",
@@ -232,14 +172,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
+    "CreateJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateJournalLambdaFunction"
         },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
+        "CodeSha256": "HA8nUPMmsimADY5/X7zjDyIo/wbkn8vuuqzucq0XGIg="
       }
     },
     "GetJournalLambdaFunction": {
@@ -249,7 +189,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507271633611-2017-10-06T06:33:53.611Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-getJournal",
         "Handler": "getJournal.main",
@@ -268,14 +208,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
+    "GetJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetJournalLambdaFunction"
         },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
+        "CodeSha256": "HA8nUPMmsimADY5/X7zjDyIo/wbkn8vuuqzucq0XGIg="
       }
     },
     "ListJournalLambdaFunction": {
@@ -285,7 +225,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507271633611-2017-10-06T06:33:53.611Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-listJournal",
         "Handler": "listJournal.main",
@@ -304,14 +244,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ListJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
+    "ListJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListJournalLambdaFunction"
         },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
+        "CodeSha256": "HA8nUPMmsimADY5/X7zjDyIo/wbkn8vuuqzucq0XGIg="
       }
     },
     "UpdateJournalLambdaFunction": {
@@ -321,7 +261,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507271633611-2017-10-06T06:33:53.611Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-updateJournal",
         "Handler": "updateJournal.main",
@@ -340,14 +280,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "UpdateJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
+    "UpdateJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateJournalLambdaFunction"
         },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
+        "CodeSha256": "HA8nUPMmsimADY5/X7zjDyIo/wbkn8vuuqzucq0XGIg="
       }
     },
     "DeleteJournalLambdaFunction": {
@@ -357,7 +297,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
+          "S3Key": "serverless/journal-app-api/prod/1507271633611-2017-10-06T06:33:53.611Z/journal-app-api.zip"
         },
         "FunctionName": "journal-app-api-prod-deleteJournal",
         "Handler": "deleteJournal.main",
@@ -376,194 +316,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "DeleteJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
+    "DeleteJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteJournalLambdaFunction"
         },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
-      }
-    },
-    "CreateEntryLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
-        },
-        "FunctionName": "journal-app-api-prod-createEntry",
-        "Handler": "createEntry.main",
-        "MemorySize": 1024,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs6.10",
-        "Timeout": 6
-      },
-      "DependsOn": [
-        "CreateEntryLogGroup",
-        "IamRoleLambdaExecution"
-      ]
-    },
-    "CreateEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "CreateEntryLambdaFunction"
-        },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
-      }
-    },
-    "GetEntryLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
-        },
-        "FunctionName": "journal-app-api-prod-getEntry",
-        "Handler": "getEntry.main",
-        "MemorySize": 1024,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs6.10",
-        "Timeout": 6
-      },
-      "DependsOn": [
-        "GetEntryLogGroup",
-        "IamRoleLambdaExecution"
-      ]
-    },
-    "GetEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "GetEntryLambdaFunction"
-        },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
-      }
-    },
-    "ListEntryLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
-        },
-        "FunctionName": "journal-app-api-prod-listEntry",
-        "Handler": "listEntry.main",
-        "MemorySize": 1024,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs6.10",
-        "Timeout": 6
-      },
-      "DependsOn": [
-        "ListEntryLogGroup",
-        "IamRoleLambdaExecution"
-      ]
-    },
-    "ListEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "ListEntryLambdaFunction"
-        },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
-      }
-    },
-    "UpdateEntryLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
-        },
-        "FunctionName": "journal-app-api-prod-updateEntry",
-        "Handler": "updateEntry.main",
-        "MemorySize": 1024,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs6.10",
-        "Timeout": 6
-      },
-      "DependsOn": [
-        "UpdateEntryLogGroup",
-        "IamRoleLambdaExecution"
-      ]
-    },
-    "UpdateEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "UpdateEntryLambdaFunction"
-        },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
-      }
-    },
-    "DeleteEntryLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/journal-app-api/prod/1506858877270-2017-10-01T11:54:37.270Z/journal-app-api.zip"
-        },
-        "FunctionName": "journal-app-api-prod-deleteEntry",
-        "Handler": "deleteEntry.main",
-        "MemorySize": 1024,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleLambdaExecution",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs6.10",
-        "Timeout": 6
-      },
-      "DependsOn": [
-        "DeleteEntryLogGroup",
-        "IamRoleLambdaExecution"
-      ]
-    },
-    "DeleteEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "DeleteEntryLambdaFunction"
-        },
-        "CodeSha256": "xB7zcs+qMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk="
+        "CodeSha256": "HA8nUPMmsimADY5/X7zjDyIo/wbkn8vuuqzucq0XGIg="
       }
     },
     "ApiGatewayRestApi": {
@@ -592,30 +352,6 @@
       "Properties": {
         "ParentId": {
           "Ref": "ApiGatewayResourceJournal"
-        },
-        "PathPart": "{id}",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayResourceJournalEntry": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Ref": "ApiGatewayResourceJournal"
-        },
-        "PathPart": "entry",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayResourceJournalEntryIdVar": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Ref": "ApiGatewayResourceJournalEntry"
         },
         "PathPart": "{id}",
         "RestApiId": {
@@ -709,98 +445,6 @@
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceJournalIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayMethodJournalEntryOptions": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true,
-              "method.response.header.Access-Control-Allow-Credentials": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'",
-                "method.response.header.Access-Control-Allow-Credentials": "'false'"
-              },
-              "ResponseTemplates": {
-                "application/json": ""
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntry"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
-    "ApiGatewayMethodJournalEntryIdVarOptions": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true,
-              "method.response.header.Access-Control-Allow-Credentials": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,PUT,GET'",
-                "method.response.header.Access-Control-Allow-Credentials": "'false'"
-              },
-              "ResponseTemplates": {
-                "application/json": ""
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntryIdVar"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -997,197 +641,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayMethodJournalEntryPost": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "POST",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntry"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "AuthorizationType": "AWS_IAM",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "CreateEntryLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      }
-    },
-    "ApiGatewayMethodJournalEntryIdVarGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntryIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "AuthorizationType": "AWS_IAM",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "GetEntryLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      }
-    },
-    "ApiGatewayMethodJournalEntryGet": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "GET",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntry"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "AuthorizationType": "AWS_IAM",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "ListEntryLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      }
-    },
-    "ApiGatewayMethodJournalEntryIdVarPut": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "PUT",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntryIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "AuthorizationType": "AWS_IAM",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "UpdateEntryLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      }
-    },
-    "ApiGatewayMethodJournalEntryIdVarDelete": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "DELETE",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceJournalEntryIdVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "AuthorizationType": "AWS_IAM",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:aws:apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "DeleteEntryLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      }
-    },
-    "ApiGatewayDeployment1506858877332": {
+    "ApiGatewayDeployment1507271633670": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1200,12 +654,7 @@
         "ApiGatewayMethodJournalIdVarGet",
         "ApiGatewayMethodJournalGet",
         "ApiGatewayMethodJournalIdVarPut",
-        "ApiGatewayMethodJournalIdVarDelete",
-        "ApiGatewayMethodJournalEntryPost",
-        "ApiGatewayMethodJournalEntryIdVarGet",
-        "ApiGatewayMethodJournalEntryGet",
-        "ApiGatewayMethodJournalEntryIdVarPut",
-        "ApiGatewayMethodJournalEntryIdVarDelete"
+        "ApiGatewayMethodJournalIdVarDelete"
       ]
     },
     "CreateJournalLambdaPermissionApiGateway": {
@@ -1372,171 +821,6 @@
           ]
         }
       }
-    },
-    "CreateEntryLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "CreateEntryLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:aws:execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
-    "GetEntryLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "GetEntryLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:aws:execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
-    "ListEntryLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "ListEntryLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:aws:execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
-    "UpdateEntryLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "UpdateEntryLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:aws:execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
-    },
-    "DeleteEntryLambdaPermissionApiGateway": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "DeleteEntryLambdaFunction",
-            "Arn"
-          ]
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Join": [
-            "",
-            [
-              "arn:aws:execute-api:",
-              {
-                "Ref": "AWS::Region"
-              },
-              ":",
-              {
-                "Ref": "AWS::AccountId"
-              },
-              ":",
-              {
-                "Ref": "ApiGatewayRestApi"
-              },
-              "/*/*"
-            ]
-          ]
-        }
-      }
     }
   },
   "Outputs": {
@@ -1548,61 +832,31 @@
     "CreateJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
+        "Ref": "CreateJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg"
       }
     },
     "GetJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
+        "Ref": "GetJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg"
       }
     },
     "ListJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
+        "Ref": "ListJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg"
       }
     },
     "UpdateJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
+        "Ref": "UpdateJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg"
       }
     },
     "DeleteJournalLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteJournalLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
-      }
-    },
-    "CreateEntryLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "CreateEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
-      }
-    },
-    "GetEntryLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "GetEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
-      }
-    },
-    "ListEntryLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "ListEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
-      }
-    },
-    "UpdateEntryLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "UpdateEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
-      }
-    },
-    "DeleteEntryLambdaFunctionQualifiedArn": {
-      "Description": "Current Lambda function version",
-      "Value": {
-        "Ref": "DeleteEntryLambdaVersionxB7zcsqMb4OvHoXCz8Yj3ytrSwFwSZJKIiWr4vyOtk"
+        "Ref": "DeleteJournalLambdaVersionHA8nUPMmsimADY5X7zjDyIowbkn8vuuqzucq0XGIg"
       }
     },
     "ServiceEndpoint": {

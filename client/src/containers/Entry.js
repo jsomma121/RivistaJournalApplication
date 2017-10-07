@@ -16,34 +16,73 @@ export default class Entry extends Component {
     super(props);
 
     this.pathName = this.props.location.pathname;
-    this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
-
+	this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
+	console.log(this.props.journal);
+	if (this.props.journal.length > 0) {
+		var journal = this.getJournal();
+		console.log(journal);
+		this.props.updateChildProps({
+			currentEntry: null,
+			currentJournal: journal,
+			currentEntryRevision: null
+		});
+		console.log(this.props.journal);
+	}
+	
     this.state = {
+<<<<<<< HEAD
       isLoading: false,
+=======
+      EntryName: "",
+      isLoading: true,
+>>>>>>> master
       deleteSelected: "",
       searchText: "",
       startDate: null,
       endDate: null,
       showHidden: false,
       showDeleted: false,
+<<<<<<< HEAD
       showFilter: false,
       data: [],
       eggsAreReady: false
+=======
+      entries: [],
+      filteredEntries: [],
+>>>>>>> master
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
   }
 
+<<<<<<< HEAD
   componentWillMount() {
     this.getDummyData();
   }
 
   handleDelete(entry) {
+=======
+  getJournal(){
+	var journal = this.props.journal;
+	for (var i = 0; i < journal.length; i++ ) {
+		if(journal[i].journalid === this.props.match.params.journalId) {
+			return journal[i];
+		}
+	
+	}
+
+	return null;
+
+  }
+
+  handleSelete(select) {
+>>>>>>> master
     this.setState({
       deleteSelected: entry
     });
   }
 
+<<<<<<< HEAD
   handleSearchChange = event => {
     this.setState({
       searchText: event.target.value
@@ -59,6 +98,27 @@ export default class Entry extends Component {
   handleChangeEnd(date) {
     if (date != null && moment(date).format("hh:mmA") === "12:00AM") {
       date = moment(date).add(23, "h").add(59, "m")
+=======
+  componentWillReceiveProps(nextProps) {
+	if(this.state.isLoading){
+		var journal = this.getJournal();
+		this.props.updateChildProps({
+			currentEntry: null,
+			currentJournal: journal,
+			currentEntryRevision: null
+		});
+		this.setState({isLoading: false});
+	}
+	
+}
+
+  handleDelete(data) {
+    for (var i = 0; i < this.entryLists.length; i++) {
+      if (this.entryLists[i] == data) {
+        this.entryLists.splice(i, 1);
+        break;
+      }
+>>>>>>> master
     }
     this.setState({
       endDate: date
@@ -335,9 +395,15 @@ export default class Entry extends Component {
           </span>
         </div>
         <Link to="/" className="linkText">
+<<<<<<< HEAD
           <div className="return">
             <p className="backFont">Back to Journals</p>
             <Octoicon mega name="arrow-left" />
+=======
+          <div className="return"> 
+            <p>Back to Journals</p>
+            <Octoicon mega name="mail-reply"/>
+>>>>>>> master
           </div>
         </Link>
         <div className="header">

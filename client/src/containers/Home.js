@@ -19,6 +19,7 @@ export default class Home extends Component {
     this.state = {
       isLoading: true,
       journalTitle: '',
+      journalId: '99292f88-f840-4f8c-bdb4-4ae7d8c0309a',
       journal: [],
       isShowingModal: false,
     };
@@ -28,6 +29,7 @@ export default class Home extends Component {
     if (!this.props.isAuthenticated) {
       return console.log('Is not logged in');
     }
+<<<<<<< HEAD
 
     if (this.state.journal.length === 0) {
       try {
@@ -86,6 +88,15 @@ export default class Home extends Component {
           </Link>
         </div>
     )
+=======
+    if (this.props.journal != null) {
+      this.setState({ journal: this.props.journal })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ journal: nextProps.journal });
+>>>>>>> master
   }
 
   handleChange = event => {
@@ -96,22 +107,33 @@ export default class Home extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     this.setState({ isLoading: true });
 
     try {
       const data = await this.createJournal({
         journalTitle: this.state.journalTitle
       });
+<<<<<<< HEAD
       //TO-DO - deal with the close modal problem
       this.handleClose();
       window.location.reload();
       return
 
+=======
+      console.log(this.props);
+      this.props.handleUpdate();
+      return
+>>>>>>> master
     } catch (e) {
       this.setState({ isLoading: false });
     }
   }
 
+<<<<<<< HEAD
   handleClick = () => this.setState({ isShowingModal: true })
   handleClose = () =>
     this.setState({
@@ -120,6 +142,8 @@ export default class Home extends Component {
     }
     )
 
+=======
+>>>>>>> master
   createJournal(journal) {
     return invokeApig({
       path: "/journal",
@@ -128,9 +152,30 @@ export default class Home extends Component {
     });
   }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> master
   handleJournalClick = event => {
     event.preventDefault();
     this.props.history.push(event.currentTarget.getAttribute("href"));
+  }
+
+  renderJournalList(journal) {
+    return journal.map(
+      (j, i) =>
+        <div>
+          <Link key={i} to={'/entry/' + j.journalid} className="card-link">
+            <div className='card journal-card'>
+              <h4 className="card-title journal-title">{j.journalTitle}</h4>
+              <p>{new Date(j.createdAt).toLocaleString()}</p>
+            </div>
+          </Link>
+
+        </div>
+
+    )
   }
 
   renderLander() {
@@ -140,6 +185,21 @@ export default class Home extends Component {
         <p>A simple note taking app</p>
       </div>
     );
+  }
+
+  testApi() {
+    invokeApig({
+      path: "/journal/72c90700-a8df-11e7-b551-e3303e1fa777",
+      method: "PUT",
+      body: {enteries: [
+        {
+          title: "Test"
+        },
+        {
+          title: "test2"
+        }
+      ]}
+    });  
   }
 
   renderJournal() {
@@ -183,11 +243,14 @@ export default class Home extends Component {
           }
         </div>
         <ListGroup>
-          {!this.state.isLoading && this.renderJournalList(this.state.journal)}
+          {this.renderJournalList(this.props.journal)}
         </ListGroup>
+<<<<<<< HEAD
 
         {/* old version of modal
 
+=======
+>>>>>>> master
         <div className="modal fade" id="newJournalModal" role="dialog" aria-labelledby="newJournalModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -205,19 +268,30 @@ export default class Home extends Component {
                   </div>
                   <LoaderButton
                     type="submit"
+<<<<<<< HEAD
                     isLoading={this.state.isLoading}
                     className="btn-primary"
                     text="Create Journal"
                     loadingText="Creating..." />
                   <button type="button" className="btn btn-secondary" onClick={this.props.close} data-dismiss="modal">Cancel</button>
+=======
+                    isLoading={!this.state.isLoading}
+                    className="btn-primary"
+                    text="Create Journal"
+                    loadingText="Creating..." />
+                  <button type="button" className="btn btn-secondary" onClick={this.props.onRequestHide} data-dismiss="modal">Cancel</button>
+>>>>>>> master
                 </form>
               </div>
             </div>
           </div>
         </div>
+<<<<<<< HEAD
 
         old version of modal */}
 
+=======
+>>>>>>> master
       </div>
     );
   }

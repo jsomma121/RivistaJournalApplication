@@ -6,12 +6,14 @@ import sigV4Client from "./sigV4Client";
 export async function authUser() {
   if (
     AWS.config.credentials &&
-    Date.now() < AWS.config.credentials.expireTime - 60000
+	Date.now() < AWS.config.credentials.expireTime - 100
+	
   ) {
     return true;
   }
 
   const currentUser = getCurrentUser();
+
 
   if (currentUser === null) {
     return false;
@@ -19,7 +21,8 @@ export async function authUser() {
 
   const userToken = await getUserToken(currentUser);
 
-  await getAwsCredentials(userToken);
+  const data = await getAwsCredentials(userToken);
+
 
   return true;
 }
@@ -29,6 +32,11 @@ export function signOutUser() {
 
   if (currentUser !== null) {
     currentUser.signOut();
+  }
+
+  if(AWS.config.credentials) {
+	  AWS.config.credentials.clearCachedId();
+	  AWS.config.credentials = new AWS.CognitoIdentityCredentials({});
   }
 }
 
@@ -55,7 +63,7 @@ function getCurrentUser() {
 function getAwsCredentials(userToken) {
   const authenticator = `cognito-idp.${config.cognito
     .REGION}.amazonaws.com/${config.cognito.USER_POOL_ID}`;
-
+ 
   AWS.config.update({ region: config.cognito.REGION });
   
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -65,6 +73,9 @@ function getAwsCredentials(userToken) {
     }
   });
 
+//   // Clears the cached version of the user detials everytime it gets AWS credientials
+//   AWS.config.credentials.clearCachedId();
+  
   return AWS.config.credentials.getPromise();
 }
 
@@ -88,24 +99,23 @@ export async function invokeApig({
       sessionToken: AWS.config.credentials.sessionToken,
       region: config.apiGateway.REGION,
       endpoint: config.apiGateway.URL
-    })
-
-    .signRequest({
+    }).signRequest({
       method,
       path,
       headers,
       queryParams,
       body
     });
-
-    body = body ? JSON.stringify(body) : body;
+    
+	body = body ? JSON.stringify(body) : body;
+	console.log(body);
     headers = signedRequest.headers;
-
-  const results = await fetch(signedRequest.url, {
-    method,
-    headers,
-    body
-  });
+    const results = await fetch(signedRequest.url, {
+      method,
+      headers,
+      body
+	});
+	
 
   if (results.status !== 200) {
     throw new Error(await results.text());

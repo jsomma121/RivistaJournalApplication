@@ -5,8 +5,12 @@ import { Link, withRouter } from "react-router-dom";
 import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
 import PlusIcon from 'react-icons/lib/fa/plus';
+<<<<<<< HEAD
 import newJournalClicked from './containers/Home';
 import { authUser, signOutUser } from "./libs/awsLib";
+=======
+import { invokeApig, authUser, signOutUser } from "./libs/awsLib";
+>>>>>>> master
 import "./App.css";
 
 class App extends Component {
@@ -15,15 +19,17 @@ class App extends Component {
 
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: false
+      isAuthenticating: false,
+      isLoading: true,
+      currentJournal: null,
+      currentEntry: null,
+      currentEntryRevision: null,
+      journal: []
     };
 
     this.searchBar;
   }
 
-  userHasAuthenticated = authenticated => {
-    this.setState({ isAuthenticated: authenticated });
-  }
 
   getMenu(route) {
     var menu = [];
@@ -50,24 +56,39 @@ class App extends Component {
       case '/':
         menu.splice(0, menu.length);
         menu.push(
+<<<<<<< HEAD
           <div key="2" className="navbar-toggler navbar-toggler-right">
+=======
+          <div key="1" className="navbar-toggler navbar-toggler-right">
+            <button type="button" className="btn btn-success right" data-toggle="modal" data-target="#newJournalModal">New Journal <PlusIcon /></button>
+>>>>>>> master
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
       case '/entry':
+<<<<<<< HEAD
         menu.splice(0, menu.length);
         menu.push(
           <div key="3" className="navbar-toggler navbar-toggler-right">
+=======
+        menu.push(
+          <div key="2" className="navbar-toggler navbar-toggler-right">
+>>>>>>> master
             <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon /></button>
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
         break;
       case '/editEntry/:entryName':
+<<<<<<< HEAD
         menu.splice(0, menu.length);
         menu.push(
           <div key="4" className="navbar-toggler navbar-toggler-right">
+=======
+        menu.push(
+          <div key="3" className="navbar-toggler navbar-toggler-right">
+>>>>>>> master
             <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
           </div>
         )
@@ -79,13 +100,14 @@ class App extends Component {
 
   handleNewEntryCick = event => {
     event.preventDefault();
-    this.props.history.push('/editEntry/:entryName');
+    this.props.history.push('/editEntry/new');
   }
 
   async componentDidMount() {
     try {
       if (await authUser()) {
         this.userHasAuthenticated(true);
+        this.getJournals();
       }
     }
     catch (e) {
@@ -95,16 +117,63 @@ class App extends Component {
     this.setState({ isAuthenticating: false });
   }
 
+  async componentDidUpdate() {
+    console.log(this.state.isLoading);
+    try {
+      if (this.state.isLoading) {
+        this.getJournals();
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  handleUpdate() {
+    this.setState({isLoading: true});
+  }
+
   handleLogout = event => {
     signOutUser();
     this.userHasAuthenticated(false);
     this.props.history.push("/login");
   }
 
+  userHasAuthenticated = authenticated => {
+    this.setState({ isAuthenticated: authenticated });
+  }
+
+  async getJournals() {
+    try {
+      const getData = await invokeApig({ path: "/journal" });
+
+      this.setState({ journal: getData });
+    } catch (e) {
+      alert(e);
+    }
+    this.setState({ isLoading: false });
+  }
+
+  updateChildProps = current => {
+    this.setState({
+      currentEntry: current.currentEntry,
+      currentJournal: current.currentJournal,
+      currentEntryRevision: current.currentEntryRevision
+    })
+  }
+
   render() {
+    console.log(this.state.journal);
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
-      userHasAuthenticated: this.userHasAuthenticated
+      userHasAuthenticated: this.userHasAuthenticated,
+      isLoading: this.state.isLoading,
+      handleUpdate: this.handleUpdate,
+      journal: this.state.journal,
+      updateChildProps: this.updateChildProps,
+      currentJournal: this.state.currentJournal,
+      currentEntry: this.state.currentEntry,
+      currentEntryRevision: this.state.currentEntryRevision
+
     };
 
     return (
