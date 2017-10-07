@@ -30,22 +30,22 @@ export default class Login extends Component {
   }
 
   login(email, password) {
-    const userPool = new CognitoUserPool({
-      UserPoolId: config.cognito.USER_POOL_ID,
-      ClientId: config.cognito.APP_CLIENT_ID
-    });
-    const user = new CognitoUser({ Username: email, Pool: userPool });
-    const authenticationData = { Username: email, Password: password };
-    const authenticationDetails = new AuthenticationDetails(authenticationData);
+      const userPool = new CognitoUserPool({
+        UserPoolId: config.cognito.USER_POOL_ID,
+        ClientId: config.cognito.APP_CLIENT_ID
+      });
+      const user = new CognitoUser({ Username: email, Pool: userPool });
+      const authenticationData = { Username: email, Password: password };
+      const authenticationDetails = new AuthenticationDetails(authenticationData);
+      
 
-
-    // Fetch the details and await response
-    return new Promise((resolve, reject) =>
-      user.authenticateUser(authenticationDetails, {
-        onSuccess: result => { resolve() },
-        onFailure: err => reject(err)
-      })
-    );
+      // Fetch the details and await response
+      return new Promise((resolve, reject) =>
+        user.authenticateUser(authenticationDetails, {
+          onSuccess: result => {resolve()},
+          onFailure: err => reject(err)
+        })
+      );
   }
 
   handleRedirect = () => {
@@ -55,7 +55,7 @@ export default class Login extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
-
+  
     try {
       // API Call
       await this.login(this.state.email, this.state.password);
@@ -64,50 +64,47 @@ export default class Login extends Component {
       alert(e);
     }
   }
-
+  
 
   render() {
-
+    
     // if ( this.redirect ) {
     //   return <Redirect to='/journal'/>;
     // }
 
     return (
-      <div>
-        <br /><br />
-        <div className="card login-card">
-          <h3 className="card-title  login-form-title">Login</h3>
-          <form onSubmit={this.handleSubmit}>
-            <FormGroup controlId="email" bsSize="large">
-              <ControlLabel>Email</ControlLabel>
-              <FormControl
-                autoFocus
-                type="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup controlId="password" bsSize="large">
-              <ControlLabel>Password</ControlLabel>
-              <FormControl
-                value={this.state.password}
-                onChange={this.handleChange}
-                type="password"
-              />
-            </FormGroup>
-            <LoaderButton
-              block
-              bsSize="large"
-              disabled={!this.validateForm()}
-              type="submit"
-              className="btn-primary"
-              isLoading={this.state.isLoading}
-              text="Login"
-              loadingText="Logging in…"
+      <div className="card login-card">
+        <h3 className="card-title  login-form-title">Login</h3>
+        <form onSubmit={this.handleSubmit}>
+          <FormGroup controlId="email" bsSize="large">
+            <ControlLabel>Email</ControlLabel>
+            <FormControl
+              autoFocus
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange}
             />
-            <p>Don't have an account? <Link to="/signup">Signup here</Link> </p>
-          </form>
-        </div>
+          </FormGroup>
+          <FormGroup controlId="password" bsSize="large">
+            <ControlLabel>Password</ControlLabel>
+            <FormControl
+              value={this.state.password}
+              onChange={this.handleChange}
+              type="password"
+            />
+          </FormGroup>
+          <LoaderButton
+            block
+            bsSize="large"
+            disabled={!this.validateForm()}
+            type="submit"
+            className="btn-primary"
+            isLoading={this.state.isLoading}
+            text="Login"
+            loadingText="Logging in…"
+          />
+          <p>Don't have an account? <Link to="/signup">Signup here</Link> </p>
+        </form>
       </div>
     );
   }

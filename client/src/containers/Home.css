@@ -1,3 +1,9 @@
+.header {
+    text-align: center;
+    font-weight: 700;
+    margin-left: 8%;
+}
+
 #jListCards {
     background-color: rgb(41, 182, 246);
     box-shadow: 2px 4px 4px #888888;
@@ -9,82 +15,16 @@
     padding-left: 3%;
 }
 
-#newJournalButton {
-    position: fixed;
-    position: absolute;
-    right: 185px;
-    top: 18px;
-    z-index: 100000;
-}
-
-.journalCardsDiv {
-    padding-top: 25px;
-}
-
-.journalCreateDate {
-    padding-bottom: 10px;
-    font-size: 22px;
-}
-
-.pageHeader {
-    text-align: center;
-}
-
-.journalDetial {
-    height: 70px;
-    position: absolute;
-    top: 20px;
-}
-
-.cardArrow {
-    position: absolute;
-    font-size: 55px;
-    right: 7%;
-    top: 5px;
-}
-
-.newJournalHeader {
-    font-size: 30px;
-    width: 100%;
-    font-weight: 600;
-}
-
-.newJournalInput {
-    font-size: 20px;
-}
-
-.inputArea {
-    width: 100%;
-    height: 50px;
-}
-
 .cards {
     margin-top: 2em;
     margin-bottom: 2em;
 }
 
-#testFun {
-    color: black;
-    background-color: white;
-    text-align: left;
-}
-
-#testFun:hover {
-    background-color: rgb(92, 220, 255);
-    color: #444444;
-    border-color: rgb(92, 220, 255);
-    -webkit-box-shadow: 6px 8px 6px -6px #999;
-    -moz-box-shadow: 6px 8px 6px -6px #999;
-    box-shadow: 3px 4px 3px -3px #999;
-}
-
 .journal-card:hover {
-    background-color: rgb(140, 230, 255);
+    background-color: rgb(230, 230, 230);
 }
 
 .journal-card {
-    left: 5%;
-    width: 90%;
     height: 100px;
     margin-bottom: 1.5em;
     padding: 2em;
@@ -97,7 +37,6 @@
     margin-left: 1em;
     font-size: 2em;
     font-weight: 600;
-    display: table-cell;
 }
 
 .card-link {

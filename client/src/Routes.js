@@ -10,7 +10,6 @@ import NewJournal from "./containers/NewJournal";
 import Signup from "./containers/Signup"; 
 import Entry from "./containers/Entry";
 import EditEntry from "./containers/EditEntry";
-import EntryHistory from "./containers/EntryHistory";
 
 export default ({ childProps }) =>
 <Switch>

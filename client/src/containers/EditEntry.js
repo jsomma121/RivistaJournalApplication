@@ -113,35 +113,29 @@ export default class EditEntry extends React.Component {
       <div>
         <h1 className="pageHeader">Entry Title: this is entry title</h1>
         <br />
-        <div>
-          <h2>Content</h2>
-          <form onSubmit={this.handleSubmit}>
-            <div className="RichEditor-root">
-              <InlineStyleControls
+        <h2>Content</h2>
+        <form onSubmit={this.handleSubmit}>
+          <div className="RichEditor-root">
+            <InlineStyleControls
+              editorState={editorState}
+              onToggle={this.toggleInlineStyle}
+            />
+            <div className={className} onClick={this.focus}>
+              <Editor
+                customStyleMap={styleMap}
                 editorState={editorState}
                 onToggle={this.toggleInlineStyle}
               />
-              <div className={className} onClick={this.focus}>
-                <Editor
-                  customStyleMap={styleMap}
-                  editorState={editorState}
-                  handleKeyCommand={this.handleKeyCommand}
-                  onChange={this.onChange}
-                  onTab={this.onTab}
-                  ref="editor"
-                  spellCheck={true}
-                />
-              </div>
             </div>
-            <LoaderButton
-              type="submit"
-              isLoading={this.state.isLoading}
-              className="btn-primary"
-              text="Create Journal"
-              loadingText="Creating..." />
-            <button type="button" className="btn btn-secondary"  >Cancel</button>
-          </form>
-        </div>
+          </div>
+          <LoaderButton
+            type="submit"
+            isLoading={this.state.isLoading}
+            className="btn-primary"
+            text="Create Journal"
+            loadingText="Creating..." />
+          <button type="button" className="btn btn-secondary"  >Cancel</button>
+        </form>
       </div>
 
     );
