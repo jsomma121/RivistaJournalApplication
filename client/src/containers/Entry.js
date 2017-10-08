@@ -21,6 +21,7 @@ export default class Entry extends Component {
     this.state = {
       isLoading: true,
       deleteSelected: "",
+      title: "",
       searchText: "",
       startDate: null,
       endDate: null,
@@ -36,12 +37,14 @@ export default class Entry extends Component {
   }
 
   getJournal() {
-    var journal = this.props.journal;
-    for (var i = 0; i < journal.length; i++) {
-      if (journal[i].journalid === this.props.match.params.journalId) {
-        return journal[i];
+    var journals = this.props.journal;
+    for (var i = 0; i < journals.length; i++) {
+      console.log(journals[i].journalid);
+      console.log(this.props.match.params.journalId);
+      console.log(journals[i].journalid === this.props.match.params.journalId);
+      if (journals[i].journalid === this.props.match.params.journalId) {
+        return journals[i];
       }
-
     }
     return null;
   }
@@ -57,21 +60,43 @@ export default class Entry extends Component {
     } catch (e) {
       this.setState({ isLoading: false });
       }
-    
-
   }
 
   componentWillMount() {
     if (this.state.isLoading) {
-      var journal = this.getJournal();
-      this.setState({currentJournal: journal});
-      this.props.updateChildProps({
-        currentEntry: null,
-        currentJournal: journal,
-        currentEntryRevision: null
-      });
-      this.setState({ isLoading: false });
-      
+      var journal = this.getJournal();      
+      if (journal != null) {
+        this.setState({
+          currentJournal: journal,
+          title: journal.journalTitle
+        });
+        this.props.updateChildProps({
+          currentEntry: null,
+          currentJournal: journal,
+          currentEntryRevision: null
+        });
+        this.setState({ isLoading: false });
+      }      
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.isLoading) {
+      var journal = this.getJournal();    
+      console.log(this.props.journal);
+      if (journal != null) {
+        console.log("got");
+        this.setState({
+          currentJournal: journal,
+          title: journal.journalTitle
+        });
+        this.props.updateChildProps({
+          currentEntry: null,
+          currentJournal: journal,
+          currentEntryRevision: null
+        });
+        this.setState({ isLoading: false});
+      }
     }
   }
 
@@ -100,9 +125,6 @@ export default class Entry extends Component {
     })
   }
 
-
-
-  
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
@@ -230,14 +252,16 @@ export default class Entry extends Component {
   }
 
   filterEntries() {
-    var entries = this.state.currentJournal.enteries;
     var filteredEntries = [];
-    for (var i = 0; i < entries.length; i++) {
-      var entry = this.filterHidden(entries[i]);
-      if (entry != null) {
-        filteredEntries.push(entry);
+    if (this.state.currentJournal != null) {
+      var entries = this.state.currentJournal.enteries;   
+      for (var i = 0; i < entries.length; i++) {
+        var entry = this.filterHidden(entries[i]);
+        if (entry != null) {
+          filteredEntries.push(entry);
+        }
       }
-    }
+    }    
     return filteredEntries;
   }
 
@@ -343,7 +367,6 @@ export default class Entry extends Component {
   }
 
   render() {
-    var pageTitle = this.journalTitle + " Entries";
     let filter = null;
     if (this.state.showFilter) {
       filter = this.renderFilter();
@@ -376,7 +399,7 @@ export default class Entry extends Component {
 
         <div>
           <div className="header">
-            <h1> {pageTitle}</h1>
+            <h1> {this.state.title}</h1>
           </div>
 
           <div className="toggleButtons">

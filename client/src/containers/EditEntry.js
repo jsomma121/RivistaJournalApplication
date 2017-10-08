@@ -30,7 +30,6 @@ export default class EditEntry extends React.Component {
       var revision = this.getRevision();
       console.log(entry);
       if (entry != null) {
-        if (revision == null) {
           this.setState({
             entry: entry,
             title: entry.title,
@@ -43,15 +42,14 @@ export default class EditEntry extends React.Component {
             currentJournal: this.props.currentJournal,
             currentEntryRevision: null
           });
-        } else {
-          this.setState({
-            entry: entry,
-            title: revision.title,
-            reason: "",
-            content: revision.content,
-            existingEntry: true
-          })
-        }
+      } else {
+        this.setState({
+          entry: this.props.currentEntry,
+          title: revision.title,
+          reason: "",
+          content: revision.content,
+          existingEntry: true
+        })
       }
 
       this.setState({ isLoading: false });
@@ -149,7 +147,7 @@ export default class EditEntry extends React.Component {
 
   handleCancel = event => {
     if (this.state.revision === null) {
-      this.props.history.push("/entry/" + this.props.match.params.entryId);
+      this.props.history.push("/entry/" + this.props.currentJournal.journalid);
     } else {
       this.props.history.push("/history/" + this.props.match.params.entryId);
     }
