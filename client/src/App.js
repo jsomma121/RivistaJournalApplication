@@ -15,7 +15,7 @@ class App extends Component {
 
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: false,
+      isAuthenticating: true,
       isLoading: true,
       currentJournal: null,
       currentEntry: null,
@@ -90,10 +90,12 @@ class App extends Component {
       if (await authUser()) {
         this.userHasAuthenticated(true);
         this.getJournals();
+      } else {
+        this.props.history.push("/login");
       }
     }
     catch (e) {
-      alert(e);
+      console.log(e);
     }
 
     this.setState({ isAuthenticating: false });
@@ -102,10 +104,12 @@ class App extends Component {
   async componentDidUpdate() {
     try {
       if (this.state.isLoading) {
-        this.getJournals();
+        if (await authUser()) {
+          this.getJournals();
+        }        
       }
     } catch (e) {
-      alert(e);
+      console.log(e)
     }
   }
 
@@ -129,7 +133,7 @@ class App extends Component {
       
       this.setState({ journal: getData });
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
     this.setState({ isLoading: false });
   }

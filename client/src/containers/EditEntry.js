@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'react-dom';
-import Octoicon from 'react-octicon';
 import { Tooltip } from 'react-bootstrap';
 import moment from 'moment';
 import { invokeApig } from '../libs/awsLib';
@@ -29,6 +27,7 @@ export default class EditEntry extends React.Component {
       var entry = this.getEntry();
       var revision = this.getRevision();
       console.log(entry);
+      console.log(revision);
       if (entry != null) {
           this.setState({
             entry: entry,
@@ -43,13 +42,16 @@ export default class EditEntry extends React.Component {
             currentEntryRevision: null
           });
       } else {
-        this.setState({
-          entry: this.props.currentEntry,
-          title: revision.title,
-          reason: "",
-          content: revision.content,
-          existingEntry: true
-        })
+        if (revision != null) {
+          this.setState({
+            entry: this.props.currentEntry,
+            title: this.props.currentEntry.title,
+            reason: revision.reason,
+            content: revision.content,
+            revision: revision,
+            existingEntry: true
+          })
+        }        
       }
 
       this.setState({ isLoading: false });
@@ -70,8 +72,8 @@ export default class EditEntry extends React.Component {
   }
 
   getRevision() {
-    if (this.state.entry != null) {
-      var revisions = this.state.entry.revision;
+    if (this.props.currentEntry != null) {
+      var revisions = this.props.currentEntry.revision;
       for (var i = 0; i < revisions.length; i++) {
         if (revisions[i].revisionId === this.props.match.params.entryId) {
           return revisions[i];
@@ -101,14 +103,22 @@ export default class EditEntry extends React.Component {
   }
 
   validateForm() {
-    return this.state.content.length > 0 && this.state.title.length > 0 && this.state.reason.length > 0
+    var contentChanged = false;
+    if (this.state.entry !== null) {
+      contentChanged = this.state.entry.revision[0].content !== this.state.content;
+    } else if (this.state.revision !== null) {
+      contentChanged = this.state.revision.content !== this.state.content;
+    } else {
+      contentChanged = true;
+    }
+    return contentChanged && this.state.content.length > 0 && this.state.title.length > 0 && this.state.reason.length > 0
   }
 
   handleSubmit = async event => {
     event.preventDefault();
     
     if (this.state.entry == null) {
-      if (this.props.currentJournal.enteries.findIndex(e => e.title === this.state.title) != -1) {
+      if (this.props.currentJournal.enteries.findIndex(e => e.title === this.state.title) !== -1) {
         this.setState({
           error: true
         })
@@ -143,13 +153,15 @@ export default class EditEntry extends React.Component {
     } catch (e) {
       this.setState({ isLoading: false });
     }
+    this.props.history.push("/entry/" + this.props.currentJournal.journalid);
   }
 
   handleCancel = event => {
+    console.log(this.state.revision);
     if (this.state.revision === null) {
       this.props.history.push("/entry/" + this.props.currentJournal.journalid);
     } else {
-      this.props.history.push("/history/" + this.props.match.params.entryId);
+      this.props.history.push("/entry/history/" + this.props.currentEntry.entryId);
     }
   }
 

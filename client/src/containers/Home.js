@@ -15,13 +15,13 @@ import "./Home.css";
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       isLoading: true,
       journalTitle: '',
       journalId: '99292f88-f840-4f8c-bdb4-4ae7d8c0309a',
       journal: [],
-      journalExists: null,
+      error: false,
       isShowingModal: false,
     };
   }
@@ -39,6 +39,17 @@ export default class Home extends Component {
     this.setState({ journal: nextProps.journal });
   }
 
+  componentDidUpdate() {
+    if (this.state.isLoading && this.props.journal.length > 0) {
+      console.log(this.state.isLoading);
+      console.log(this.props.journal);
+      this.setState({
+        journal: this.props.journal,
+        isLoading: false
+      });
+    }
+  }
+
   handleChange = event => {
     this.setState({
       journalTitle: event.target.value
@@ -48,49 +59,34 @@ export default class Home extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     var journal = this.state.journal;
-    var journalExists = null;
-
-    for(var i = 0; i < journal.length; i++){
-      if(journal[i].journalTitle === this.state.journalTitle){
-        journalExists = true;
-        break;
-      } else {
-        journalExists = false;       
-      }
-    }
-
-    if(!journalExists) {
-      
-      try {
-        const data = await this.createJournal({
-          journalTitle: this.state.journalTitle
-        }); 
+    for (var i = 0; i < journal.length; i++) {
+      if (journal[i].journalTitle === this.state.journalTitle) {
         this.setState({
-          journalExists: false,
-          isShowingModal: false,
-        });
-        
-      } catch (e) {
-        this.setState({ isLoading: false });
+          error: true
+        })
       }
-    } else {
-      this.setState({
-        journalExists: true,
-        isShowingModal: true,
-      });
+      return;
     }
-    
-    
-    
+    try {
+      const data = await this.createJournal({
+        journalTitle: this.state.journalTitle
+      });
+      this.setState({
+        journalExists: false,
+        isShowingModal: false,
+      });
+
+    } catch (e) {
+      this.setState({ isLoading: false });
+    }
   }
 
   handleClick = () => this.setState({ isShowingModal: true })
   handleClose = () =>
     this.setState({
       isShowingModal: false,
-      journalExists: false,
-    }
-    )
+      error: false
+    })
 
   createJournal(journal) {
     return invokeApig({
@@ -155,13 +151,13 @@ export default class Home extends Component {
                       </div>
                       <div className="new-journal-buttons">
                         {
-                          this.state.journalExists
+                          this.state.error
                             ? <p>A journal already exists with that name</p>
-                            : null
+                            : ""
                         }
                         <LoaderButton
                           type="submit"
-                          isLoading={!this.state.isLoading}
+                          isLoading={this.state.isLoading}
                           className="btn-primary"
                           text="Create Journal"
                           loadingText="Creating..." />
@@ -175,7 +171,7 @@ export default class Home extends Component {
           }
         </div>
         <ListGroup>
-          {this.state.isLoading && this.renderJournalList(this.state.journal)}
+          {!this.state.isLoading && this.renderJournalList(this.state.journal)}
         </ListGroup>
       </div>
     );

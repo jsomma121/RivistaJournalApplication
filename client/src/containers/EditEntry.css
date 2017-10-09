@@ -14,6 +14,15 @@
     resize: none;
   }
 
+  input:disabled {
+    cursor: not-allowed;
+  }
+
+  .edit-input:disabled {
+    background-color: #fff;
+    cursor: not-allowed;
+  }
+
   .edit-title {
     position: fixed;
     width: 400px;
@@ -32,7 +41,6 @@
 
   .edit-title .form-control:disabled {
     background-color: #ffffff;
-    cursor: not-allowed;
     border-bottom: 0px;
   }
 

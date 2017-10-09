@@ -2,60 +2,89 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import Octoicon from 'react-octicon';
 import "./EntryHistory.css";
+import moment from 'moment';
 
 export default class EntryHistory extends Component {
     constructor(props) {
         super(props);
-        //just a test entry list
-        this.entryHistoryLists = [
-            "History 1",
-            "History 2",
-            "History 3",
-            "History 4",
-            "History 5",
-            "History 6",
-            "History 7"];
-
-        this.pathName = this.props.location.pathname;
-        this.historyOfEntry = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}")) + " History";
 
         this.state = {
-
+            journal: null,
+            entry: null,
+            isLoading: true
         }
     }
 
+    componentDidMount() {
+        if (this.state.isLoading) {
+            var entry = this.getEntry();
+            if (entry != null) {
+                this.setState({
+                    journal: this.props.currentJournal,
+                    entry: entry,
+                    isLoading: false
+                })
+                this.props.updateChildProps({
+                    currentEntry: entry,
+                    currentJournal: this.props.currentJournal,
+                    currentEntryRevision: null
+                });
+            }
+        }
+    }
 
-    render() {
-        var data = this.entryHistoryLists;
-        var cards = [];
-        for (var i = 0; i < data.length; i++) {
-            var pathName = "/entry/history/${" + data[i] + "}";
-            cards.push(
+    getEntry() {
+        if (this.props.currentJournal != null) {
+            var entries = this.props.currentJournal.enteries;
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].entryId === this.props.match.params.entryId) {
+                    return entries[i];
+                }
+            }
+            return null;
+        }
+        return null;
+    }
+
+    renderRevision() {
+        return this.state.entry.revision.map((r, i) =>
+            <Link to={"/editEntry/" + r.revisionId} className="card-link">
                 <div key={i} className="entryHistoryCards">
                     <div className="entryHistoryDetail">
-                        <h className="editTime">10:42pm 24/04/2017</h>
-                        <p className="editReason">Reason: some reasons</p>
+                        <h className="editTime">{moment(r.modificationAt).format("hh:mmA DD-MM-YYYY")}</h>
+                        <p className="editReason">{r.reason}</p>
                     </div>
+                </div>
+            </Link>
+        )
+    }
+    render() {
+        if (this.state.entry != null) {
+            return (
+                <div>
+                    <Link to={"/entry/" + this.props.currentJournal.journalid} className="linkText">
+                        <div className="return">
+                            <p>Back to Entry List</p>
+                            <Octoicon mega name="arrow-left" />
+                        </div>
+                    </Link>
+
+                    <div className="header">
+                        <h1>{this.state.entry.title} History</h1>
+                    </div>
+
+                    <br />
+                    <div className="historyCards">
+                        {this.renderRevision()}
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    Loading...
                 </div>
             )
         }
-
-        return (
-            <div>
-                <div className="header">
-                    <h>{this.historyOfEntry}</h>
-                </div>
-                <Link to="/entry/" className="linkText">
-                    <div className="return">
-                        <p>Back to Entry List</p>
-                        <Octoicon mega name="mail-reply" />
-                    </div>
-                </Link>
-                <br />
-                <div className="historyCards">
-                    {cards}
-                </div>
-            </div>
-        );
     }
 }

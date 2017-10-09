@@ -344,7 +344,9 @@ export default class Entry extends Component {
           <ul className="options" id="optionsNew">
             <li>{this.deleteButton(e)}</li>
             <li>{this.hideAndUnhideButton(e)}</li>
+            <Link to={"/entry/history/" + e.entryId}>
             <li><button type="button" className="btn btn-link">History</button></li>
+            </Link>
           </ul>
           <div className="entry-details">
             <Link to={'/editEntry/' + e.entryId} className="card-link">
@@ -354,7 +356,7 @@ export default class Entry extends Component {
                 {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
               </div>
               <div className="entry-date">
-                <p>Last updated: {e.updatedAt}</p>
+                <p>Last updated: {moment(e.updatedAt).format("hh:mmA DD-MM-YYYY")}</p>
               </div>
             </Link>
           </div>
