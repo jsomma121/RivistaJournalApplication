@@ -41,7 +41,6 @@ export default class EntryHistory extends Component {
                     return entries[i];
                 }
             }
-            return null;
         }
         return null;
     }

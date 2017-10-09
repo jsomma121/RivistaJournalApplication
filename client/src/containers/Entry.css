@@ -60,6 +60,10 @@ ul {
     padding: 0;
 }
 
+.options button:disabled {
+    cursor: not-allowed;
+}
+
 .entry-details {
     margin-left:8%;
     width: 100%;

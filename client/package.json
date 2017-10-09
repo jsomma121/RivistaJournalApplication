@@ -7,6 +7,7 @@
     "aws-sdk": "^2.122.0",
     "crypto-js": "^3.1.9-1",
     "draft-js": "^0.10.3",
+    "jquery": "^3.2.1",
     "material-ui": "^0.19.3",
     "moment": "^2.18.1",
     "narcissus": "^1.0.0",

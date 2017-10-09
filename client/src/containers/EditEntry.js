@@ -11,6 +11,7 @@ export default class EditEntry extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      saveLoading: false,
       title: "",
       reason: "Created",
       content: '',
@@ -116,6 +117,9 @@ export default class EditEntry extends React.Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({
+      saveLoading: true
+    })
     
     if (this.state.entry == null) {
       if (this.props.currentJournal.enteries.findIndex(e => e.title === this.state.title) !== -1) {
@@ -153,7 +157,9 @@ export default class EditEntry extends React.Component {
     } catch (e) {
       this.setState({ isLoading: false });
     }
-    this.props.history.push("/entry/" + this.props.currentJournal.journalid);
+    this.props.handleUpdate({state: true});
+    await this.props.sleep(250);
+    this.props.history.push("/entry/" + this.props.currentJournal.journalid);    
   }
 
   handleCancel = event => {
@@ -166,7 +172,7 @@ export default class EditEntry extends React.Component {
   }
 
   updateJournal(journal) {
-    invokeApig({
+    return invokeApig({
       path: "/journal/" + journal.journalid,
       method: "PUT",
       body: { enteries: journal.enteries }
@@ -177,20 +183,20 @@ export default class EditEntry extends React.Component {
     if (!this.state.error) {
       return (
         <div className="form-group edit-title">
-          <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Title" disabled={this.state.existingEntry} />
+          <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
         </div>
       )
     } else {
       return (
         <div className="form-group has-danger edit-title">
-          <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Title" disabled={this.state.existingEntry} />
+          <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
           <Tooltip placement="bottom" className="in" id="error">
             Sorry, that title is taken.
           </Tooltip>
         </div>
       )
     }
-  }
+0  }
 
   render() {
     return (
@@ -206,11 +212,11 @@ export default class EditEntry extends React.Component {
           <div className="edit-buttons">
             <LoaderButton
               type="submit"
-              isLoading={this.state.isLoading}
+              isLoading={this.state.saveLoading}
               disabled={!this.validateForm()}
               className="btn-success"
               text="Save Entry"
-              loadingText="Creating..." />
+              loadingText="Saving..." />
             <button type="button" className="btn btn-secondary" onClick={this.handleCancel}>Cancel</button>
           </div>
         </form>

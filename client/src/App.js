@@ -113,8 +113,8 @@ class App extends Component {
     }
   }
 
-  handleUpdate() {
-    this.setState({ isLoading: true });
+  handleUpdate = state => {
+    this.setState({ isLoading: state.state });
   }
 
   handleLogout = event => {
@@ -146,6 +146,10 @@ class App extends Component {
     })
   }
 
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   render() {
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
@@ -156,8 +160,9 @@ class App extends Component {
       updateChildProps: this.updateChildProps,
       currentJournal: this.state.currentJournal,
       currentEntry: this.state.currentEntry,
-      currentEntryRevision: this.state.currentEntryRevision
-
+      currentEntryRevision: this.state.currentEntryRevision,
+      isLoading: this.state.isLoading,
+      sleep: this.sleep
     };
 
     return (
