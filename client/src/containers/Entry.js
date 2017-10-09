@@ -233,22 +233,27 @@ export default class Entry extends Component {
     return null;
   }
 
-  filterHidden(entry) {
-    if(entry.state == 'active') {
-      return entry;
+  filterHiddenAndDeleted(entry) {
+    if (!this.state.showHidden && !this.state.showDeleted) {
+      if (entry.state === "active") {
+        return entry;
+      }
+      return null;
+    } else {
+      if (this.state.showHidden && this.state.showDeleted) {
+        return entry;
+      } else if (this.state.showHidden) {
+        if (entry.state === "hidden" || entry.state === "active") {
+          return entry;
+        }
+        return null;
+      } else {
+        if (entry.state === "deleted" || entry.state === "active") {
+          return entry;
+        }
+        return null;
+      }
     }
-      // if (!this.state.showHidden ) {
-      //   if (this.state.showHidden) {
-          
-      //   } else if (this.state.showHidden) {
-      //     if (entry.state === "hidden" || entry.state === "active") {
-      //       return entry;
-      //     }
-      //     return null;
-      //   } else {
-      //     return entry;
-      //   }
-      // }
   }
 
   filterEntries() {
@@ -256,7 +261,7 @@ export default class Entry extends Component {
     if (this.state.currentJournal != null) {
       var entries = this.state.currentJournal.enteries;   
       for (var i = 0; i < entries.length; i++) {
-        var entry = this.filterHidden(entries[i]);
+        var entry = this.filterHiddenAndDeleted(entries[i]);
         if (entry != null) {
           filteredEntries.push(entry);
         }
@@ -269,20 +274,20 @@ export default class Entry extends Component {
     var entries = this.state.currentJournal.enteries;
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      var entry = this.filterHidden(entries[i]);
+      var entry = this.filterHiddenAndDeleted(entries[i]);
       if (entry != null) {
         if (entries[i].title.includes(this.state.searchText)) {
           if (this.state.startDate != null && this.state.endDate != null) {
-            if (entries[i].lastUpdated >= this.state.startDate && entries[i].lastUpdated <= this.state.endDate) {
+            if (moment(entries[i].updatedAt).format("x") >= moment(this.state.startDate).format("x") && moment(entries[i].updatedAt).format("x") <= moment(this.state.endDate).format("x")) {
               filteredEntries.push(entries[i]);
             }
           }
           else if (this.state.startDate != null) {
-            if (moment(entries[i].lastUpdated).format("DDMMYYYY") === moment(this.state.startDate).format("DDMMYYYY")) {
+            if (moment(entries[i].updatedAt).format("DDMMYYYY") === moment(this.state.startDate).format("DDMMYYYY")) {
               filteredEntries.push(entries[i]);
             }
           } else if (this.state.endDate != null) {
-            if (entries[i].lastUpdated < this.state.endDate) {
+            if (entries[i].updatedAt < this.state.endDate) {
               filteredEntries.push(entries[i]);
             }
           } else {
