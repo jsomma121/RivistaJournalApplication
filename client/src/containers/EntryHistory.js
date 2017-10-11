@@ -35,7 +35,7 @@ export default class EntryHistory extends Component {
 
     getEntry() {
         if (this.props.currentJournal != null) {
-            var entries = this.props.currentJournal.entries;
+            var entries = this.props.currentJournal.enteries;
             for (var i = 0; i < entries.length; i++) {
                 if (entries[i].entryId === this.props.match.params.entryId) {
                     return entries[i];
