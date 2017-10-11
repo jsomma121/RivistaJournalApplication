@@ -91,7 +91,10 @@ class App extends Component {
         this.userHasAuthenticated(true);
         this.getJournals();
       } else {
-        this.props.history.push("/login");
+        if (!this.props.location.pathname.includes("/login")) {
+          console.log("test");
+          this.props.history.push("/login");
+        }
       }
     }
     catch (e) {
@@ -106,6 +109,11 @@ class App extends Component {
       if (this.state.isLoading) {
         if (await authUser()) {
           this.getJournals();
+        } else {
+          if (!(this.props.location.pathname.includes("/login") || this.props.location.pathname.includes("/signup"))) {
+            console.log("test");
+            this.props.history.push("/login");
+          }
         }        
       }
     } catch (e) {
@@ -164,7 +172,6 @@ class App extends Component {
       isLoading: this.state.isLoading,
       sleep: this.sleep
     };
-
     return (
       !this.state.isAuthenticating &&
       <div className="App container">

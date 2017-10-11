@@ -8,6 +8,6 @@ export default ({ component: component, props: childProps, ...rest }) =>
             childProps.isAuthenticated
                 ?<component {...props} {...childProps} />
                 : <Redirect
-                    to="/login"
+                    to={`/login?redirect=${props.location.pathname}${props.location.search}`}
                 />}
     />;

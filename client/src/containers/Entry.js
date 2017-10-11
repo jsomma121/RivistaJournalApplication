@@ -34,7 +34,7 @@ export default class Entry extends Component {
       showFilter: false,
       showModal: false,
       eggsAreReady: false,
-      currentJournal: []
+      currentJournal: null
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
@@ -52,6 +52,21 @@ export default class Entry extends Component {
       }
     }
     return null;
+  }
+
+  async update() {
+    try {
+      const data = await this.updateJournal(this.state.currentJournal);
+    } catch (e) {
+      this.setState({ isLoading: false });
+    }
+    await this.props.sleep(250);
+    this.props.handleUpdate({ state: true });
+    await this.props.sleep(250);
+    this.setState({
+      isLoading: true,
+      deleteLoading: false
+    })
   }
 
   updateJournal(journal) {
@@ -142,16 +157,8 @@ export default class Entry extends Component {
       }
     }
 
-    try {
-      const data = await this.updateJournal(this.state.currentJournal);
-    } catch (e) {
-      this.setState({ isLoading: false });
-    }
-    await this.props.sleep(250);
-    this.props.handleUpdate({state:true});
-    await this.props.sleep(250);
+    this.update();
     this.setState({
-      isLoading: true,
       deleteLoading: false
     })
     this.close();
@@ -174,6 +181,7 @@ export default class Entry extends Component {
         break;
       }
     }
+    this.update();
     return null;
   }
 
@@ -189,7 +197,7 @@ export default class Entry extends Component {
         break;
       }
     }
-    return null;
+    this.update();
   }
 
   hideAndUnhideButton(entry) {
@@ -264,16 +272,16 @@ export default class Entry extends Component {
       if (entry != null) {
         if (entries[i].title.includes(this.state.searchText)) {
           if (this.state.startDate != null && this.state.endDate != null) {
-            if (moment(entries[i].updatedAt).format("x") >= moment(this.state.startDate).format("x") && moment(entries[i].updatedAt).format("x") <= moment(this.state.endDate).format("x")) {
+            if (moment(entries[i].createdAt).format("x") >= moment(this.state.startDate).format("x") && moment(entries[i].createdAt).format("x") <= moment(this.state.endDate).format("x")) {
               filteredEntries.push(entries[i]);
             }
           }
           else if (this.state.startDate != null) {
-            if (moment(entries[i].updatedAt).format("DDMMYYYY") === moment(this.state.startDate).format("DDMMYYYY")) {
+            if (moment(entries[i].createdAt).format("DDMMYYYY") === moment(this.state.startDate).format("DDMMYYYY")) {
               filteredEntries.push(entries[i]);
             }
           } else if (this.state.endDate != null) {
-            if (entries[i].updatedAt < this.state.endDate) {
+            if (entries[i].createdAt < this.state.endDate) {
               filteredEntries.push(entries[i]);
             }
           } else {
@@ -334,30 +342,40 @@ export default class Entry extends Component {
     } else {
       entries = this.filterEntries();
     }
-    return entries.map(
-      (e, i) =>
-        <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
-          <ul className="options" id="optionsNew">
-            <li>{this.deleteButton(e)}</li>
-            <li>{this.hideAndUnhideButton(e)}</li>
-            <Link to={"/entry/history/" + e.entryId}>
-              <li><button type="button" className="btn btn-link">History</button></li>
-            </Link>
-          </ul>
-          <div className="entry-details">
-            <Link to={'/editEntry/' + e.entryId} className="card-link">
-              <div className="entry-title">
-                <h3>{e.title}</h3>
-                {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
-                {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
-              </div>
-              <div className="entry-date">
-                <p>Last updated: {moment(e.updatedAt).format("hh:mmA DD-MM-YYYY")}</p>
-              </div>
-            </Link>
+    if (entries.length > 0) {
+
+
+      return entries.map(
+        (e, i) =>
+          <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
+            <ul className="options" id="optionsNew">
+              <li>{this.deleteButton(e)}</li>
+              <li>{this.hideAndUnhideButton(e)}</li>
+              <Link to={"/entry/history/" + e.entryId}>
+                <li><button type="button" className="btn btn-link">History</button></li>
+              </Link>
+            </ul>
+            <div className="entry-details">
+              <Link to={'/editEntry/' + e.entryId} className="card-link">
+                <div className="entry-title">
+                  <h3>{e.title}</h3>
+                  {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
+                  {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
+                </div>
+                <div className="entry-date">
+                  <p>Last updated: {moment(e.updatedAt).format("hh:mmA DD-MM-YYYY")}</p>
+                </div>
+              </Link>
+            </div>
           </div>
+      );
+    } else {
+      return (
+        <div className="header">
+          <h3>No entries</h3>
         </div>
-    );
+      )
+    }
   }
 
   showSettings(event) {
@@ -411,7 +429,7 @@ export default class Entry extends Component {
         </div>
 
         <div className="cards">
-          {this.state.currentJournal.length > 0 ? this.renderEntries() : "You have no entries"}
+          {this.renderEntries()}
         </div>
         {
           this.state.showModal &&

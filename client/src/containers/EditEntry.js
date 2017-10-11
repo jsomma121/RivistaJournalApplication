@@ -128,7 +128,7 @@ export default class EditEntry extends React.Component {
         })
         return
       }
-      this.props.currentJournal.enteries.push({
+      this.props.currentJournal.enteries.unshift({
         entryId: uuid.v1(),
         title: this.state.title,
         state: 'active',
@@ -165,6 +165,7 @@ export default class EditEntry extends React.Component {
   handleCancel = event => {
     console.log(this.state.revision);
     if (this.state.revision === null) {
+      console.log(this.props.currentJournal.journalid);
       this.props.history.push("/entry/" + this.props.currentJournal.journalid);
     } else {
       this.props.history.push("/entry/history/" + this.props.currentEntry.entryId);

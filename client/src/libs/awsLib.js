@@ -114,7 +114,6 @@ export async function invokeApig({
       headers,
       body
 	});
-	
 
   if (results.status !== 200) {
     throw new Error(await results.text());

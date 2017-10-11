@@ -35,7 +35,7 @@ export default class EntryHistory extends Component {
 
     getEntry() {
         if (this.props.currentJournal != null) {
-            var entries = this.props.currentJournal.enteries;
+            var entries = this.props.currentJournal.entries;
             for (var i = 0; i < entries.length; i++) {
                 if (entries[i].entryId === this.props.match.params.entryId) {
                     return entries[i];
@@ -61,7 +61,7 @@ export default class EntryHistory extends Component {
         if (this.state.entry != null) {
             return (
                 <div>
-                    <Link to={"/entry/" + this.props.currentJournal.journalid} className="linkText">
+                    <Link to={"/entry/" + this.props.currentJournal.journalId} className="linkText">
                         <div className="return">
                             <p>Back to Entry List</p>
                             <Octoicon mega name="arrow-left" />

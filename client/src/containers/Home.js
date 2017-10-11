@@ -18,6 +18,7 @@ export default class Home extends Component {
 
     this.state = {
       isLoading: true,
+      createLoading: false,
       journalTitle: '',
       journalId: '99292f88-f840-4f8c-bdb4-4ae7d8c0309a',
       journal: [],
@@ -58,27 +59,40 @@ export default class Home extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    this.setState({
+      createLoading: true
+    })
     var journal = this.state.journal;
     for (var i = 0; i < journal.length; i++) {
       if (journal[i].journalTitle === this.state.journalTitle) {
         this.setState({
-          error: true
+          error: true,
+          createLoading: false
         })
+        return;
       }
-      return;
     }
     try {
+      console.log(this.state.journalTitle);
       const data = await this.createJournal({
         journalTitle: this.state.journalTitle
       });
       this.setState({
         journalExists: false,
-        isShowingModal: false,
+        isLoading: true
       });
 
     } catch (e) {
       this.setState({ isLoading: false });
     }
+    await this.props.sleep(250);
+    this.props.handleUpdate({ state: true });
+    await this.props.sleep(250);
+    this.setState({
+      isLoading: true,
+      isShowingModal: false,
+      createLoading: false      
+    })
   }
 
   handleClick = () => this.setState({ isShowingModal: true })
@@ -97,24 +111,32 @@ export default class Home extends Component {
   }
 
   renderJournalList(journal) {
-    return journal.map(
-      (j, i) =>
-        <div key={i}>
-          <Link to={'/entry/' + j.journalid} className="card-link">
-            <div className='card journal-card btn btn-success' id="testFun">
-              <div className="journal-detail">
-                <div className="cardMiddle">
-                  <h4 className="card-title journal-title">{j.journalTitle}</h4>
+    if (journal.length > 0) {
+      return journal.map(
+        (j, i) =>
+          <div key={i}>
+            <Link to={'/entry/' + j.journalid} className="card-link">
+              <div className='card journal-card btn btn-success' id="testFun">
+                <div className="journal-detail">
+                  <div className="cardMiddle">
+                    <h4 className="card-title journal-title">{j.journalTitle}</h4>
+                  </div>
+                  <div className="journal-create-date">
+                    <p>{new Date(j.createdAt).toLocaleString()}</p>
+                  </div>
                 </div>
-                <div className="journal-create-date">
-                  <p>{new Date(j.createdAt).toLocaleString()}</p>
-                </div>
+                <h className="card-arrow"><MdArrowForward /></h>
               </div>
-              <h className="card-arrow"><MdArrowForward /></h>
-            </div>
-          </Link>
+            </Link>
+          </div>
+      )
+    } else {
+      return (
+        <div className="header">
+          <h4>No journals, create one using the "New Journal" button</h4>
         </div>
-    )
+      )
+    }
   }
 
   renderLander() {
@@ -157,7 +179,7 @@ export default class Home extends Component {
                         }
                         <LoaderButton
                           type="submit"
-                          isLoading={this.state.isLoading}
+                          isLoading={this.state.createLoading}
                           className="btn-primary"
                           text="Create Journal"
                           loadingText="Creating..." />
@@ -171,7 +193,7 @@ export default class Home extends Component {
           }
         </div>
         <ListGroup>
-          {!this.state.isLoading && this.renderJournalList(this.state.journal)}
+          {!this.state.isLoading ? this.renderJournalList(this.state.journal) : this.renderJournalList([])}
         </ListGroup>
       </div>
     );

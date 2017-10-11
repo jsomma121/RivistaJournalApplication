@@ -53,16 +53,12 @@ export default class Signup extends Component {
     this.setState({ isLoading: true });
 
     try {
-      console.log('------------')
-      console.log(this.state.email);
-      console.log(this.state.password);
       const newUser = await this.signup(this.state.email, this.state.password);
-      console.log('helllooooo')
       this.setState({
         newUser: newUser
       });
     } catch (e) {
-      alert(e);
+      console.log(e);
     }
 
     this.setState({ isLoading: false });
@@ -84,7 +80,7 @@ export default class Signup extends Component {
       this.props.userHasAuthenticated(true);
       this.props.history.push("/");
     } catch (e) {
-      alert(e);
+      console.log(e);
       this.setState({ isLoading: false });
     }
   }
