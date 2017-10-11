@@ -61,7 +61,7 @@ export default class EntryHistory extends Component {
         if (this.state.entry != null) {
             return (
                 <div>
-                    <Link to={"/entry/" + this.props.currentJournal.journalId} className="linkText">
+                    <Link to={"/entry/" + this.props.currentJournal.journalid} className="linkText">
                         <div className="return">
                             <p>Back to Entry List</p>
                             <Octoicon mega name="arrow-left" />
