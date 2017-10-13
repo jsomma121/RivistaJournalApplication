@@ -7,9 +7,9 @@
     top:100px;
 }
 
-#new-journal-button {
+.new-journal-button {
     position: fixed;
-    right: 185px;
+    right: 255px;
     top: 18px;
     z-index: 100000;
 }

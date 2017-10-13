@@ -117,7 +117,7 @@ export default class Home extends Component {
         (j, i) =>
           <div key={i}>
             <Link to={'/entry/' + j.journalid} className="card-link">
-              <div className='card journal-card btn btn-success' id="testFun">
+              <div className={'card journal-card btn btn-success ' + this.props.theme.shadow} id="testFun" style={{backgroundColor: this.props.theme.primary, color: this.props.theme.text}}>
                 <div className="journal-detail">
                   <div className="cardMiddle">
                     <h4 className="card-title journal-title">{j.journalTitle}</h4>
@@ -150,17 +150,18 @@ export default class Home extends Component {
   }
 
   renderJournal() {
+    console.log(this.props.theme);
     return (
       <div className="Journal">
-        <button onClick={this.handleClick} type="button" className="btn btn-success right" id="new-journal-button"><Ink />New Journal <PlusIcon /><Ink /></button>
-        <div className="header">
+        <button onClick={this.handleClick} type="button" className="btn btn-success right new-journal-button"><Ink />New Journal <PlusIcon /><Ink /></button>
+        <div className="header" style={{color: this.props.theme.text}}>
           <h1>Your Journals</h1>
         </div>
         <div className="journal-cards-div">
           {
             this.state.isShowingModal &&
             <ModalContainer onClose={this.handleClose}>
-              <ModalDialog style={{ height: '250px', width: '500px' }}>
+              <ModalDialog style={{ height: '250px', width: '500px', backgroundColor: this.props.theme.primary, color: this.props.theme.text }}>
                 <div>
                   <div className="new-journal-header">
                     <h>Create new Journal</h>
@@ -170,7 +171,7 @@ export default class Home extends Component {
                     <form onSubmit={this.handleSubmit}>
                       <h>Journal Name</h>
                       <div className="input-area">
-                        <input type="text" className="form-control" id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange} />
+                        <input type="text" className={"form-control "+this.props.theme.input} id="newJournalName" placeholder="Enter journal name" value={this.state.value} onChange={this.handleChange} />
                       </div>
                       <div className="new-journal-buttons">
                         {

@@ -199,16 +199,16 @@ export default class EditEntry extends React.Component {
   renderTitleInput() {
     if (!this.state.error) {
       return (
-        <div className="form-group">
+        <div className="form-group" style={{color: this.props.theme.text}}>
           <h2><label htmlFor="title">Title</label></h2>
-          <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
+          <input type="text" className={"form-control "+this.props.theme.input} id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
         </div>
       )
     } else {
       return (
         <div className="form-group has-danger">
-          <label htmlFor="title">Title</label>
-          <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
+          <h2><label htmlFor="title">Title</label></h2>
+          <input type="text" className={"form-control "+this.props.theme.input} id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
           <Tooltip placement="bottom" className="in" id="error">
             Sorry, that title is taken.
           </Tooltip>
@@ -220,7 +220,7 @@ export default class EditEntry extends React.Component {
   renderTitle() {
     return (
       <div className="form-group edit-title">
-        <input type="text" className="form-control" value={this.state.title} disabled={true} />
+        <input type="text" className="form-control" value={this.state.title} disabled={true} style={{backgroundColor: this.props.theme.primary, color: this.props.theme.text}}/>
       </div>
     )
   }
@@ -228,12 +228,12 @@ export default class EditEntry extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{color: this.props.theme.text}}>
         {this.state.existingEntry ? this.renderTitle() : this.renderTitleInput()}
         {this.state.existingEntry ?
           <div className="form-group">
             <h2><label htmlFor="reason">Reason</label></h2>
-            <input type="text" className="form-control" id="reason" onChange={this.onReasonChange} value={this.state.reason} placeholder="Reason for change" disabled={this.state.revision !== null || (this.state.entry != null && this.state.entry.state === "deleted")} />
+            <input type="text" className={"form-control "+this.props.theme.input} id="reason" onChange={this.onReasonChange} value={this.state.reason} placeholder="Reason for change" disabled={this.state.revision !== null || (this.state.entry != null && this.state.entry.state === "deleted")} />
           </div> : ""}
         <h2>Content</h2>
 

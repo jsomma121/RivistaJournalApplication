@@ -19,7 +19,10 @@
     position: fixed;
     width: 400px;
     top: 0.5em;
-    left: 35%;
+    left: 0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
     z-index: 1030;
   }
 
@@ -42,7 +45,6 @@
 
   #error {
     opacity: 1;
-    right: 30%;
   }
 
   #error div {

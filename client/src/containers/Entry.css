@@ -2,7 +2,10 @@
     position: fixed;
     width: 400px;
     top: 1.5em;
-    left: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
     z-index: 1030;
 }
 
@@ -152,8 +155,11 @@ ul {
 .filter {
     position:fixed;
     width: 450px;
-    top: 72px;
-    left: 30%;
+    top: 74px;
+    left:0;
+    right:0;
+    margin-right: auto;
+    margin-left: auto;
     z-index:1050;
     background-color:white;
     padding:30px;
@@ -183,4 +189,19 @@ ul {
 .empty {
     text-align: center;
     margin-top: 10%;
+}
+
+.dark-input {
+    background-color: #484B51;
+    color: #ffffff;
+    border: 0;
+}
+
+.dark-input:focus {
+    background-color:#484B51;
+    color: #ffffff;
+}
+
+.close {
+    text-shadow: 0 0 0
 }

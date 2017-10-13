@@ -5,6 +5,8 @@ import { Link, withRouter } from "react-router-dom";
 import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
 import PlusIcon from 'react-icons/lib/fa/plus';
+import QuestionIcon from 'react-icons/lib/fa/question';
+import CogIcon from 'react-icons/lib/fa/cog';
 import newJournalClicked from './containers/Home';
 import moment from 'moment';
 import { invokeApig, authUser, signOutUser } from "./libs/awsLib";
@@ -13,6 +15,20 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
+    var theme;
+    if (localStorage.theme === undefined) {
+      theme = {
+        primary: "#FFF",
+        background: "#F1F1F1",
+        text: "#000",
+        shadow: "",
+        input: ""
+      }
+    } else {
+      theme = JSON.parse(localStorage.theme);
+    }
+
+    document.body.style.backgroundColor = theme.background;
 
     this.state = {
       isAuthenticated: false,
@@ -21,6 +37,7 @@ class App extends Component {
       currentJournal: null,
       currentEntry: null,
       currentEntryRevision: null,
+      theme: theme,
       journal: []
     };
 
@@ -29,61 +46,17 @@ class App extends Component {
 
 
   getMenu(route) {
-    var menu = [];
-    var pathName = route;
-    if (pathName.includes("/entry")) {
-      pathName = "/entry";
+    if (route.includes("/editEntry") || route.includes("/login") || route.includes("/register")) {
+      return null;
+    } else {
+      return (
+        <div>
+          <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
+          <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon/></button></Link>
+          <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon/></button></Link>
+        </div>
+      );
     }
-
-    if (pathName.includes("/entry/history")) {
-      pathName = "/entry/history";
-    }
-    switch (pathName) {
-      case '/login':
-        menu.splice(0, menu.length);
-        break;
-      case '/register':
-      case '/entry/history':
-        menu.splice(0, menu.length);
-        menu.push(
-          <div key="1" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
-          </div>
-        )
-        break;
-        case '/':
-        menu.splice(0, menu.length);
-        menu.push(
-          <div key="2" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
-          </div>
-        )
-        break;
-      case '/entry':
-        menu.splice(0, menu.length);
-        menu.push(
-          <div key="3" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-success right" data-toggle="modal" onClick={this.handleNewEntryCick}>New Entry <PlusIcon /></button>
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
-          </div>
-        )
-        break;
-      case '/editEntry/:entryName':
-        menu.splice(0, menu.length);
-        menu.push(
-          <div key="4" className="navbar-toggler navbar-toggler-right">
-            <button type="button" className="btn btn-danger right" onClick={this.handleLogout}>Logout <SignOutIcon /></button>
-          </div>
-        )
-        break;
-      default:
-    }
-    return menu;
-  }
-
-  handleNewEntryCick = event => {
-    event.preventDefault();
-    this.props.history.push('/editEntry/new');
   }
 
   async componentDidMount() {
@@ -115,7 +88,7 @@ class App extends Component {
             console.log("test");
             this.props.history.push("/login");
           }
-        }        
+        }
       }
     } catch (e) {
       console.log(e)
@@ -139,7 +112,7 @@ class App extends Component {
   async getJournals() {
     try {
       const getData = await invokeApig({ path: "/journal" });
-      getData.sort((a,b)=> {
+      getData.sort((a, b) => {
         return moment(b.createdAt) - moment(a.createdAt);
       })
       this.setState({ journal: getData });
@@ -147,6 +120,14 @@ class App extends Component {
       console.log(e);
     }
     this.setState({ isLoading: false });
+  }
+
+  updateTheme = theme => {
+    document.body.style.backgroundColor = theme.background;
+    this.setState({
+      theme: theme
+    })
+    localStorage.theme = JSON.stringify(theme);
   }
 
   updateChildProps = current => {
@@ -179,12 +160,14 @@ class App extends Component {
       currentEntry: this.state.currentEntry,
       currentEntryRevision: this.state.currentEntryRevision,
       isLoading: this.state.isLoading,
-      sleep: this.sleep
+      sleep: this.sleep,
+      theme: this.state.theme,
+      updateTheme: this.updateTheme
     };
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <nav className="navbar fixed-top">
+        <nav className={"navbar fixed-top " + this.state.theme.shadow} style={{backgroundColor: this.state.theme.primary}}>
           <Link to="/" className="navbar-brand">Rivista</Link>
           {this.getMenu(this.props.location.pathname)}
         </nav>

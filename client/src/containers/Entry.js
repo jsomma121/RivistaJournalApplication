@@ -10,7 +10,7 @@ import { ModalContainer, ModalDialog } from "react-modal-dialog";
 import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import $ from 'jquery';
+import PlusIcon from 'react-icons/lib/fa/plus';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./Entry.css";
 import "react-toggle/style.css"
@@ -257,16 +257,22 @@ export default class Entry extends Component {
     return null;
   }
 
-  sortEntries(order) {
-    if (order === "oldest") {
-      this.state.currentJournal.enteries.sort((a, b) => {
-        return moment(a.updatedAt) - moment(b.updatedAt);
-      })
-    } else {
-      this.state.currentJournal.enteries.sort((a, b) => {
-        return moment(b.updatedAt) - moment(a.updatedAt);
-      })
-    }
+  handleNewEntry() {
+    this.props.history.push('/editEntry/new');
+  }
+
+  sortEntries() {
+    this.state.currentJournal.enteries.sort((a,b) => {
+      var aTitle = a.title.toLowerCase();
+      var bTitle = b.title.toLowerCase();
+      if (aTitle < bTitle) {
+        return -1;
+      }
+      if (aTitle > bTitle) {
+        return 1;
+      }
+      return 0;
+    })
     this.setState({
       showFilter: false
     })
@@ -317,12 +323,13 @@ export default class Entry extends Component {
 
   renderFilter() {
     return (
-      <div className="filter">
+      <div className={"filter "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary}}>
         <h3>Search by Created Date</h3>
         <div className="filter-dates">
           <DatePicker
             selected={this.state.startDate}
             selectsStart
+            className={this.props.theme.input}
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onChange={this.handleChangeStart}
@@ -334,6 +341,7 @@ export default class Entry extends Component {
           <DatePicker
             selected={this.state.endDate}
             selectsEnd
+            className={this.props.theme.input}
             startDate={this.state.startDate}
             endDate={this.state.endDate}
             onChange={this.handleChangeEnd}
@@ -342,8 +350,7 @@ export default class Entry extends Component {
             placeholderText="To:"
           />
         </div>
-        <button type="button" className="btn btn-primary" onClick={() => this.sortEntries("oldest")}>Sort by oldest</button>
-        <button type="button" className="btn btn-primary" onClick={() => this.sortEntries()}>Sort by recent</button>
+        <button type="button" className="btn btn-primary" onClick={() => this.sortEntries()}>Sort alphabetically</button>
         <button type="button" className="close" onClick={e => this.toggleFilter(e)}>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -361,7 +368,7 @@ export default class Entry extends Component {
     if (entries.length > 0) {
       return entries.map(
         (e, i) =>
-          <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
+          <div key={i} className={"card journal-card entry-card btn btn-success " + this.props.theme.shadow} id="testFun" style={{backgroundColor: this.props.theme.primary}}>
             <ul className="options" id="optionsNew">
               <li>{this.deleteButton(e)}</li>
               <li>{this.hideAndUnhideButton(e)}</li>
@@ -371,12 +378,12 @@ export default class Entry extends Component {
             </ul>
             <div className="entry-details">
               <Link to={'/editEntry/' + e.entryId} className="card-link">
-                <div className="entry-title">
+                <div className="entry-title" style={{color: this.props.theme.text}}>
                   <h3>{e.title}</h3>
                   {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
                   {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
                 </div>
-                <div className="entry-date">
+                <div className="entry-date" style={{color: this.props.theme.text}}>
                   <p>Last updated: {moment(e.updatedAt).format("hh:mmA DD-MM-YYYY")}</p>
                 </div>
               </Link>
@@ -385,7 +392,7 @@ export default class Entry extends Component {
       );
     } else {
       return (
-        <div className="empty">
+        <div className="empty" style={{color: this.props.theme.text}}>
           <h3>No entries</h3>
         </div>
       )
@@ -421,27 +428,27 @@ export default class Entry extends Component {
       align: 'right'
     };
     return (
-      <div>
-        {filter}
-
-        <div id="search" className="input-group">
-          <input type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
+      <div>        
+        <button type ="button" className="btn btn-success new-journal-button" onClick={() => this.handleNewEntry()}>New entry <PlusIcon/></button>
+        <div id="search" className="input-group" style={{color: this.props.theme.text}}>
+          <input className={""+this.props.theme.input} type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
           <Octoicon className="search-icon" name="search" />
           <span className="input-group-btn">
-            <button className="btn btn-secondary" type="button" onClick={e => this.toggleFilter(e)}><Octoicon name="settings" /></button>
+            <button className="btn btn-primary" type="button" onClick={e => this.toggleFilter(e)}><Octoicon name="settings" /></button>
           </span>
+          {filter}
         </div>
 
         <Link to="/" className="linkText">
-          <div className="return">
+          <div className="return" style={{color: this.props.theme.text}}>
             <p className="backFont">Back to Journals</p>
             <Octoicon mega name="arrow-left" />
           </div>
         </Link>
-        <div className="header">
+        <div className="header" style={{color: this.props.theme.text}}>
           <h1> {this.state.title}</h1>
 
-          <div className="toggle-buttons">
+          <div className="toggle-buttons" style={{color: this.props.theme.text}}>
             <div className="hiddenToggle">
               <Toggle
                 defaultChecked={this.state.showHidden}
@@ -467,7 +474,7 @@ export default class Entry extends Component {
         {
           this.state.showModal &&
           <ModalContainer onClose={() => this.close()}>
-            <ModalDialog style={{ height: '250px', width: '500px' }}>
+            <ModalDialog style={{ height: '250px', width: '500px', backgroundColor: this.props.theme.primary, color: this.props.theme.text }}>
               <div>
                 <div className="new-journal-header">
                   <h>Delete {this.state.deleteSelected.title}?</h>
