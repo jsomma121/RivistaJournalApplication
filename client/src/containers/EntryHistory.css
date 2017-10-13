@@ -4,7 +4,11 @@
 }
 
 .linkText:hover {
-    color: #31B7FF
+    color: #31B7FF;
+}
+
+.return:hover {
+    text-decoration: underline;
 }
 
 .entryHistoryCards {

@@ -47,7 +47,7 @@ export default class EntryHistory extends Component {
     renderRevision() {
         return this.state.entry.revision.map((r, i) =>
             <Link to={"/editEntry/" + r.revisionId} className="card-link">
-                <div key={i} className={"entryHistoryCards "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary, color: this.props.theme.text}}>
+                <div key={i} id="testFun" className={"card journal-card entry-card entryHistoryCards "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary, color: this.props.theme.text}}>
                     <div className="entryHistoryDetail">
                         <h className="editTime">{moment(r.modificationAt).format("hh:mmA DD-MM-YYYY")}</h>
                         <p className="editReason">{r.reason}</p>
