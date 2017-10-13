@@ -85,10 +85,12 @@ ul {
     text-align: left;
 }
 
-.toggleButtons {
-    position: relative;
+.toggle-buttons {
     float: right;
-    width: 18%;
+}
+
+.toggle-buttons div {
+    margin-left: 5px;
 }
 
 .hiddenT {
@@ -178,3 +180,7 @@ ul {
     top: 0;
 }
 
+.empty {
+    text-align: center;
+    margin-top: 10%;
+}

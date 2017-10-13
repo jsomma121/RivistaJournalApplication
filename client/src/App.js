@@ -6,6 +6,7 @@ import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
 import PlusIcon from 'react-icons/lib/fa/plus';
 import newJournalClicked from './containers/Home';
+import moment from 'moment';
 import { invokeApig, authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
 
@@ -138,7 +139,9 @@ class App extends Component {
   async getJournals() {
     try {
       const getData = await invokeApig({ path: "/journal" });
-      
+      getData.sort((a,b)=> {
+        return moment(b.createdAt) - moment(a.createdAt);
+      })
       this.setState({ journal: getData });
     } catch (e) {
       console.log(e);
@@ -151,7 +154,13 @@ class App extends Component {
       currentEntry: current.currentEntry,
       currentJournal: current.currentJournal,
       currentEntryRevision: current.currentEntryRevision
-    })
+    });
+    sessionStorage.current = JSON.stringify({
+      journal: current.currentJournal,
+      entry: current.currentEntry,
+      revision: current.currentEntryRevision
+    });
+    console.log(JSON.parse(sessionStorage.current));
   }
 
   sleep(ms) {

@@ -3,18 +3,22 @@ import { Tooltip } from 'react-bootstrap';
 import moment from 'moment';
 import { invokeApig } from '../libs/awsLib';
 import LoaderButton from "../components/LoaderButton";
+import CKEditor from "react-ckeditor-component";
+import Octoicon from "react-octicon";
 import "./EditEntry.css";
 import uuid from 'uuid';
 
 export default class EditEntry extends React.Component {
   constructor(props) {
     super(props);
+    this.updateContent = this.updateContent.bind(this);
     this.state = {
       isLoading: true,
       saveLoading: false,
       title: "",
       reason: "Created",
       content: '',
+      current: JSON.parse(sessionStorage.current),
       entry: null,
       revision: null,
       existingEntry: false,
@@ -22,37 +26,53 @@ export default class EditEntry extends React.Component {
     };
   }
 
+  updateContent(newContent) {
+    this.setState({
+      content: newContent
+    })
+  }
+
+  onChange = event => {
+    var newContent = event.editor.getData();
+    this.setState({
+      content: newContent
+    })
+  }
+
   componentDidMount() {
-    console.log(this.props.currentJournal);
     if (this.state.isLoading) {
       var entry = this.getEntry();
       var revision = this.getRevision();
       console.log(entry);
       console.log(revision);
       if (entry != null) {
-          this.setState({
-            entry: entry,
-            title: entry.title,
-            reason: "",
-            content: entry.revision[0].content,
-            existingEntry: true
-          })
-          this.props.updateChildProps({
-            currentEntry: entry,
-            currentJournal: this.props.currentJournal,
-            currentEntryRevision: null
-          });
+        var reason = "";
+        if (entry.state === "deleted") {
+          reason = entry.revision[0].reason
+        }
+        this.setState({
+          entry: entry,
+          title: entry.title,
+          reason: reason,
+          content: entry.revision[0].content,
+          existingEntry: true
+        })
+        this.props.updateChildProps({
+          currentEntry: entry,
+          currentJournal: this.state.current.journal,
+          currentEntryRevision: null
+        });
       } else {
         if (revision != null) {
           this.setState({
-            entry: this.props.currentEntry,
-            title: this.props.currentEntry.title,
+            entry: this.state.current.entry,
+            title: this.state.current.entry.title,
             reason: revision.reason,
             content: revision.content,
             revision: revision,
             existingEntry: true
           })
-        }        
+        }
       }
 
       this.setState({ isLoading: false });
@@ -60,21 +80,20 @@ export default class EditEntry extends React.Component {
   }
 
   getEntry() {
-    if (this.props.currentJournal != null) {
-      var entries = this.props.currentJournal.enteries;
+    if (this.state.current.journal != null) {
+      var entries = this.state.current.journal.enteries;
       for (var i = 0; i < entries.length; i++) {
         if (entries[i].entryId === this.props.match.params.entryId) {
           return entries[i];
         }
       }
-      return null;
     }
     return null;
   }
 
   getRevision() {
-    if (this.props.currentEntry != null) {
-      var revisions = this.props.currentEntry.revision;
+    if (this.state.current.entry != null) {
+      var revisions = this.state.current.entry.revision;
       for (var i = 0; i < revisions.length; i++) {
         if (revisions[i].revisionId === this.props.match.params.entryId) {
           return revisions[i];
@@ -96,13 +115,6 @@ export default class EditEntry extends React.Component {
       reason: event.target.value
     })
   }
-
-  onChange = event => {
-    this.setState({
-      content: event.target.value
-    })
-  }
-
   validateForm() {
     var contentChanged = false;
     if (this.state.entry !== null) {
@@ -120,15 +132,16 @@ export default class EditEntry extends React.Component {
     this.setState({
       saveLoading: true
     })
-    
+
     if (this.state.entry == null) {
-      if (this.props.currentJournal.enteries.findIndex(e => e.title === this.state.title) !== -1) {
+      if (this.state.current.journal.enteries.findIndex(e => e.title === this.state.title) !== -1) {
         this.setState({
-          error: true
+          error: true,
+          saveLoading: false
         })
         return
       }
-      this.props.currentJournal.enteries.unshift({
+      this.state.current.journal.enteries.unshift({
         entryId: uuid.v1(),
         title: this.state.title,
         state: 'active',
@@ -142,9 +155,9 @@ export default class EditEntry extends React.Component {
         }]
       });
     } else {
-      var pos = this.props.currentJournal.enteries.findIndex(e => e.entryId === this.state.entry.entryId);
-      this.props.currentJournal.enteries[pos].updatedAt = moment().utc().format();
-      this.props.currentJournal.enteries[pos].revision.unshift({
+      var pos = this.state.current.journal.enteries.findIndex(e => e.entryId === this.state.entry.entryId);
+      this.state.current.journal.enteries[pos].updatedAt = moment().utc().format();
+      this.state.current.journal.enteries[pos].revision.unshift({
         revisionId: uuid.v1(),
         reason: this.state.reason,
         content: this.state.content,
@@ -153,22 +166,25 @@ export default class EditEntry extends React.Component {
     }
 
     try {
-      const update = await this.updateJournal(this.props.currentJournal);
+      const update = await this.updateJournal(this.state.current.journal);
     } catch (e) {
-      this.setState({ isLoading: false });
+      this.setState({
+        isLoading: false,
+        saveLoading: false
+      });
     }
-    this.props.handleUpdate({state: true});
+    this.props.handleUpdate({ state: true });
     await this.props.sleep(250);
-    this.props.history.push("/entry/" + this.props.currentJournal.journalid);    
+    this.props.history.push("/entry/" + this.state.current.journal.journalid);
   }
 
   handleCancel = event => {
     console.log(this.state.revision);
     if (this.state.revision === null) {
-      console.log(this.props.currentJournal.journalid);
-      this.props.history.push("/entry/" + this.props.currentJournal.journalid);
+      console.log(this.state.current.journal.journalid);
+      this.props.history.push("/entry/" + this.state.current.journal.journalid);
     } else {
-      this.props.history.push("/entry/history/" + this.props.currentEntry.entryId);
+      this.props.history.push("/entry/history/" + this.state.current.entry.entryId);
     }
   }
 
@@ -183,13 +199,15 @@ export default class EditEntry extends React.Component {
   renderTitleInput() {
     if (!this.state.error) {
       return (
-        <div className="form-group edit-title">
+        <div className="form-group">
+          <h2><label htmlFor="title">Title</label></h2>
           <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
         </div>
       )
     } else {
       return (
-        <div className="form-group has-danger edit-title">
+        <div className="form-group has-danger">
+          <label htmlFor="title">Title</label>
           <input type="text" className="form-control" id="title" onChange={this.onTitleChange} value={this.state.title} placeholder="Enter Title:" disabled={this.state.existingEntry} />
           <Tooltip placement="bottom" className="in" id="error">
             Sorry, that title is taken.
@@ -197,30 +215,59 @@ export default class EditEntry extends React.Component {
         </div>
       )
     }
-0  }
+  }
+
+  renderTitle() {
+    return (
+      <div className="form-group edit-title">
+        <input type="text" className="form-control" value={this.state.title} disabled={true} />
+      </div>
+    )
+  }
+
 
   render() {
     return (
       <div>
-        {this.renderTitleInput()}
-        <div className="form-group">
-          <h2><label htmlFor="reason">Reason</label></h2>
-          <input type="text" className="form-control" id="reason" onChange={this.onReasonChange} value={this.state.reason} placeholder="Reason for change" disabled={this.state.revision !== null} />
-        </div>
+        {this.state.existingEntry ? this.renderTitle() : this.renderTitleInput()}
+        {this.state.existingEntry ?
+          <div className="form-group">
+            <h2><label htmlFor="reason">Reason</label></h2>
+            <input type="text" className="form-control" id="reason" onChange={this.onReasonChange} value={this.state.reason} placeholder="Reason for change" disabled={this.state.revision !== null || (this.state.entry != null && this.state.entry.state === "deleted")} />
+          </div> : ""}
         <h2>Content</h2>
-        <form onSubmit={this.handleSubmit}>
-          <textarea type="text" className="edit-input" onChange={this.onChange} value={this.state.content} disabled={this.state.revision !== null} />
-          <div className="edit-buttons">
-            <LoaderButton
-              type="submit"
-              isLoading={this.state.saveLoading}
-              disabled={!this.validateForm()}
-              className="btn-success"
-              text="Save Entry"
-              loadingText="Saving..." />
-            <button type="button" className="btn btn-secondary" onClick={this.handleCancel}>Cancel</button>
+
+        {this.state.revision !== null || (this.state.entry != null && this.state.entry.state === "deleted") ?
+          <div>
+            <div className="return btn-link" onClick={this.handleCancel}>
+              <Octoicon mega name="arrow-left" />
+              <p className="backFont">Return</p>
+            </div>
+            <div className="read-only-content" dangerouslySetInnerHTML={{__html: this.state.content}}>
+            </div>
           </div>
-        </form>
+          :
+          <form onSubmit={this.handleSubmit}>
+            <CKEditor
+              activeClass="p10"
+              content={this.state.content}
+              events={{
+                "change": this.onChange
+              }} />
+            <div className="edit-buttons">
+              <LoaderButton
+                type="submit"
+                isLoading={this.state.saveLoading}
+                disabled={!this.validateForm()}
+                className="btn-success"
+                text="Save Entry"
+                loadingText="Saving..." />
+              <button type="button" className="btn btn-secondary" onClick={this.handleCancel}>Cancel</button>
+            </div>
+          </form>
+        }
+
+
       </div>
 
     );

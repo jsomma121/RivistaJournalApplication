@@ -6,7 +6,7 @@ import sigV4Client from "./sigV4Client";
 export async function authUser() {
   if (
     AWS.config.credentials &&
-	Date.now() < AWS.config.credentials.expireTime - 100
+	Date.now() < AWS.config.credentials.expireTime - 60000
 	
   ) {
     return true;

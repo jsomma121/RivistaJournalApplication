@@ -25,7 +25,6 @@ export default class Entry extends Component {
       isLoading: true,
       deleteLoading: false,
       deleteSelected: "",
-      title: "",
       searchText: "",
       startDate: null,
       endDate: null,
@@ -44,10 +43,10 @@ export default class Entry extends Component {
   getJournal() {
     var journals = this.props.journal;
     for (var i = 0; i < journals.length; i++) {
-      console.log(journals[i].journalid);
-      console.log(this.props.match.params.journalId);
-      console.log(journals[i].journalid === this.props.match.params.journalId);
       if (journals[i].journalid === this.props.match.params.journalId) {
+        journals[i].enteries.sort((a,b) => {
+          return moment(b.updatedAt) - moment(a.updatedAt);
+        })
         return journals[i];
       }
     }
@@ -105,7 +104,6 @@ export default class Entry extends Component {
       var journal = this.getJournal();
       console.log(this.props.journal);
       if (journal != null) {
-        console.log("got");
         this.setState({
           currentJournal: journal,
           title: journal.journalTitle
@@ -239,15 +237,39 @@ export default class Entry extends Component {
   }
 
   filterHidden(entry) {
-    if (!this.state.showHidden) {
+    if (!this.state.showHidden && !this.state.showDeleted) {
       if (entry.state === "active") {
         return entry;
       }
     } else {
-      if (entry.state !== "deleted") {
+      if (this.state.showHidden && this.state.showDeleted) {
         return entry;
+      } else if (this.state.showHidden) {
+        if (entry.state === "hidden" || entry.state === "active") {
+          return entry;
+        }
+      } else {
+        if (entry.state === "deleted" || entry.state === "active") {
+          return entry;
+        }
       }
     }
+    return null;
+  }
+
+  sortEntries(order) {
+    if (order === "oldest") {
+      this.state.currentJournal.enteries.sort((a, b) => {
+        return moment(a.updatedAt) - moment(b.updatedAt);
+      })
+    } else {
+      this.state.currentJournal.enteries.sort((a, b) => {
+        return moment(b.updatedAt) - moment(a.updatedAt);
+      })
+    }
+    this.setState({
+      showFilter: false
+    })
   }
 
   filterEntries() {
@@ -296,7 +318,7 @@ export default class Entry extends Component {
   renderFilter() {
     return (
       <div className="filter">
-        <h3>Date</h3>
+        <h3>Search by Created Date</h3>
         <div className="filter-dates">
           <DatePicker
             selected={this.state.startDate}
@@ -306,6 +328,7 @@ export default class Entry extends Component {
             onChange={this.handleChangeStart}
             isClearable={true}
             dateFormat="DD MMMM YYYY"
+            placeholderText="From:"
           />
           <p>to</p>
           <DatePicker
@@ -316,18 +339,11 @@ export default class Entry extends Component {
             onChange={this.handleChangeEnd}
             isClearable={true}
             dateFormat="DD MMMM YYYY"
+            placeholderText="To:"
           />
         </div>
-        <div>
-          <div className="hiddenToggle">
-            <Toggle
-              defaultChecked={this.state.showHidden}
-              aria-labelledby='biscuit-label'
-              onChange={this.handleHiddenChange.bind(this, "showHidden")}
-            />
-          </div>
-          <p className="hiddenToggleText">Hidden</p>
-        </div>
+        <button type="button" className="btn btn-primary" onClick={() => this.sortEntries("oldest")}>Sort by oldest</button>
+        <button type="button" className="btn btn-primary" onClick={() => this.sortEntries()}>Sort by recent</button>
         <button type="button" className="close" onClick={e => this.toggleFilter(e)}>
           <span aria-hidden="true">&times;</span>
         </button>
@@ -343,8 +359,6 @@ export default class Entry extends Component {
       entries = this.filterEntries();
     }
     if (entries.length > 0) {
-
-
       return entries.map(
         (e, i) =>
           <div key={i} className="card journal-card entry-card btn btn-success" id="testFun">
@@ -371,7 +385,7 @@ export default class Entry extends Component {
       );
     } else {
       return (
-        <div className="header">
+        <div className="empty">
           <h3>No entries</h3>
         </div>
       )
@@ -426,6 +440,25 @@ export default class Entry extends Component {
         </Link>
         <div className="header">
           <h1> {this.state.title}</h1>
+
+          <div className="toggle-buttons">
+            <div className="hiddenToggle">
+              <Toggle
+                defaultChecked={this.state.showHidden}
+                aria-labelledby='biscuit-label'
+                onChange={this.handleHiddenChange.bind(this, "showHidden")}
+              />
+            </div>
+            <p className="hiddenToggleText">Show Hidden</p>
+            <div className="deletedToggle">
+              <Toggle
+                defaultChecked={this.state.eggsAreReady}
+                aria-labelledby='biscuit-label'
+                onChange={this.handleDeletedChange.bind(this, "showDeleted")}
+              />
+            </div>
+            <p className="deletedToggleText">Show Deleted</p>
+          </div>
         </div>
 
         <div className="cards">

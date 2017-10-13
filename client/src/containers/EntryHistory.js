@@ -9,7 +9,7 @@ export default class EntryHistory extends Component {
         super(props);
 
         this.state = {
-            journal: null,
+            current: JSON.parse(sessionStorage.current),
             entry: null,
             isLoading: true
         }
@@ -20,13 +20,12 @@ export default class EntryHistory extends Component {
             var entry = this.getEntry();
             if (entry != null) {
                 this.setState({
-                    journal: this.props.currentJournal,
                     entry: entry,
                     isLoading: false
                 })
                 this.props.updateChildProps({
                     currentEntry: entry,
-                    currentJournal: this.props.currentJournal,
+                    currentJournal: this.state.current.journal,
                     currentEntryRevision: null
                 });
             }
@@ -34,8 +33,8 @@ export default class EntryHistory extends Component {
     }
 
     getEntry() {
-        if (this.props.currentJournal != null) {
-            var entries = this.props.currentJournal.enteries;
+        if (this.state.current.journal != null) {
+            var entries = this.state.current.journal.enteries;
             for (var i = 0; i < entries.length; i++) {
                 if (entries[i].entryId === this.props.match.params.entryId) {
                     return entries[i];
@@ -61,7 +60,7 @@ export default class EntryHistory extends Component {
         if (this.state.entry != null) {
             return (
                 <div>
-                    <Link to={"/entry/" + this.props.currentJournal.journalid} className="linkText">
+                    <Link to={"/entry/" + this.state.current.journal.journalid} className="linkText">
                         <div className="return">
                             <p>Back to Entry List</p>
                             <Octoicon mega name="arrow-left" />

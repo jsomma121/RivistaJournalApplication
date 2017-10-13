@@ -5,6 +5,7 @@ import { invokeApig } from '../libs/awsLib';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
+import moment from 'moment';
 import PlusIcon from 'react-icons/lib/fa/plus';
 import Ink from 'react-ink';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
@@ -122,7 +123,7 @@ export default class Home extends Component {
                     <h4 className="card-title journal-title">{j.journalTitle}</h4>
                   </div>
                   <div className="journal-create-date">
-                    <p>{new Date(j.createdAt).toLocaleString()}</p>
+                    <p>Created: {moment(j.createdAt).format("hh:mmA DD-MM-YYYY")}</p>
                   </div>
                 </div>
                 <h className="card-arrow"><MdArrowForward /></h>
@@ -132,7 +133,7 @@ export default class Home extends Component {
       )
     } else {
       return (
-        <div className="header">
+        <div className="empty">
           <h4>No journals, create one using the "New Journal" button</h4>
         </div>
       )
