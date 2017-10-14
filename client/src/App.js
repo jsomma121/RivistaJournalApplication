@@ -50,10 +50,10 @@ class App extends Component {
       return null;
     } else {
       return (
-        <div>
+        <div className="button-container">
           <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon size={20}/></button></Link>
           <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon size={20}/></button></Link>
-          <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}><SignOutIcon size={20}/></button></Link>
+          <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}>Logout <SignOutIcon size={20}/></button></Link>
         </div>
       );
     }

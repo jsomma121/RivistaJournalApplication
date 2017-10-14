@@ -9,7 +9,7 @@
 
 .new-journal-button {
     position: fixed;
-    right: 200px;
+    right: 250px;
     top: 18px;
     z-index: 100000;
 }
