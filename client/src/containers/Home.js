@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import moment from 'moment';
-import PlusIcon from 'react-icons/lib/fa/plus';
+import PlusIcon from 'react-icons/lib/fa/plus'; 
 import Ink from 'react-ink';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import Modal from 'react-modal';
@@ -89,7 +89,7 @@ export default class Home extends Component {
     await this.props.sleep(250);
 
     // When a new item is added direct to the entry page
-    if(journalLength < this.props.journal.length ) {
+    if(journalLength < this.props.journal.length) {
       this.props.history.push('/entry/' + this.props.journal[0].journalid);
     }
     
