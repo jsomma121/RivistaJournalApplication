@@ -138,7 +138,7 @@ export default class Home extends Component {
       )
     } else {
       return (
-        <div className="empty">
+        <div className="empty" style={{color: this.props.theme.text}}>
           <h4>No journals, create one using the "New Journal" button</h4>
         </div>
       )

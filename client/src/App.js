@@ -47,7 +47,12 @@ class App extends Component {
 
   getMenu(route) {
     if (route.includes("/editEntry") || route.includes("/login") || route.includes("/register")) {
-      return null;
+      return (
+        <div>
+          <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon /></button></Link>
+          <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon /></button></Link>
+        </div>
+      );
     } else {
       return (
         <div className="button-container">
@@ -167,7 +172,7 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <div className="App container">
-        <nav className={"navbar fixed-top " + this.state.theme.shadow} style={{backgroundColor: this.state.theme.primary}}>
+        <nav className={"navbar fixed-top " + this.state.theme.shadow} style={{ backgroundColor: this.state.theme.primary }}>
           <Link to="/" className="navbar-brand">Rivista</Link>
           {this.getMenu(this.props.location.pathname)}
         </nav>
