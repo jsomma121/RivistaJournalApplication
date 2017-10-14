@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import moment from 'moment';
-import PlusIcon from 'react-icons/lib/fa/plus';
+import PlusIcon from 'react-icons/lib/fa/plus'; 
 import Ink from 'react-ink';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
 import Modal from 'react-modal';
@@ -21,7 +21,6 @@ export default class Home extends Component {
       isLoading: true,
       createLoading: false,
       journalTitle: '',
-      journalId: '99292f88-f840-4f8c-bdb4-4ae7d8c0309a',
       journal: [],
       error: false,
       isShowingModal: false,
@@ -43,8 +42,6 @@ export default class Home extends Component {
 
   componentDidUpdate() {
     if (this.state.isLoading && this.props.journal.length > 0) {
-      console.log(this.state.isLoading);
-      console.log(this.props.journal);
       this.setState({
         journal: this.props.journal,
         isLoading: false
@@ -64,6 +61,8 @@ export default class Home extends Component {
       createLoading: true
     })
     var journal = this.state.journal;
+    const journalLength = journal.length;
+    console.log(journalLength);
     for (var i = 0; i < journal.length; i++) {
       if (journal[i].journalTitle === this.state.journalTitle) {
         this.setState({
@@ -74,7 +73,6 @@ export default class Home extends Component {
       }
     }
     try {
-      console.log(this.state.journalTitle);
       const data = await this.createJournal({
         journalTitle: this.state.journalTitle
       });
@@ -82,13 +80,20 @@ export default class Home extends Component {
         journalExists: false,
         isLoading: true
       });
-
     } catch (e) {
       this.setState({ isLoading: false });
     }
+    
     await this.props.sleep(250);
     this.props.handleUpdate({ state: true });
     await this.props.sleep(250);
+
+    // When a new item is added direct to the entry page
+    if(journalLength < this.props.journal.length) {
+      this.props.history.push('/entry/' + this.props.journal[0].journalid);
+    }
+    
+    
     this.setState({
       isLoading: true,
       isShowingModal: false,
@@ -133,7 +138,7 @@ export default class Home extends Component {
       )
     } else {
       return (
-        <div className="empty">
+        <div className="empty" style={{color: this.props.theme.text}}>
           <h4>No journals, create one using the "New Journal" button</h4>
         </div>
       )
@@ -150,7 +155,7 @@ export default class Home extends Component {
   }
 
   renderJournal() {
-    console.log(this.props.theme);
+    console.log(this.props);
     return (
       <div className="Journal">
         <button onClick={this.handleClick} type="button" className="btn btn-success right new-journal-button"><Ink />New Journal <PlusIcon /><Ink /></button>

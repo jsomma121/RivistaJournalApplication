@@ -35,6 +35,12 @@
   margin-right: 0px;
 }
 
+.logout-btn-link {
+  background-color: transparent;
+  color:red;
+  margin-right: 0px;
+}
+
 .right {
   margin-right:0px;
   margin-left: 10px;
