@@ -11,7 +11,8 @@ export default class Settings extends Component {
             background: "#F1F1F1",
             text: "#000",
             shadow: "",
-            input: ""
+            input: "",
+            editor: ""
         }
         this.props.updateTheme(theme);
     }
@@ -22,7 +23,8 @@ export default class Settings extends Component {
             background: "#1E2124",
             text: "#FFF",
             shadow: "dark-shadow",
-            input: "dark-input"
+            input: "dark-input",
+            editor: "dark-editor"
         }
         this.props.updateTheme(theme);
     }

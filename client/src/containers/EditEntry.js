@@ -249,7 +249,7 @@ export default class EditEntry extends React.Component {
           :
           <form onSubmit={this.handleSubmit}>
             <CKEditor
-              activeClass="p10"
+              activeClass={this.props.theme.editor}
               content={this.state.content}
               events={{
                 "change": this.onChange
