@@ -59,9 +59,9 @@ export default class Entry extends Component {
     } catch (e) {
       this.setState({ isLoading: false });
     }
-    await this.props.sleep(250);
+    await this.props.sleep(150);
     this.props.handleUpdate({ state: true });
-    await this.props.sleep(250);
+    await this.props.sleep(150);
     this.setState({
       isLoading: true,
       deleteLoading: false
