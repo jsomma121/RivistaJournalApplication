@@ -7,7 +7,7 @@ export default class Help extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{color: this.props.theme.text}}>
                 <h1>FAQ</h1>
                 <br/> 
                 <h4>Q: What is the purpose of this web application?</h4> 
