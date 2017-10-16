@@ -22,7 +22,8 @@ class App extends Component {
         background: "#F1F1F1",
         text: "#000",
         shadow: "",
-        input: ""
+        input: "",
+        editor: ""
       }
     } else {
       theme = JSON.parse(localStorage.theme);
@@ -56,9 +57,9 @@ class App extends Component {
     } else {
       return (
         <div>
-          <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon size={20}/></button></Link>
-          <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon size={20}/></button></Link>
-          <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}><SignOutIcon size={20}/></button></Link>
+          <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon size={20} /></button></Link>
+          <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon size={20} /></button></Link>
+          <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}><SignOutIcon size={20} /></button></Link>
         </div>
       );
     }
@@ -89,8 +90,11 @@ class App extends Component {
         if (await authUser()) {
           this.getJournals();
         } else {
-          if (!(this.props.location.pathname.includes("/login") || this.props.location.pathname.includes("/signup"))) {
-            console.log("test");
+          if (!(this.props.location.pathname.includes("/login")
+            || this.props.location.pathname.includes("/signup")
+            || this.props.location.pathname.includes("/faq")
+            || this.props.location.pathname.includes("/settings")
+            || this.props.location.pathname.includes("/forgot"))) {
             this.props.history.push("/login");
           }
         }
@@ -146,7 +150,6 @@ class App extends Component {
       entry: current.currentEntry,
       revision: current.currentEntryRevision
     });
-    console.log(JSON.parse(sessionStorage.current));
   }
 
   sleep(ms) {

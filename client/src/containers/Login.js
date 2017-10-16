@@ -15,7 +15,7 @@ export default class Login extends Component {
       email: "",
       isLoading: false,
       password: "",
-      redirect: false
+      error: ""
     };
   }
 
@@ -30,52 +30,46 @@ export default class Login extends Component {
   }
 
   login(email, password) {
-      const userPool = new CognitoUserPool({
-        UserPoolId: config.cognito.USER_POOL_ID,
-        ClientId: config.cognito.APP_CLIENT_ID
-      });
-      const user = new CognitoUser({ Username: email, Pool: userPool });
-      const authenticationData = { Username: email, Password: password };
-      const authenticationDetails = new AuthenticationDetails(authenticationData);
-      
+    const userPool = new CognitoUserPool({
+      UserPoolId: config.cognito.USER_POOL_ID,
+      ClientId: config.cognito.APP_CLIENT_ID
+    });
+    const user = new CognitoUser({ Username: email, Pool: userPool });
+    const authenticationData = { Username: email, Password: password };
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
 
-      // Fetch the details and await response
-      return new Promise((resolve, reject) =>
-        user.authenticateUser(authenticationDetails, {
-          onSuccess: result => {resolve()},
-          onFailure: err => reject(err)
-        })
-      );
-  }
 
-  handleRedirect = () => {
-    this.props.history.push("/journal");
+    // Fetch the details and await response
+    return new Promise((resolve, reject) =>
+      user.authenticateUser(authenticationDetails, {
+        onSuccess: result => { resolve() },
+        onFailure: err => reject(err)
+      })
+    );
   }
 
   handleSubmit = async event => {
     event.preventDefault();
     this.setState({ isLoading: true });
-  
+
     try {
       // API Call
       await this.login(this.state.email, this.state.password);
       this.props.userHasAuthenticated(true);
     } catch (e) {
-      console.log(e);
+      this.setState({
+        isLoading: false,
+        error: "Incorrect email or password"
+      });
     }
   }
-  
+
 
   render() {
-    
-    // if ( this.redirect ) {
-    //   return <Redirect to='/journal'/>;
-    // }
-
     return (
       <div>
         <br /><br />
-        <div className="card login-card">
+        <div className={"card login-card " + this.props.theme.shadow} style={{ backgroundColor: this.props.theme.primary, color: this.props.theme.text }}>
           <h3 className="card-title  login-form-title">Login</h3>
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="email" bsSize="large">
@@ -85,6 +79,7 @@ export default class Login extends Component {
                 type="email"
                 value={this.state.email}
                 onChange={this.handleChange}
+                className={this.props.theme.input}
               />
             </FormGroup>
             <FormGroup controlId="password" bsSize="large">
@@ -93,6 +88,7 @@ export default class Login extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
                 type="password"
+                className={this.props.theme.input}
               />
             </FormGroup>
             <LoaderButton
@@ -105,7 +101,9 @@ export default class Login extends Component {
               text="Login"
               loadingText="Logging in…"
             />
+            <p className="error">{this.state.error}</p>
             <p>Don't have an account? <Link to="/signup">Signup here</Link> </p>
+            <Link to="/forgot">Forgot your password?</Link>
           </form>
         </div>
       </div>

@@ -91,12 +91,10 @@ export default class Signup extends Component {
       ClientId: config.cognito.APP_CLIENT_ID
     });
 
-    console.log('hello');
     return new Promise((resolve, reject) =>
 
       userPool.signUp(email, password, [], null, (err, result) => {
         if (err) {
-          console.log('yoyooyoyoyoy');
           reject(err);
           return;
         }
@@ -134,7 +132,7 @@ export default class Signup extends Component {
 
   renderConfirmationForm() {
     return (
-      <form onSubmit={this.handleConfirmationSubmit}>
+      <form onSubmit={this.handleConfirmationSubmit} style={{color:this.props.theme.text}}>
         <FormGroup controlId="confirmationCode" bsSize="large">
           <ControlLabel>Confirmation Code</ControlLabel>
           <FormControl
@@ -142,6 +140,7 @@ export default class Signup extends Component {
             type="tel"
             value={this.state.confirmationCode}
             onChange={this.handleChange}
+            className={this.props.theme.input}
           />
           <HelpBlock>Please check your email for the code.</HelpBlock>
         </FormGroup>
@@ -160,7 +159,7 @@ export default class Signup extends Component {
 
   renderForm() {
     return (
-      <div className="card login-card">
+      <div className={"card login-card "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary, color: this.props.theme.text}}>
         <h3 className="card-title login-form-title">Sign Up</h3>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
@@ -170,6 +169,7 @@ export default class Signup extends Component {
               type="email"
               value={this.state.email}
               onChange={this.handleChange}
+              className={this.props.theme.input}
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
@@ -178,6 +178,7 @@ export default class Signup extends Component {
               value={this.state.password}
               onChange={this.handleChange}
               type="password"
+              className={this.props.theme.input}
             />
           </FormGroup>
           <FormGroup controlId="confirmPassword" bsSize="large">
@@ -186,6 +187,7 @@ export default class Signup extends Component {
               value={this.state.confirmPassword}
               onChange={this.handleChange}
               type="password"
+              className={this.props.theme.input}
             />
           </FormGroup>
           <Link to="/login"><button type="button" className="btn">Cancel</button></Link>
@@ -206,8 +208,8 @@ export default class Signup extends Component {
     return (
       <div className="Signup">
         {this.state.newUser === null
-          ? this.renderForm()
-          : this.renderConfirmationForm()}
+         ? this.renderForm()
+         : this.renderConfirmationForm()}
       </div>
     );
   }

@@ -12,6 +12,7 @@ import Signup from "./containers/Signup";
 import Entry from "./containers/Entry";
 import EditEntry from "./containers/EditEntry";
 import EntryHistory from "./containers/EntryHistory";
+import Forgot from "./containers/Forgot";
 
 
 export default ({ childProps }) =>
@@ -25,6 +26,7 @@ export default ({ childProps }) =>
   <AppliedRoute path="/entry/history/:entryId" exact component={EntryHistory} props={childProps}/>
   <AppliedRoute path="/faq" exact component={Help} props={childProps}/>
   <AppliedRoute path="/settings" exact component={Settings} props={childProps}/>
+  <UnauthenticatedRoute path="/forgot" exact component={Forgot} props={childProps}/>
   { /* Finally, catch all unmatched routes */ }
   <Route component={NotFound} />
 </Switch>;

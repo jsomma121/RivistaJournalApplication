@@ -22,3 +22,12 @@
 .login-card button {
   margin-bottom: 10px;
 }
+
+.error {
+  color: red;
+  margin-bottom: 0;
+}
+
+.forgot.btn {
+  padding: 0;
+}

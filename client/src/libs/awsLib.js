@@ -32,6 +32,7 @@ export function signOutUser() {
 
   if (currentUser !== null) {
     currentUser.signOut();
+    sessionStorage.clear();
   }
 
   if(AWS.config.credentials) {
