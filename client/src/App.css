@@ -45,3 +45,8 @@
   margin-right:0px;
   margin-left: 10px;
 }
+
+.button-container {
+  position: absolute;
+  right: 3%
+}

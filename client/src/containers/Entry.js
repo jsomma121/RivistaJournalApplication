@@ -19,8 +19,6 @@ export default class Entry extends Component {
   constructor(props) {
     super(props);
 
-    this.pathName = this.props.location.pathname;
-    this.journalTitle = this.pathName.substring(this.pathName.indexOf("{") + 1, this.pathName.indexOf("}"));
     this.state = {
       isLoading: true,
       deleteLoading: false,
@@ -37,6 +35,8 @@ export default class Entry extends Component {
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
     this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
 
   }
 
@@ -59,9 +59,9 @@ export default class Entry extends Component {
     } catch (e) {
       this.setState({ isLoading: false });
     }
-    await this.props.sleep(250);
+    await this.props.sleep(150);
     this.props.handleUpdate({ state: true });
-    await this.props.sleep(250);
+    await this.props.sleep(150);
     this.setState({
       isLoading: true,
       deleteLoading: false
@@ -99,6 +99,13 @@ export default class Entry extends Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
   componentDidUpdate() {
     if (this.state.isLoading && !this.props.isLoading) {
       var journal = this.getJournal();
@@ -120,6 +127,16 @@ export default class Entry extends Component {
 
   validateForm() {
     return this.state.EntryName.length > 0;
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside = event => {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.toggleFilter();
+    }
   }
 
   handleSearchChange = event => {
@@ -323,7 +340,7 @@ export default class Entry extends Component {
 
   renderFilter() {
     return (
-      <div className={"filter "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary}}>
+      <div className={"filter "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary}} ref={this.setWrapperRef}>
         <h3>Search by Created Date</h3>
         <div className="filter-dates">
           <DatePicker
