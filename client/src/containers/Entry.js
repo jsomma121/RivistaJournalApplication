@@ -315,7 +315,7 @@ export default class Entry extends Component {
     for (var i = 0; i < entries.length; i++) {
       var entry = this.filterHidden(entries[i]);
       if (entry != null) {
-        if (entries[i].title.includes(this.state.searchText)) {
+        if (entries[i].title.includes(this.state.searchText) || entries[i].revision[0].content.includes(this.state.searchText)) {
           if (this.state.startDate != null && this.state.endDate != null) {
             if (moment(entries[i].createdAt).format("x") >= moment(this.state.startDate).format("x") && moment(entries[i].createdAt).format("x") <= moment(this.state.endDate).format("x")) {
               filteredEntries.push(entries[i]);
