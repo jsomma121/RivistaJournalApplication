@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Octoicon from 'react-octicon';
+import "./Settings.css";
 
 export default class Settings extends Component {
     constructor(props) {
@@ -37,9 +38,11 @@ export default class Settings extends Component {
                     <p className="backFont">Return</p>
                     <Octoicon mega name="arrow-left" />
                 </div>
-                <h1>Change Theme</h1>
-                <button type="button" className="btn btn-primary" onClick={() => this.handleLightTheme()}>Light theme</button>
-                <button type="button" className="btn btn-primary" onClick={() => this.handleDarkTheme()}>Dark theme</button>
+                <h1 className="settings-title">Change Theme</h1>
+                <div className="settings-buttons">
+                    <button type="button" className="btn btn-primary" onClick={() => this.handleLightTheme()}>Light theme</button>
+                    <button type="button" className="btn btn-primary" onClick={() => this.handleDarkTheme()}>Dark theme</button>
+                </div> 
             </div>
         )
     }

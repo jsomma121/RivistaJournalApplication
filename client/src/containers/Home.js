@@ -130,7 +130,6 @@ export default class Home extends Component {
                     <p>Created: {moment(j.createdAt).format("hh:mmA DD-MM-YYYY")}</p>
                   </div>
                 </div>
-                <h className="card-arrow"><MdArrowForward /></h>
               </div>
             </Link>
           </div>

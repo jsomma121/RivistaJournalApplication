@@ -121,6 +121,10 @@ ul {
     padding: 7px 0 0 7px;
 }
 
+.title {
+    padding-bottom: 25px;
+}
+
 .hidden {
     color: #999;
 }
