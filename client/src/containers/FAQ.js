@@ -14,7 +14,7 @@ export default class FAQ extends Component {
                     <p className="backFont">Return</p>
                     <Octoicon mega name="arrow-left" />
                 </div>
-                <h1>FAQ</h1>
+                <h1 className="title">FAQ</h1>
                 <br/> 
                 <h4 className="help-questions">Q: What is the purpose of this web application?</h4> 
                 <p>A: The purpose of this web application is to allow professionals to record the decisions they make as journal entries within the system.</p> 
