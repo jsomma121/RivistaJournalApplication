@@ -62,7 +62,7 @@ export default class EntryHistory extends Component {
                 <div>
                     <Link to={"/entry/" + this.state.current.journal.journalid} className="linkText">
                         <div className="return" style={{color: this.props.theme.text}}>
-                            <p>Back to Entry List</p>
+                            <p>Entry List</p>
                             <Octoicon mega name="arrow-left" />
                         </div>
                     </Link>
