@@ -39,7 +39,7 @@ export default class Settings extends Component {
                     <Octoicon mega name="arrow-left" />
                 </div>
                 <h1 className="settings-title">Change Theme</h1>
-                <div className="settings-buttons">
+                <div className="buttons">
                     <button type="button" className="btn btn-primary" onClick={() => this.handleLightTheme()}>Light theme</button>
                     <button type="button" className="btn btn-primary" onClick={() => this.handleDarkTheme()}>Dark theme</button>
                 </div> 
