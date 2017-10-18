@@ -340,18 +340,29 @@ export default class Entry extends Component {
     this.props.history.push('/editEntry/new');
   }
 
-  sortEntries() {
-    this.state.currentJournal.enteries.sort((a, b) => {
-      var aTitle = a.title.toLowerCase();
-      var bTitle = b.title.toLowerCase();
-      if (aTitle < bTitle) {
-        return -1;
-      }
-      if (aTitle > bTitle) {
-        return 1;
-      }
-      return 0;
-    })
+  sortEntries(by) {
+    if (by === "abc") {
+      this.state.currentJournal.enteries.sort((a, b) => {
+        var aTitle = a.title.toLowerCase();
+        var bTitle = b.title.toLowerCase();
+        if (aTitle < bTitle) {
+          return -1;
+        }
+        if (aTitle > bTitle) {
+          return 1;
+        }
+        return 0;
+      })
+    } else if (by === "newest") {
+      this.state.currentJournal.enteries.sort((a, b) => {
+        return moment(b.updatedAt) - moment(a.updatedAt)
+      })
+    } else {
+      this.state.currentJournal.enteries.sort((a, b) => {
+        return moment(a.updatedAt) - moment(b.updatedAt)
+      })
+    }
+
     this.setState({
       showFilter: false
     })
@@ -429,7 +440,11 @@ export default class Entry extends Component {
             placeholderText="To:"
           />
         </div>
-        <button type="button" className="btn btn-primary" onClick={() => this.sortEntries()}>Sort alphabetically</button>
+        <div className="toggle-buttons">
+          <button type="button" className="btn btn-primary" onClick={() => this.sortEntries("abc")}>Sort alphabetically</button>
+          <button type="button" className="btn btn-primary" onClick={() => this.sortEntries("newest")}>Sort by newest</button>
+          <button type="button" className="btn btn-primary" onClick={() => this.sortEntries()}>Sort by oldest</button>
+        </div>
         <button type="button" className="close" onClick={e => this.toggleFilter(e)}>
           <span aria-hidden="true">&times;</span>
         </button>

@@ -89,6 +89,10 @@ ul {
     text-align: left;
 }
 
+.filter .toggle-buttons {
+    margin-left: 0;
+}
+
 .toggle-buttons {
     margin-left: 2em;
     display: flex;
@@ -131,7 +135,7 @@ ul {
 
 .filter {
     position:fixed;
-    width: 450px;
+    width: 500px;
     top: 74px;
     left:0;
     right:0;
