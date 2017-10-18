@@ -20,7 +20,8 @@ export default class Help extends Component {
                     <Link to="/faq"><button type="button" className="btn btn-primary" >FAQ</button></Link> 
                     <a target="_blank" href="https://docs.google.com/document/d/10Ss5OLWi-5brq888rvRtgsuyTwGQYit4ka329M_16_8/edit?usp=sharing" ><button type="button" className="btn btn-primary" >User Manual</button></a>
                 </div>
-                
+                <br/>
+                <p className="contact-us">Contact us at help@rivista.com for any further questions</p>
             </div>
         )
     }
