@@ -25,6 +25,7 @@
     position: fixed;
     left: 2%;
     top: 100px;
+    cursor: pointer;
 }
 
 .return p {
@@ -89,41 +90,17 @@ ul {
 }
 
 .toggle-buttons {
-    float: right;
+    margin-left: 2em;
+    display: flex;
 }
 
-.toggle-buttons div {
+.toggle {
+    display: flex;
+    flex: 1;
+}
+
+.toggle p {
     margin-left: 5px;
-}
-
-.hiddenT {
-    display: table;
-}
-
-.hiddenToggle {
-    display: table-cell;
-}
-
-.hiddenToggleText {
-    display: table-cell;
-    vertical-align: top;
-    font-size: 18px;
-    padding-left: 4px;
-}
-
-.deletedT {
-    display: table;
-}
-
-.deletedToggle {
-    display: table-cell;
-}
-
-.deletedToggleText {
-    display: table-cell;
-    vertical-align: top;
-    font-size: 18px;
-    padding-left: 4px;
 }
 
 #testFun:hover {

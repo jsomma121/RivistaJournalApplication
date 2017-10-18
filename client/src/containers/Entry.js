@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { slide as Menu } from 'react-burger-menu';
-import { Modal } from 'react-bootstrap';
 import LoaderButton from "../components/LoaderButton";
 import Toggle from 'react-toggle'
 import Octoicon from 'react-octicon';
 import { invokeApig } from '../libs/awsLib';
 import { ModalContainer, ModalDialog } from "react-modal-dialog";
-import Ink from 'react-ink';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import PlusIcon from 'react-icons/lib/fa/plus';
@@ -28,9 +25,11 @@ export default class Entry extends Component {
       endDate: null,
       showHidden: false,
       showDeleted: false,
+      showActive: true,
+      showAll: false,
+      showModified: false,
       showFilter: false,
       showModal: false,
-      eggsAreReady: false,
       currentJournal: null
     }
     this.handleChangeStart = this.handleChangeStart.bind(this);
@@ -44,7 +43,7 @@ export default class Entry extends Component {
     var journals = this.props.journal;
     for (var i = 0; i < journals.length; i++) {
       if (journals[i].journalid === this.props.match.params.journalId) {
-        journals[i].enteries.sort((a,b) => {
+        journals[i].enteries.sort((a, b) => {
           return moment(b.updatedAt) - moment(a.updatedAt);
         })
         return journals[i];
@@ -75,7 +74,6 @@ export default class Entry extends Component {
         method: "PUT",
         body: { enteries: journal.enteries }
       });
-      console.log
     } catch (e) {
       this.setState({ isLoading: false });
     }
@@ -109,7 +107,6 @@ export default class Entry extends Component {
   componentDidUpdate() {
     if (this.state.isLoading && !this.props.isLoading) {
       var journal = this.getJournal();
-      console.log(this.props.journal);
       if (journal != null) {
         this.setState({
           currentJournal: journal,
@@ -146,8 +143,16 @@ export default class Entry extends Component {
   }
 
   handleChangeStart(date) {
+    var endDate = date;
+    if (endDate != null) {
+      endDate = moment(date).add(23, "h").add(59, "m");
+    }
+    if (this.state.endDate != null) {
+      endDate = this.state.endDate;
+    }
     this.setState({
-      startDate: date
+      startDate: date,
+      endDate: endDate
     })
   }
 
@@ -166,7 +171,7 @@ export default class Entry extends Component {
     this.setState({ deleteLoading: true });
     var entries = this.state.currentJournal.enteries;
     for (var i = 0; i < entries.length; i++) {
-      if (entries[i].entryId == this.state.deleteSelected.entryId) {
+      if (entries[i].entryId === this.state.deleteSelected.entryId) {
         entries[i].state = 'deleted';
         break;
       }
@@ -189,7 +194,7 @@ export default class Entry extends Component {
   handleActive(data) {
     var entries = this.state.currentJournal.enteries;
     for (var i = 0; i < entries.length; i++) {
-      if (entries[i].entryId == data) {
+      if (entries[i].entryId === data) {
         entries[i].state = 'active';
         // TO-DO: Add a listner to the toggle button when this updates
         this.forceUpdate();
@@ -205,9 +210,7 @@ export default class Entry extends Component {
     var entries = this.state.currentJournal.enteries;
     for (var i = 0; i < entries.length; i++) {
       if (entries[i].entryId === data) {
-        console.log(entries[i].state);
         entries[i].state = 'hidden';
-        console.log(entries[i].state);
         this.forceUpdate();
         break;
       }
@@ -216,7 +219,7 @@ export default class Entry extends Component {
   }
 
   hideAndUnhideButton(entry) {
-    if (entry.state == 'hidden') {
+    if (entry.state === 'hidden') {
       return (
         <button type="button" className="btn btn-link" onClick={() => { this.handleActive(entry.entryId) }} disabled={entry.state === "deleted"}>Unhide</button>
       )
@@ -227,9 +230,43 @@ export default class Entry extends Component {
     }
   }
 
+  handleActiveChange() {
+    this.setState({
+      showActive: !this.state.showActive,
+      showAll: false,
+      showHidden: false,
+      showDeleted: false,
+      showModified: false
+    })
+  }
+
   handleHiddenChange() {
     this.setState({
-      showHidden: !this.state.showHidden
+      showHidden: !this.state.showHidden,
+      showAll: false,
+      showActive: false,
+      showDeleted: false,
+      showModified: false
+    })
+  }
+
+  handleAllChange() {
+    this.setState({
+      showAll: !this.state.showAll,
+      showActive: false,
+      showDeleted: false,
+      showHidden: false,
+      showModified: false
+    })
+  }
+
+  handleModifiedChange() {
+    this.setState({
+      showModified: !this.state.showModified,
+      showActive: false,
+      showDeleted: false,
+      showHidden: false,
+      showAll: false
     })
   }
 
@@ -242,7 +279,11 @@ export default class Entry extends Component {
 
   handleDeletedChange() {
     this.setState({
-      showDeleted: !this.state.showDeleted
+      showDeleted: !this.state.showDeleted,
+      showActive: false,
+      showModified: false,
+      showHidden: false,
+      showAll: false
     })
   }
 
@@ -253,8 +294,8 @@ export default class Entry extends Component {
     })
   }
 
-  filterHidden(entry) {
-    if (!this.state.showHidden && !this.state.showDeleted) {
+  filter(entry) {
+    /*if (!this.state.showHidden && !this.state.showDeleted) {
       if (entry.state === "active") {
         return entry;
       }
@@ -271,6 +312,27 @@ export default class Entry extends Component {
         }
       }
     }
+    return null;*/
+    if (this.state.showAll) {
+      return entry;
+    }
+
+    if (this.state.showActive && entry.state === "active" && entry.revision.length === 1) {
+      return entry;
+    }
+
+    if (this.state.showHidden && entry.state === "hidden") {
+      return entry;
+    }
+
+    if (this.state.showDeleted && entry.state === "deleted") {
+      return entry;
+    }
+
+    if (this.state.showModified && entry.revision.length > 1) {
+      return entry;
+    }
+
     return null;
   }
 
@@ -279,7 +341,7 @@ export default class Entry extends Component {
   }
 
   sortEntries() {
-    this.state.currentJournal.enteries.sort((a,b) => {
+    this.state.currentJournal.enteries.sort((a, b) => {
       var aTitle = a.title.toLowerCase();
       var bTitle = b.title.toLowerCase();
       if (aTitle < bTitle) {
@@ -300,7 +362,7 @@ export default class Entry extends Component {
     if (this.state.currentJournal != null) {
       var entries = this.state.currentJournal.enteries;
       for (var i = 0; i < entries.length; i++) {
-        var entry = this.filterHidden(entries[i]);
+        var entry = this.filter(entries[i]);
         if (entry != null) {
           filteredEntries.push(entry);
         }
@@ -313,7 +375,7 @@ export default class Entry extends Component {
     var entries = this.state.currentJournal.enteries;
     var filteredEntries = [];
     for (var i = 0; i < entries.length; i++) {
-      var entry = this.filterHidden(entries[i]);
+      var entry = this.filter(entries[i]);
       if (entry != null) {
         if (entries[i].title.includes(this.state.searchText) || entries[i].revision[0].content.includes(this.state.searchText)) {
           if (this.state.startDate != null && this.state.endDate != null) {
@@ -340,7 +402,7 @@ export default class Entry extends Component {
 
   renderFilter() {
     return (
-      <div className={"filter "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary}} ref={this.setWrapperRef}>
+      <div className={"filter " + this.props.theme.shadow} style={{ backgroundColor: this.props.theme.primary }} ref={this.setWrapperRef}>
         <h3>Search by Created Date</h3>
         <div className="filter-dates">
           <DatePicker
@@ -385,7 +447,7 @@ export default class Entry extends Component {
     if (entries.length > 0) {
       return entries.map(
         (e, i) =>
-          <div key={i} className={"card journal-card entry-card btn btn-success " + this.props.theme.shadow} id="testFun" style={{backgroundColor: this.props.theme.primary}}>
+          <div key={i} className={"card journal-card entry-card btn btn-success " + this.props.theme.shadow} id="testFun" style={{ backgroundColor: this.props.theme.primary }}>
             <ul className="options" id="optionsNew">
               <li>{this.deleteButton(e)}</li>
               <li>{this.hideAndUnhideButton(e)}</li>
@@ -395,13 +457,13 @@ export default class Entry extends Component {
             </ul>
             <div className="entry-details">
               <Link to={'/editEntry/' + e.entryId} className="card-link">
-                <div className="entry-title" style={{color: this.props.theme.text}}>
+                <div className="entry-title" style={{ color: this.props.theme.text }}>
                   <h3>{e.title}</h3>
                   {e.state === "hidden" ? <h4 className="subtitle hidden">Hidden</h4> : ""}
                   {e.state === "deleted" ? <h4 className="subtitle deleted">Deleted</h4> : ""}
                 </div>
-                <div className="entry-date" style={{color: this.props.theme.text}}>
-                  <p>Last updated: {moment(e.updatedAt).format("hh:mmA DD-MM-YYYY")}</p>
+                <div className="entry-date" style={{ color: this.props.theme.text }}>
+                  <p>{e.state === "deleted" || e.revision.length === 1 ? "Date created:" : "Last updated:"} {moment(e.updatedAt).format("hh:mmA DD-MM-YYYY")}</p>
                 </div>
               </Link>
             </div>
@@ -409,7 +471,7 @@ export default class Entry extends Component {
       );
     } else {
       return (
-        <div className="empty" style={{color: this.props.theme.text}}>
+        <div className="empty" style={{ color: this.props.theme.text }}>
           <h3>No entries</h3>
         </div>
       )
@@ -433,58 +495,82 @@ export default class Entry extends Component {
   }
 
   render() {
-    let filter = null;
-    if (this.state.showFilter) {
-      filter = this.renderFilter();
-    }
-
-    const menuOptions = {
-      isOpen: this.state.isMenuOpen,
-      close: this.close,
-      toggle: <button type="button" onClick={this.toggle}>Click me!</button>,
-      align: 'right'
-    };
     return (
-      <div>        
-        <button type ="button" className="btn btn-success new-journal-button" onClick={() => this.handleNewEntry()}>New entry <PlusIcon/></button>
-        <div id="search" className="input-group" style={{color: this.props.theme.text}}>
-          <input className={""+this.props.theme.input} type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
+      <div>
+        <button type="button" className="btn btn-success new-journal-button" onClick={() => this.handleNewEntry()}>New entry <PlusIcon /></button>
+        <div id="search" className="input-group" style={{ color: this.props.theme.text }}>
+          <input className={"" + this.props.theme.input} type="text" placeholder="Search..." onChange={this.handleSearchChange} value={this.state.searchText} />
           <Octoicon className="search-icon" name="search" />
           <span className="input-group-btn">
             <button className="btn btn-primary" type="button" onClick={e => this.toggleFilter(e)}><Octoicon name="settings" /></button>
           </span>
-          {filter}
+          {this.state.showFilter ? this.renderFilter() : ""}
         </div>
 
         <Link to="/" className="linkText">
-          <div className="return" style={{color: this.props.theme.text}}>
+          <div className="return" style={{ color: this.props.theme.text }}>
             <p className="backFont">Back to Journals</p>
             <Octoicon mega name="arrow-left" />
           </div>
         </Link>
-        <div className="header" style={{color: this.props.theme.text}}>
+        <div className="header" style={{ color: this.props.theme.text }}>
           <h1> {this.state.title}</h1>
 
-          <div className="toggle-buttons" style={{color: this.props.theme.text}}>
-            <div className="hiddenToggle">
-              <Toggle
-                defaultChecked={this.state.showHidden}
-                aria-labelledby='biscuit-label'
-                onChange={this.handleHiddenChange.bind(this, "showHidden")}
-              />
+          <div className="toggle-buttons" style={{ color: this.props.theme.text }}>
+            <div className="toggle">
+              <div>
+                <Toggle
+                  checked={this.state.showActive}
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleActiveChange.bind(this, "showActive")}
+                />
+              </div>
+              <p>Show Active</p>
             </div>
-            <p className="hiddenToggleText">Show Hidden</p>
-            <div className="deletedToggle">
-              <Toggle
-                defaultChecked={this.state.eggsAreReady}
-                aria-labelledby='biscuit-label'
-                onChange={this.handleDeletedChange.bind(this, "showDeleted")}
-              />
+            <div className="toggle">
+              <div>
+                <Toggle
+                  checked={this.state.showAll}
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleAllChange.bind(this, "showAll")}
+                />
+              </div>
+              <p>Show All</p>
             </div>
-            <p className="deletedToggleText">Show Deleted</p>
+            <div className="toggle">
+              <div>
+                <Toggle
+                  checked={this.state.showHidden}
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleHiddenChange.bind(this, "showHidden")}
+                />
+              </div>
+              <p>Show Hidden</p>
+            </div>
+            <div className="toggle">
+              <div>
+                <Toggle
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleDeletedChange.bind(this, "showDeleted")}
+                  checked={this.state.showDeleted}
+                />
+              </div>
+              <p>Show Deleted</p>
+            </div>
+            <div className="toggle">
+              <div>
+                <Toggle
+                  aria-labelledby='biscuit-label'
+                  onChange={this.handleModifiedChange.bind(this, "showModified")}
+                  checked={this.state.showModified}
+                />
+              </div>
+              <p>Show Modified</p>
+            </div>
           </div>
         </div>
-
+        <div className="no-shadow" style={{ width: "auto", height: "2px", backgroundColor: this.props.theme.text }}>
+        </div>
         <div className="cards">
           {this.renderEntries()}
         </div>

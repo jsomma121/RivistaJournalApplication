@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Octoicon from 'react-octicon';
 
 export default class Help extends Component {
     constructor(props) {
@@ -8,6 +9,10 @@ export default class Help extends Component {
     render() {
         return (
             <div style={{color: this.props.theme.text}}>
+                <div className="return" style={{ color: this.props.theme.text }} onClick={() => {this.props.history.goBack()}}>
+                    <p className="backFont">Return</p>
+                    <Octoicon mega name="arrow-left" />
+                </div>
                 <h1>FAQ</h1>
                 <br/> 
                 <h4>Q: What is the purpose of this web application?</h4> 

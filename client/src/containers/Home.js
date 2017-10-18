@@ -1,16 +1,13 @@
 import React, { Component } from "react";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap"
+import { ListGroup } from "react-bootstrap"
 import LoaderButton from "../components/LoaderButton";
 import { invokeApig } from '../libs/awsLib';
 import { Link } from "react-router-dom";
-import { withRouter } from 'react-router';
 import { ModalContainer, ModalDialog } from 'react-modal-dialog';
 import moment from 'moment';
 import PlusIcon from 'react-icons/lib/fa/plus'; 
 import Ink from 'react-ink';
 import MdArrowForward from 'react-icons/lib/md/arrow-forward';
-import Modal from 'react-modal';
-import config from "../config";
 import "./Home.css";
 
 export default class Home extends Component {
@@ -29,7 +26,7 @@ export default class Home extends Component {
 
   async componentDidMount() {
     if (!this.props.isAuthenticated) {
-      return console.log('Is not logged in');
+      return;
     }
     if (this.props.journal != null) {
       this.setState({ journal: this.props.journal })
@@ -62,7 +59,6 @@ export default class Home extends Component {
     })
     var journal = this.state.journal;
     const journalLength = journal.length;
-    console.log(journalLength);
     for (var i = 0; i < journal.length; i++) {
       if (journal[i].journalTitle === this.state.journalTitle) {
         this.setState({
@@ -81,7 +77,10 @@ export default class Home extends Component {
         isLoading: true
       });
     } catch (e) {
-      this.setState({ isLoading: false });
+      this.setState({ 
+        isLoading: false,
+        error: "Error submitting journal. Try again"
+       });
     }
     
     await this.props.sleep(250);

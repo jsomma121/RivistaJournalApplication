@@ -43,8 +43,6 @@ export default class EditEntry extends React.Component {
     if (this.state.isLoading) {
       var entry = this.getEntry();
       var revision = this.getRevision();
-      console.log(entry);
-      console.log(revision);
       if (entry != null) {
         var reason = "";
         if (entry.state === "deleted") {
@@ -179,9 +177,7 @@ export default class EditEntry extends React.Component {
   }
 
   handleCancel = event => {
-    console.log(this.state.revision);
     if (this.state.revision === null) {
-      console.log(this.state.current.journal.journalid);
       this.props.history.push("/entry/" + this.state.current.journal.journalid);
     } else {
       this.props.history.push("/entry/history/" + this.state.current.entry.entryId);
@@ -243,7 +239,7 @@ export default class EditEntry extends React.Component {
               <Octoicon mega name="arrow-left" />
               <p className="backFont">Return</p>
             </div>
-            <div className="read-only-content" dangerouslySetInnerHTML={{__html: this.state.content}}>
+            <div className={"read-only-content "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary}} dangerouslySetInnerHTML={{__html: this.state.content}}>
             </div>
           </div>
           :

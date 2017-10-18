@@ -24,14 +24,15 @@ export default class Signup extends Component {
       password: "",
       confirmPassword: "",
       confirmationCode: "",
-      newUser: null
+      newUser: null,
+      error: ""
     };
   }
 
   validateForm() {
     return (
       this.state.email.length > 0 &&
-      this.state.password.length > 0 &&
+      this.state.password.length > 6 &&
       this.state.password === this.state.confirmPassword
     );
   }
@@ -58,7 +59,9 @@ export default class Signup extends Component {
         newUser: newUser
       });
     } catch (e) {
-      console.log(e);
+      this.setState({
+        error: "An account with the given email already exists."
+      })
     }
 
     this.setState({ isLoading: false });
@@ -160,7 +163,7 @@ export default class Signup extends Component {
   renderForm() {
     return (
       <div className={"card login-card "+this.props.theme.shadow} style={{backgroundColor: this.props.theme.primary, color: this.props.theme.text}}>
-        <h3 className="card-title login-form-title">Sign Up</h3>
+        <h3 className="card-title login-form-title">Sign Up</h3>        
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
@@ -171,6 +174,7 @@ export default class Signup extends Component {
               onChange={this.handleChange}
               className={this.props.theme.input}
             />
+            <HelpBlock className="error">{this.state.error}</HelpBlock>
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
             <ControlLabel>Password</ControlLabel>

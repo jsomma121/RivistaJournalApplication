@@ -4,10 +4,8 @@ import { Link, withRouter } from "react-router-dom";
 // import RouteNavItem from "./components/RouteNavItem";
 import Routes from "./Routes";
 import SignOutIcon from 'react-icons/lib/fa/sign-out';
-import PlusIcon from 'react-icons/lib/fa/plus';
 import QuestionIcon from 'react-icons/lib/fa/question';
 import CogIcon from 'react-icons/lib/fa/cog';
-import newJournalClicked from './containers/Home';
 import moment from 'moment';
 import { invokeApig, authUser, signOutUser } from "./libs/awsLib";
 import "./App.css";
@@ -41,10 +39,7 @@ class App extends Component {
       theme: theme,
       journal: []
     };
-
-    this.searchBar;
   }
-
 
   getMenu(route) {
     if (route.includes("/editEntry") || route.includes("/login") || route.includes("/signup")) {
@@ -59,7 +54,7 @@ class App extends Component {
         <div className="button-container">
           <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon size={20}/></button></Link>
           <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon size={20}/></button></Link>
-          <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}>Logout <SignOutIcon size={20}/></button></Link>
+          {this.state.isAuthenticated ? <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}>Logout <SignOutIcon size={20}/></button></Link> : ""}
         </div>
       );
     }
@@ -67,7 +62,6 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      console.log("here");
       if (await authUser()) {
         this.userHasAuthenticated(true);
         this.getJournals();
@@ -78,7 +72,7 @@ class App extends Component {
       }
     }
     catch (e) {
-      console.log(e);
+      alert("Failed to fetch with the following error\n"+e);
     }
 
     this.setState({ isAuthenticating: false });
@@ -87,9 +81,7 @@ class App extends Component {
   async componentDidUpdate() {
     try {
       if (this.state.isLoading) {
-        console.log("here");
         if (await authUser()) {
-          console.log("here");
           this.getJournals();
         } else {
           if (!(this.props.location.pathname.includes("/login")
@@ -102,7 +94,7 @@ class App extends Component {
         }
       }
     } catch (e) {
-      console.log(e)
+      alert("Failed to fetch with the following error\n"+e);
     }
   }
 
@@ -172,7 +164,6 @@ class App extends Component {
       currentJournal: this.state.currentJournal,
       currentEntry: this.state.currentEntry,
       currentEntryRevision: this.state.currentEntryRevision,
-      isLoading: this.state.isLoading,
       sleep: this.sleep,
       theme: this.state.theme,
       updateTheme: this.updateTheme
@@ -181,7 +172,7 @@ class App extends Component {
       !this.state.isAuthenticating &&
       <div className="App container">
         <nav className={"navbar fixed-top " + this.state.theme.shadow} style={{ backgroundColor: this.state.theme.primary }}>
-          <Link to="/" className="navbar-brand">Rivista</Link>
+          <Link to="/login" className="navbar-brand">Rivista</Link>
           {this.getMenu(this.props.location.pathname)}
         </nav>
         <Routes childProps={childProps} />

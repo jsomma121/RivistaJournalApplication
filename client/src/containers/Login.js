@@ -1,6 +1,5 @@
 import config from "../config";
 import React, { Component } from "react";
-import { Redirect } from 'react-router';
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
