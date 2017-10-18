@@ -47,7 +47,7 @@ class App extends Component {
 
 
   getMenu(route) {
-    if (route.includes("/editEntry") || route.includes("/login") || route.includes("/register")) {
+    if (route.includes("/editEntry") || route.includes("/login") || route.includes("/signup")) {
       return (
         <div>
           <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon /></button></Link>
@@ -67,12 +67,12 @@ class App extends Component {
 
   async componentDidMount() {
     try {
+      console.log("here");
       if (await authUser()) {
         this.userHasAuthenticated(true);
         this.getJournals();
       } else {
         if (!this.props.location.pathname.includes("/login")) {
-          console.log("test");
           this.props.history.push("/login");
         }
       }
@@ -87,7 +87,9 @@ class App extends Component {
   async componentDidUpdate() {
     try {
       if (this.state.isLoading) {
+        console.log("here");
         if (await authUser()) {
+          console.log("here");
           this.getJournals();
         } else {
           if (!(this.props.location.pathname.includes("/login")
@@ -104,13 +106,16 @@ class App extends Component {
     }
   }
 
-  handleUpdate = state => {
+  handleUpdate = async state => {
     this.setState({ isLoading: state.state });
   }
 
   handleLogout = event => {
     signOutUser();
     this.userHasAuthenticated(false);
+    this.setState({
+      journal: []
+    })
     this.props.history.push("/login");
   }
 

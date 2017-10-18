@@ -155,7 +155,6 @@ export default class Home extends Component {
   }
 
   renderJournal() {
-    console.log(this.props);
     return (
       <div className="Journal">
         <button onClick={this.handleClick} type="button" className="btn btn-success right new-journal-button"><Ink />New Journal <PlusIcon /><Ink /></button>

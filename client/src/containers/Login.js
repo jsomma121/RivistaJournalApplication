@@ -56,6 +56,7 @@ export default class Login extends Component {
       // API Call
       await this.login(this.state.email, this.state.password);
       this.props.userHasAuthenticated(true);
+      this.props.handleUpdate({state: true});
     } catch (e) {
       this.setState({
         isLoading: false,
