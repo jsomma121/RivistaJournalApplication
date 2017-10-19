@@ -9,7 +9,7 @@
 
 .new-journal-button {
     position: fixed;
-    right: 250px;
+    right: 255px;
     top: 18px;
     z-index: 100000;
 }
@@ -34,6 +34,11 @@
     font-size: 55px;
     right: 7%;
     top: 5px;
+}
+
+.journal-create-date {
+    font-size: 15px;
+    margin-top: 5px;
 }
 
 .new-journal-header {

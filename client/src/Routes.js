@@ -6,6 +6,7 @@ import Login from "./containers/Login";
 import AppliedRoute from "./components/AppliedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
+import Faq from "./containers/FAQ";
 import Help from "./containers/Help";
 import Settings from "./containers/Settings";
 import Signup from "./containers/Signup"; 
@@ -24,9 +25,10 @@ export default ({ childProps }) =>
   <AppliedRoute path="/editEntry/new" exact component={EditEntry} props={childProps}/>
   <AppliedRoute path="/editEntry/:entryId" exact component={EditEntry} props={childProps}/>
   <AppliedRoute path="/entry/history/:entryId" exact component={EntryHistory} props={childProps}/>
-  <AppliedRoute path="/faq" exact component={Help} props={childProps}/>
+  <AppliedRoute path="/faq" exact component={Faq} props={childProps}/>
   <AppliedRoute path="/settings" exact component={Settings} props={childProps}/>
   <UnauthenticatedRoute path="/forgot" exact component={Forgot} props={childProps}/>
+  <AppliedRoute path="/help" exact component={Help} props={childProps}/>
   { /* Finally, catch all unmatched routes */ }
   <Route component={NotFound} />
 </Switch>;

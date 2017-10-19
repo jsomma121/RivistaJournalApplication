@@ -52,7 +52,7 @@ class App extends Component {
     } else {
       return (
         <div className="button-container">
-          <Link to="/faq"><button type="button" className="btn btn-link"><QuestionIcon size={20}/></button></Link>
+          <Link to="/help"><button type="button" className="btn btn-link"><QuestionIcon size={20}/></button></Link>
           <Link to="/settings"><button type="button" className="btn btn-link"><CogIcon size={20}/></button></Link>
           {this.state.isAuthenticated ? <Link to="/login"><button type="button" className="btn logout-btn-link" onClick={this.handleLogout}>Logout <SignOutIcon size={20}/></button></Link> : ""}
         </div>

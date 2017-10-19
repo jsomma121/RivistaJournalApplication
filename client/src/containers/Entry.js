@@ -524,7 +524,7 @@ export default class Entry extends Component {
 
         <Link to="/" className="linkText">
           <div className="return" style={{ color: this.props.theme.text }}>
-            <p className="backFont">Back to Journals</p>
+            <p className="backFont">Journals</p>
             <Octoicon mega name="arrow-left" />
           </div>
         </Link>
