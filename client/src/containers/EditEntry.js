@@ -171,8 +171,10 @@ export default class EditEntry extends React.Component {
         saveLoading: false
       });
     }
+    await this.props.sleep(200);
     this.props.handleUpdate({ state: true });
-    await this.props.sleep(250);
+    await this.props.sleep(300);
+    console.log(this.state.current);
     this.props.history.push("/entry/" + this.state.current.journal.journalid);
   }
 
